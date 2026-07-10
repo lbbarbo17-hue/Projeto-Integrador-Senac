@@ -1,0 +1,672 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fredoka:wght@400;600;700&display=swap');
+/* ==========================================
+   RESET & CONFIGURAÇÕES GERAIS
+========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fbf7f8;
+    color: #2b2b2b;
+    overflow-x: hidden;
+    margin: 0;   /* Adicione isso para colar o menu no topo */
+    padding: 0;  /* Adicione isso */
+}
+/* ==========================================
+   VARIÁVEIS DE IDENTIDADE VISUAL
+========================================== */
+:root {
+    --rosa: #fab3cb;
+    --rosa-claro: #fceef2;
+    --marrom: #473936;
+    --branco: #fff;
+    --cinza: #666;
+    --shadow: 0 8px 25px rgba(0,0,0,.04);
+    --shadow-hover: 0 15px 35px rgba(250,179,203,.25);
+}
+
+/* ==========================================
+   CABEÇALHO E NAVBAR (PADRÃO CARDÁPIO)
+========================================== */
+
+
+
+
+
+/* Barra de Navegação Branca e Fixa ao Rolar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: var(--branco);
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+/* Estilo dos Links do Menu */
+.nav-link, 
+.nav-link:link, 
+.nav-link:visited {
+    text-decoration: none;
+    color: var(--marrom) !important; /* Texto escuro por padrão */
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 25px;
+    background-color: transparent !important;
+    transition: all 0.3s ease;
+}
+
+/* Efeito Rosa ao passar o mouse ou na página/seção ativa */
+.nav-link:hover,
+.nav-link.active {
+    background-color: var(--rosa-claro) !important;
+    color: var(--rosa) !important;
+}
+
+
+
+/* ==========================================
+   ANIMAÇÃO MATEMÁTICA DO LOOP INFINITO
+========================================== */
+@keyframes rolarEsteiraContinua {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Arrasta a esteira até metade dela (exatamente onde terminam as primeiras 7 fotos) */
+        transform: translateX(-50%); 
+    }
+}
+
+/* Ajustes de responsividade para a esteira se adaptar a telas menores */
+@media(max-width: 1024px) {
+    .hero-carousel-track .slide {
+        width: 33.333vw; /* Mostra 3 fotos em tablets */
+    }
+}
+
+@media(max-width: 768px) {
+    .hero-carousel-track .slide {
+        width: 50vw; /* Mostra 2 fotos em celulares para manter o foco vertical */
+    }
+}/* Importação das fontes necessárias */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fredoka:wght@400;600;700&display=swap');
+
+/* ==========================================
+   SEÇÃO HERO COMPLETA (ESTEIRA + TEXTO)
+========================================== */
+.hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #2b2b2b;
+}
+
+/* --- Lógica da Esteira Infinita --- */
+.hero-carousel-track {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: max-content;
+    z-index: 1;
+}
+
+.hero-carousel-track .slide {
+    width: 25vw; /* 4 fotos por tela no PC */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    animation: rolarEsteiraContinua 10s linear infinite;
+}
+
+@keyframes rolarEsteiraContinua {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* --- Overlay e Painel de Vidro --- */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-glass-panel {
+    position: relative;
+    z-index: 3;
+    max-width: 850px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 60px 40px;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: aparecer 1.2s ease-out;
+}
+
+/* --- Estilização dos Nomes --- */
+.brand-title-main {
+    font-family: 'Dancing Script', cursive;
+    font-size: 90px;
+    color: #ffffff;
+    margin-bottom: 0px;
+    line-height: 1.1;
+    text-shadow: 2px 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.brand-title-sub {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    margin-top: -5px;
+    margin-bottom: 45px;
+    text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Botão --- */
+.btn-principal {
+    display: inline-block;
+    background: var(--rosa); /* Certifique-se de que --rosa está no :root */
+    color: white;
+    padding: 16px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+/* Responsividade */
+@media(max-width: 768px) {
+    .hero-carousel-track .slide { width: 50vw; } /* 2 fotos no celular */
+    .brand-title-main { font-size: 60px; }
+    .brand-title-sub { font-size: 18px; letter-spacing: 3px; }
+}
+/* ==========================================
+   TEXTOS DO PAINEL DE VIDRO (FONTES NOVAS)
+========================================== */
+
+/* Nome de cima - Cursiva/Caligrafia */
+.brand-title-main {
+    font-family: 'Dancing Script', cursive;
+    font-size: 90px; /* Bem grande e destacada */
+    color: #ffffff;
+    margin-bottom: 0px;
+    line-height: 1.1;
+    text-shadow: 2px 4px 15px rgba(0, 0, 0, 0.4);
+    letter-spacing: 2px;
+}
+
+/* Nome de baixo - Arredondada/Moderna em Caixa Alta */
+.brand-title-sub {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 26px; /* Menor para dar contraste de tamanho */
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase; /* Garante que fique em letras maiúsculas */
+    letter-spacing: 6px;       /* Espaçamento chique entre as letras */
+    margin-top: -5px;          /* Aproxima um pouco do nome de cima */
+    margin-bottom: 45px;       /* Espaço até o botão */
+    opacity: 0.95;
+    text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo do Botão Principal */
+.btn-principal {
+    display: inline-block;
+    background: var(--rosa);
+    color: white;
+    padding: 16px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    letter-spacing: 1px;
+}
+
+.btn-principal:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+
+/* ==========================================
+   RESPONSIVIDADE PARA CELULARES
+========================================== */
+@media(max-width: 768px) {
+    .brand-title-main {
+        font-size: 65px;
+    }
+    .brand-title-sub {
+        font-size: 18px;
+        letter-spacing: 4px;
+        margin-bottom: 35px;
+    }
+    .btn-principal {
+        padding: 12px 35px;
+        font-size: 16px;
+    }
+}
+
+/* ==========================================
+   ANIMAÇÃO MÁGICA DE LOOPING HORIZONTAL (CORRIGIDA)
+========================================== */
+@keyframes rolarEsteira {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    100% {
+        /* Move exatamente metade da esteira inteira */
+        -webkit-transform: translateX(-500%);
+        transform: translateX(-500%); 
+    }
+}
+
+@-webkit-keyframes rolarEsteira {
+    0% {
+        -webkit-transform: translateX(0);
+    }
+    100% {
+        -webkit-transform: translateX(-50%);
+    }
+}
+
+/* ==========================================
+   RESPONSIVIDADE (ADAPTAÇÃO CELULAR)
+========================================== */
+@media(max-width: 1024px) {
+    /* Em tablets, mostra 3 fotos por vez na tela */
+    .hero-carousel-track .slide {
+        width: 33.333vw;
+    }
+}
+
+@media(max-width: 768px) {
+    /* Em celulares, mostra 2 fotos verticais por vez na tela para manter o detalhe */
+    .hero-carousel-track .slide {
+        width: 50vw;
+    }
+    .hero-glass-panel {
+        padding: 35px 20px;
+        margin: 0 10px;
+    }
+    .hero h1 {
+        font-size: 36px;
+    }
+    .hero p {
+        font-size: 16px;
+    }
+}
+
+
+/* ==========================================
+   ESTILOS COLETIVOS PARA AS SEÇÕES
+========================================== */
+.menu-section, .destaques, .contato {
+    padding: 90px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title, .destaques h2, .contato h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 40px;
+    color: var(--marrom);
+    margin-bottom: 50px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+/* Linha decorativa abaixo dos títulos das seções */
+.section-title::after, .destaques h2::after, .contato h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 4px;
+    background-color: var(--rosa);
+    border-radius: 2px;
+}
+
+/* ==========================================
+   SEÇÃO SOBRE NÓS
+========================================== */
+.about-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    background-color: var(--branco); 
+    padding: 45px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+}
+
+.about-text { 
+    flex: 1; 
+}
+
+.about-text h3 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--marrom); 
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    font-size: 0.98rem;
+    color: #444;
+    margin-bottom: 18px;
+    line-height: 1.7;
+}
+
+.about-image-box {
+    flex: 1;
+    height: 350px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.about-store-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* ==========================================
+   SEÇÃO MAIS VENDIDOS (CARDS)
+========================================== */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: var(--branco);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+.card h3 {
+    margin-top: 20px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.3rem;
+    color: var(--marrom);
+}
+
+.card p {
+    padding: 10px 15px 25px 15px;
+    color: var(--cinza);
+    font-size: 0.9rem;
+}
+
+.btn-secundario {
+    display: inline-block;
+    margin-top: 45px;
+    background: var(--marrom);
+    color: var(--branco);
+    text-decoration: none;
+    padding: 16px 40px;
+    border-radius: 40px;
+    font-weight: 500;
+    transition: .3s;
+}
+
+.btn-secundario:hover {
+    background: #2f2523;
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   SEÇÃO AVALIAÇÕES
+========================================== */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.review-card {
+    background-color: var(--branco);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.review-stars { 
+    color: #ffc107; 
+    font-size: 1.3rem; 
+    margin-bottom: 15px; 
+}
+
+.review-text { 
+    font-size: 0.95rem; 
+    color: #444; 
+    font-style: italic; 
+    line-height: 1.6;
+    margin-bottom: 25px; 
+}
+
+.review-author { 
+    display: flex; 
+    flex-direction: column; 
+    border-top: 1px solid rgba(0,0,0,0.06); 
+    padding-top: 15px; 
+}
+
+.review-author strong { 
+    font-size: 0.98rem; 
+    color: var(--marrom);
+}
+
+.review-author span { 
+    font-size: 0.82rem; 
+    color: var(--cinza); 
+    margin-top: 2px;
+}
+
+/* ==========================================
+   SEÇÃO CONTATO
+========================================== */
+.contato-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.contato-grid div {
+    background: var(--branco);
+    padding: 35px 20px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: .3s ease;
+}
+
+.contato-grid div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.contato-grid h3 {
+    margin-bottom: 12px;
+    color: var(--marrom);
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.15rem;
+}
+
+.contato-grid p {
+    color: var(--cinza);
+    font-size: 0.95rem;
+}
+
+/* ==========================================
+   FOOTER (RODAPÉ)
+========================================== */
+footer {
+    background: var(--marrom);
+    color: var(--branco);
+    text-align: center;
+    padding: 60px 20px;
+}
+
+footer h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 34px;
+    margin-bottom: 15px;
+}
+
+footer p {
+    opacity: .8;
+    margin: 8px;
+    font-size: 0.95rem;
+}
+
+/* ==========================================
+   BOTÃO FLUTUANTE WHATSAPP
+========================================== */
+.whatsapp {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 65px;
+    height: 65px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--branco);
+    font-size: 30px;
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+    transition: .3s;
+    z-index: 999;
+}
+
+.whatsapp:hover {
+    transform: scale(1.1) rotate(10deg);
+}
+
+/* ==========================================
+   ANIMAÇÕES & RESPONSIVIDADE
+========================================== */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajustes para Telas Médias (Tablets) */
+@media(max-width: 1024px) {
+    .cards, .contato-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-image-box {
+        width: 100%;
+        height: 300px;
+    }
+}
+
+/* Ajustes para Celulares */
+@media(max-width: 768px) {
+    .menu {
+        padding: 15px 20px;
+        flex-direction: column;
+        height: auto;
+    }
+    .menu nav {
+        margin-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    body {
+        padding-top: 140px; /* Compensa o menu maior no mobile */
+    }
+    .hero h1 {
+        font-size: 40px;
+    }
+    .hero p {
+        font-size: 18px;
+    }
+    .cards, .reviews-grid, .contato-grid {
+        grid-template-columns: 1fr;
+    }
+    .section-title, .destaques h2, .contato h2 {
+        font-size: 32px;
+    }
+}
