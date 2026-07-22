@@ -4,31 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doce Encanto | Início</title>
+    <!-- Importe o CSS principal da loja além do inicio.css para herdar os estilos do modal e dos botões -->
+    <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="inicio.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    
+    <!-- NAVBAR COM BOTÃO DO CARRINHO -->
     <nav class="navbar">
         <a href="inicio.html" class="nav-link active">Início</a>
         <a href="index.html" class="nav-link">Cardápio</a>
         <a href="#sobre-nos" class="nav-link">Sobre Nós</a>
         <a href="#avaliacoes" class="nav-link">Avaliações</a>
         <a href="#contato" class="nav-link">Contato</a>
+        <!-- Link do carrinho no menu -->
+        <a href="javascript:void(0)" class="nav-link nav-carrinho" onclick="toggleCarrinho()">
+            🛒 Carrinho (<span id="carrinho-contador-topo">0</span>)
+        </a>
     </nav>
-   <section id="inicio" class="hero">
-        
-        <div class="hero-carousel-track">
-            
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-4.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-5.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-6.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-7.webp');"></div>
 
+    <section id="inicio" class="hero">
+        <div class="hero-carousel-track">
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
@@ -36,7 +33,6 @@
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-5.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-6.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-7.webp');"></div>
-            
         </div>
 
         <div class="hero-overlay"></div>
@@ -48,7 +44,6 @@
                 <a href="index.html" class="btn-principal">Ver Cardápio</a>
             </div>
         </div>
-
     </section>
     
     <section id="sobre-nos" class="menu-section">
@@ -65,30 +60,51 @@
         </div>
     </section>
 
+    <!-- MAIS VENDIDOS COM OS BOTÕES E PREÇOS ALINHADOS COMO NO INDEX -->
     <section class="destaques">
         <h2>Mais Vendidos</h2>
         <div class="cards">
+            
             <div class="card">
-                <img src="imagens/Morangoffe no Pote.jpeg" alt="Morangoffe no Pote">
-                <h3>Morangoffe</h3>
-                <p>O queridinho da casa.</p>
+                <img src="imagens/Supreme de Maracujá.jpeg" alt="Supreme de Maracujá">
+                <h3>Supreme de Maracujá</h3>
+                <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="product-price">R$ 17,00</span>
+                    <button class="pedir-btn" onclick="pedirEIrProCarrinho('Supreme de Maracujá', 17.00)">Pedir</button>
+                </div>
             </div>
+
             <div class="card">
-                <img src="imagens/Fatia de Brownie Brigadeiro Belga.jpeg" alt="Fatia de Brownie">
-                <h3>Brownie Belga</h3>
-                <p>Chocolate intenso e muito recheio.</p>
+                <img src="imagens/Fondue Brownie Supreme.jpeg" alt="Fondue Brownie Supreme">
+                <h3>Fondue Brownie Supreme</h3>
+                <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="product-price">R$ 40,00</span>
+                    <button class="pedir-btn" onclick="pedirEIrProCarrinho('Fondue Brownie Supreme', 40.00)">Pedir</button>
+                </div>
             </div>
+
             <div class="card">
                 <img src="imagens/Copo da Felicidade Supremo.jpeg" alt="Copo da Felicidade">
                 <h3>Copo da Felicidade</h3>
                 <p>Camadas de felicidade.</p>
+                <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="product-price">R$ 22,00</span>
+                    <button class="pedir-btn" onclick="pedirEIrProCarrinho('Copo da Felicidade', 22.00)">Pedir</button>
+                </div>
             </div>
+
             <div class="card">
                 <img src="imagens/Naked Cake Ninho com Morangos 1KG.jpeg" alt="Naked Cake">
                 <h3>Naked Cake</h3>
                 <p>Perfeito para qualquer ocasião.</p>
+                <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="product-price">R$ 85,00</span>
+                    <button class="pedir-btn" onclick="pedirEIrProCarrinho('Naked Cake (1kg)', 85.00)">Pedir</button>
+                </div>
             </div>
+
         </div>
+        <br>
         <a href="index.html" class="btn-secundario">
             Ver Cardápio Completo
         </a>
@@ -152,10 +168,23 @@
         <p>© 2026 Todos os direitos reservados.</p>
     </footer>
 
-    <a class="whatsapp" href="https://wa.me/5541999999999" target="_blank">
-        💬
-    </a>
+    <!-- ESTRUTURA DO MODAL DO CARRINHO (A MESMA DO INDEX) -->
+    <div id="modal-carrinho" class="modal-carrinho">
+        <div class="conteudo-carrinho">
+            <h2>Seu Carrinho</h2>
+            <div id="itens-carrinho"></div>
+            <div class="total-carrinho">
+                <strong>Total: R$ <span id="total-valor">0.00</span></strong>
+            </div>
+            <div class="botoes-carrinho">
+                <button class="btn-fechar" onclick="toggleCarrinho()">Voltar</button>
+                <button class="btn-finalizar" onclick="finalizarPedido()">Pedir no WhatsApp</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- IMPORTAÇÃO DO SCRIPT PRINCIPAL DO SEU PROJETO -->
+    <script src="script.js"></script>
     <script src="inicio.js"></script>
 </body>
 </html>

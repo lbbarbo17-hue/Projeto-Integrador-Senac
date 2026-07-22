@@ -351,4 +351,192 @@ body {
     .product-image-container { height: 150px; }
     .product-name { font-size: 1rem; min-height: 2.4rem; }
     .product-price { font-size: 1.05rem; }
+} 
+/* ==========================================
+   CARRINHO DE COMPRAS - CORREÇÃO DE VISIBILIDADE
+========================================== */
+
+/* 1. BOTÃO FLUTUANTE (Garante que ele fique visível no canto inferior direito) */
+.carrinho-flutuante {
+    position: fixed;
+    bottom: 30px; /* Subi um pouco para não tapar outros elementos */
+    right: 30px;
+    background-color: #fab3cb; /* Rosa Doce Encanto Fixo */
+    color: #ffffff !important;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    z-index: 9999; /* Força a ficar na frente de TUDO */
+    transition: transform 0.3s ease, background-color 0.3s;
 }
+
+.carrinho-flutuante:hover {
+    transform: scale(1.1);
+    background-color: #e092ab;
+}
+
+/* Contador do Balão Flutuante */
+#carrinho-contador {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #473936; /* Marrom Fixo */
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 50%;
+    font-family: 'Fredoka', sans-serif;
+}
+
+/* 2. PAINEL LATERAL DO CARRINHO (Corrigido para aparecer nítido ao abrir) */
+.carrinho-lateral {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Escondido para a direita */
+    width: 380px;
+    height: 100vh;
+    background: #ffffff; /* Fundo branco sólido para não ficar invisível/transparente */
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+    z-index: 10000; /* Z-index altíssimo para sobrepor o site */
+    display: flex;
+    flex-direction: column;
+    transition: right 0.4s ease-in-out;
+}
+
+/* Quando o JS ativa a classe 'aberto', ele desliza para a tela */
+.carrinho-lateral.aberto {
+    right: 0 !important;
+}
+
+/* Itens de dentro do Carrinho */
+.carrinho-header {
+    padding: 25px 20px;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carrinho-header h2 {
+    font-family: 'Fredoka', sans-serif;
+    color: #473936;
+    margin: 0;
+    font-size: 24px;
+}
+
+.btn-fechar {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #473936;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.carrinho-itens {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fbf7f8; /* Fundo sutil dos doces */
+}
+
+/* Cada doce da lista */
+.item-carrinho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #f0e6e8;
+}
+
+.item-info h4 {
+    margin: 0 0 5px 0;
+    color: #473936;
+    font-family: 'Poppins', sans-serif;
+}
+
+.item-info span {
+    color: #e092ab;
+    font-weight: bold;
+}
+
+.btn-remover {
+    background: transparent;
+    border: none;
+    color: #ff5252;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Rodapé do Carrinho */
+.carrinho-footer {
+    padding: 20px;
+    border-top: 1px solid #eeeeee;
+    background: #ffffff;
+}
+
+.total-box {
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    font-weight: 700;
+    color: #473936;
+    margin-bottom: 20px;
+    font-family: 'Fredoka', sans-serif;
+}
+
+.btn-finalizar {
+    width: 100%;
+    background: #fab3cb;
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    transition: background 0.2s;
+    box-shadow: 0 4px 10px rgba(250, 179, 203, 0.4);
+}
+
+.btn-finalizar:hover {
+    background: #e092ab;
+}
+
+/* 3. LINK DO CARRINHO NA NAVBAR (Lá no topo) */
+.nav-link.nav-carrinho {
+    background-color: #fceef2 !important; /* Fundo rosinha claro */
+    color: #e092ab !important;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px 15px !important;
+    margin-left: 10px;
+}
+
+.nav-link.nav-carrinho:hover {
+    background-color: #fab3cb !important;
+    color: #ffffff !important;
+}
+
+/* Ajuste para celulares */
+@media(max-width: 480px) {
+    .carrinho-lateral {
+        width: 100%;
+        right: -100%;
+    }
+    .carrinho-flutuante {
+        bottom: 20px;
+        right: 20px;
+    }
+} 
