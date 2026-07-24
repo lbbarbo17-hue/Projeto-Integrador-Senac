@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato | Doce Encanto Confeitaria</title>
+
+    <!-- Estilos do Projeto -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contato.css">
+
+    <!-- Fontes Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="inicio.html" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="sobrenos.html" class="nav-link">Sobre Nós</a>
+        <a href="contato.html" class="nav-link active">Contato</a>
+        <a href="javascript:void(0)" class="nav-link nav-carrinho" onclick="toggleCarrinho()">
+            🛒 Carrinho (<span id="carrinho-contador-topo">0</span>)
+        </a>
+    </nav>
+
+    <!-- BANNER HERO COM IMAGEM DE FINDO (IGUAL SOBRE NÓS) -->
+    <section class="contact-hero">
+        <div class="contact-hero-overlay"></div>
+        <div class="contact-hero-content">
+            <span class="badge-tag"><i class="fa-solid fa-comments"></i> Fale Conosco</span>
+            <h1>Confira nossos contatos, lojas físicas<br>e horários de funcionamento</h1>
+            
+            <!-- E-mail Principal -->
+            <div class="email-badge-hero">
+                <div class="email-icon">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <span>doceencanto.empresa@gmail.com</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO PRINCIPAL (BOTÕES E HORÁRIOS) -->
+    <main class="contact-main">
+        <!-- BOTÕES DE AÇÃO RÁPIDA (ESTILO MARROM) -->
+        <div class="contact-actions">
+            <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20fazer%20uma%20encomenda." target="_blank" class="btn-contact-brown">
+                <i class="fa-solid fa-cake-candles"></i> Encomendas
+            </a>
+
+            <a href="https://wa.me/5511949010900" target="_blank" class="btn-contact-brown">
+                <i class="fa-brands fa-whatsapp"></i> (11) 94901-0900
+            </a>
+
+            <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20enviar%20meu%20currículo." target="_blank" class="btn-contact-brown">
+                <i class="fa-solid fa-briefcase"></i> Trabalhe conosco
+            </a>
+        </div>
+
+        <!-- HORÁRIOS DE FUNCIONAMENTO (CARDS ROSA) -->
+        <section class="schedules-section">
+            <h2>Horários de funcionamento</h2>
+
+            <div class="schedules-grid">
+                <!-- Unidade 1 -->
+                <div class="schedule-card">
+                    <h3>Unidade 1 - Butantã</h3>
+                    <p><strong>Loja física:</strong> de segunda à sábado, das 12h00 às 20h00</p>
+                </div>
+
+                <!-- Unidade 2 -->
+                <div class="schedule-card">
+                    <h3>Unidade 2 - Osasco</h3>
+                    <p><strong>Loja física:</strong> de segunda à sábado, das 09h00 às 20h00</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BANNER CTA FLUTUANTE DO RODAPÉ -->
+    <section class="footer-cta-banner">
+        <div class="footer-cta-container">
+            <h2>Adoce seu dia e suas celebrações<br>com o sabor da Doce Encanto</h2>
+            <div class="footer-cta-buttons">
+                <a href="index.html" class="btn-cta-pink">Peça pelo Delivery</a>
+                <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20solicitar%20uma%20encomenda." target="_blank" class="btn-cta-pink">Solicite sua Encomenda</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ PRINCIPAL -->
+    <footer class="site-footer">
+        <div class="footer-main-content">
+            <div class="footer-col footer-brand">
+                <h2 class="footer-logo">Doce Encanto</h2>
+                <span class="footer-subtitle">CONFEITARIA GOURMET</span>
+                <p class="footer-slogan">A doçura que encanta no dia a dia e transforma ocasiões em memórias inesquecíveis.</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Unidades</h3>
+                <ul class="footer-units">
+                    <li>
+                        <i class="fa-solid fa-location-dot pin-icon"></i>
+                        <div><strong>Butantã:</strong> Rua Dr. Ulpiano da Costa Manso, 98, Jardim Peri Peri</div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot pin-icon"></i>
+                        <div><strong>Osasco:</strong> Av. Flora, 399, Jaguaribe</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Links Úteis</h3>
+                <ul class="footer-links">
+                    <li><a href="inicio.html">Home</a></li>
+                    <li><a href="index.html">Delivery</a></li>
+                    <li><a href="sobrenos.html">Sobre nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Siga nossas redes</h3>
+                <div class="footer-socials">
+                    <a href="https://www.instagram.com/" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://pt-br.facebook.com/" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.ifood.com.br/" class="social-icon social-ifood" title="iFood / Delivery"><i class="fa-solid fa-burger"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
+            <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

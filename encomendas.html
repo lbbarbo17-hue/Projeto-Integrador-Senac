@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doce Encanto - Encomendas Delivery | Jardim Peri Peri - São Paulo | Faça seu pedido</title>
+
+    <!-- Estilos do Projeto -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="encomendas.css">
+
+    <!-- Fontes Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="inicio.html" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="encomendas.html" class="nav-link active">Encomendas</a>
+        <a href="sobrenos.html" class="nav-link">Sobre Nós</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+        <a href="javascript:void(0)" class="nav-link nav-carrinho" onclick="toggleCarrinho()">
+            🛒 Carrinho (<span id="carrinho-contador-topo">0</span>)
+        </a>
+    </nav>
+
+    <!-- BANNER HERO COM IMAGEM E TITULO DA PÁGINA -->
+    <section class="encomendas-hero">
+        <div class="encomendas-hero-overlay"></div>
+        <div class="encomendas-hero-content">
+            <span class="badge-tag"><i class="fa-solid fa-cake-candles"></i> Faça sua Festa Conosco</span>
+            <h1>Encomendas Especiais & Kits Festa</h1>
+            <p><i class="fa-solid fa-location-dot"></i> Atendendo Jardim Peri Peri (Butantã), Osasco e Região de SP</p>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO DE ENCOMENDAS -->
+    <main class="encomendas-main">
+        
+        <!-- SEÇÃO INFORMATIVA SOBRE PRAZOS -->
+        <section class="info-notice-banner">
+            <div class="notice-icon"><i class="fa-solid fa-clock"></i></div>
+            <div class="notice-text">
+                <h3>Como funcionam as encomendas?</h3>
+                <p>Nossas encomendas sãofeitas de forma artesanal. Pedimos o prazo mínimo de <strong>24h a 48h de antecedência</strong> para bolos decorados e centos de doces. Entrega via delivery no Jardim Peri Peri e região!</p>
+            </div>
+        </section>
+
+        <!-- OPÇÕES DE ENCOMENDAS (GRID DE CARDS) -->
+        <section class="encomendas-grid-section">
+            <h2 class="section-title">O que você gostaria de encomendar?</h2>
+
+            <div class="encomendas-grid">
+                
+                <!-- CARD 1: BOLOS DE FESTA -->
+                <div class="encomenda-card">
+                    <div class="card-img-box">
+                        <img src="imagens_inicio/encomendas-doce-encanto-1.webp" alt="Bolos Decorados">
+                    </div>
+                    <div class="card-info">
+                        <h3>Bolos Decorados & Vulcão</h3>
+                        <p>Bolos de aniversário personalizáveis, vulcão e tortas decoradas com topo e morangos frescos.</p>
+                        <span class="price-tag">A partir de R$ 85,00</span>
+                        <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20fazer%20uma%20encomenda%20de%20Bolo%20Decorado." target="_blank" class="btn-encomendar">
+                            <i class="fa-brands fa-whatsapp"></i> Encomendar Bolo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CARD 2: CENTOS DE DOCINHOS -->
+                <div class="encomenda-card">
+                    <div class="card-img-box">
+                        <img src="imagens_inicio/Confeitaria.jpg" alt="Centos de Docinhos">
+                    </div>
+                    <div class="card-info">
+                        <h3>Centos de Docinhos Gourmet</h3>
+                        <p>Brigadeiro belga, beijinho, bicho de pé, ninho com nutella e churros para deixar sua festa incrível.</p>
+                        <span class="price-tag">A partir de R$ 120,00 / cento</span>
+                        <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20encomendar%20Centos%20de%20Docinhos." target="_blank" class="btn-encomendar">
+                            <i class="fa-brands fa-whatsapp"></i> Encomendar Doces
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CARD 3: KITS FESTA PRONTOS -->
+                <div class="encomenda-card">
+                    <div class="card-img-box">
+                        <img src="imagens_inicio/encomendas-doce-encanto-1.webp" alt="Kit Festa">
+                    </div>
+                    <div class="card-info">
+                        <h3>Kits Festa Completos</h3>
+                        <p>Combos práticos com bolo decorado + centos de doces + refrigerante. A solução inteira para seu evento.</p>
+                        <span class="price-tag">A partir de R$ 199,00</span>
+                        <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20Kits%20Festa." target="_blank" class="btn-encomendar">
+                            <i class="fa-brands fa-whatsapp"></i> Ver Kits Festa
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PASSO A PASSO DA ENCOMENDA -->
+        <section class="steps-section">
+            <h2 class="section-title">Passo a passo do seu pedido</h2>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <h4>Escolha o produto</h4>
+                    <p>Navegue pelas nossas opções de bolos, doces ou monte seu kit personalizado.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <h4>Combine pelo WhatsApp</h4>
+                    <p>Escolha massa, recheio, tema e defina a data/horário de entrega ou retirada.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <h4>Receba em Casa</h4>
+                    <p>Entregamos com todo o cuidado no Jardim Peri Peri, Butantã, Osasco e região.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BANNER CTA FLUTUANTE DO RODAPÉ -->
+    <section class="footer-cta-banner">
+        <div class="footer-cta-container">
+            <h2>Adoce seu dia e suas celebrações<br>com o sabor da Doce Encanto</h2>
+            <div class="footer-cta-buttons">
+                <a href="index.html" class="btn-cta-pink">Peça pelo Delivery</a>
+                <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20solicitar%20uma%20encomenda." target="_blank" class="btn-cta-pink">Solicite sua Encomenda</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ COMPLETO DA MARCA -->
+    <footer class="site-footer">
+        <div class="footer-main-content">
+            <div class="footer-col footer-brand">
+                <h2 class="footer-logo">Doce Encanto</h2>
+                <span class="footer-subtitle">CONFEITARIA GOURMET</span>
+                <p class="footer-slogan">A doçura que encanta no dia a dia e transforma ocasiões em memórias inesquecíveis.</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Unidades</h3>
+                <ul class="footer-units">
+                    <li>
+                        <i class="fa-solid fa-location-dot pin-icon"></i>
+                        <div><strong>Butantã:</strong> Rua Dr. Ulpiano da Costa Manso, 98, Jardim Peri Peri</div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot pin-icon"></i>
+                        <div><strong>Osasco:</strong> Av. Flora, 399, Jaguaribe</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Links Úteis</h3>
+                <ul class="footer-links">
+                    <li><a href="inicio.html">Home</a></li>
+                    <li><a href="index.html">Delivery</a></li>
+                    <li><a href="encomendas.html">Encomendas</a></li>
+                    <li><a href="sobrenos.html">Sobre nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Siga nossas redes</h3>
+                <div class="footer-socials">
+                    <a href="https://www.instagram.com/" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://pt-br.facebook.com/" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.ifood.com.br/" class="social-icon social-ifood" title="iFood / Delivery"><i class="fa-solid fa-burger"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
+            <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

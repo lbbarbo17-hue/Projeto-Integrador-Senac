@@ -1,127 +1,214 @@
-// Aguarda todo o conteúdo da página carregar
+// --- 1. MONITORAMENTO DE SCROLL E MENU ATIVO ---
 document.addEventListener("DOMContentLoaded", () => {
     
-    // Seleciona todas as seções que possuem um ID correspondente no menu
-    const secoes = document.querySelectorAll("section[id]");
-    const linksMenu = document.querySelectorAll(".menu nav a");
+    // Carrega o carrinho salvo assim que a página abre
+    carregarCarrinhoDoStorage();
 
-    // Função que monitora a rolagem para mudar a classe active no menu
+    // Seleciona todas as seções com ID e os links da navbar
+    const secoes = document.querySelectorAll("section[id]");
+    const linksMenu = document.querySelectorAll(".navbar a, .menu nav a");
+
     window.addEventListener("scroll", () => {
         let topoAtual = window.pageYOffset;
 
-        secoesInternas.forEach(secao => {
-            const secaoTopo = secao.offsetTop - 120; // Folga para o menu fixo
+        // Destaque dinâmico das seções ao rolar
+        secoes.forEach(secao => {
+            const secaoTopo = secao.offsetTop - 120; // Folga para navbar fixa
             const secaoAltura = secao.offsetHeight;
             const secaoId = secao.getAttribute("id");
 
-            // Se a seção estiver visível no meio da tela
             if (topoAtual >= secaoTopo && topoAtual < secaoTopo + secaoAltura) {
                 linksMenu.forEach(link => {
                     link.classList.remove("active");
-                    // Se o link terminar com a hashtag da seção atual, ganha o destaque
-                    if (link.getAttribute("href").endsWith("#" + secaoId)) {
+                    const href = link.getAttribute("href");
+                    if (href && href.endsWith("#" + secaoId)) {
                         link.classList.add("active");
                     }
                 });
             }
         });
 
-        // Caso especial: Se estiver bem no topo, força o link "Início" a ficar ativo
-        if (topoAtual < 200) {
+        // Caso especial: topo da página
+        if (topoAtual < 150) {
             linksMenu.forEach(link => link.classList.remove("active"));
             const linkInicio = document.querySelector('a[href="inicio.html"]');
             if (linkInicio) linkInicio.classList.add("active");
         }
     });
-}); 
-// Array que armazenará os itens adicionados
+});
+
+
+// --- 2. SISTEMA DE CARRINHO (INTEGRADO E COM LOCALSTORAGE) ---
 let carrinho = [];
 
-// Função para abrir e fechar a barra do carrinho
-function toggleCarrinho() {
-    const painel = document.getElementById('carrinho-lateral');
-    painel.classList.toggle('aberto');
+// Carrega dados salvos no navegador ao iniciar
+function carregarCarrinhoDoStorage() {
+    const salvo = localStorage.getItem('carrinhoDoceEncanto');
+    if (salvo) {
+        carrinho = JSON.parse(salvo);
+    }
+    atualizarCarrinho();
 }
 
-// Função para adicionar produtos (Chame esta função nos botões do seu Cardápio)
-// Exemplo de uso no HTML do cardápio: onclick="adicionarAoCarrinho('Morangoffe', 18.00)"
+// Salva as alterações no navegador
+function salvarCarrinhoNoStorage() {
+    localStorage.setItem('carrinhoDoceEncanto', JSON.stringify(carrinho));
+}
+
+// Abre/Fecha tanto o Modal quanto a Gaveta Lateral (suporta os dois layouts)
+function toggleCarrinho() {
+    const modal = document.getElementById('modal-carrinho');
+    const painelLateral = document.getElementById('carrinho-lateral');
+
+    if (modal) {
+        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    }
+    
+    if (painelLateral) {
+        painelLateral.classList.toggle('aberto');
+    }
+}
+
+// Adiciona produto e atualiza tudo
 function adicionarAoCarrinho(nome, preco) {
-    // Verifica se o item já está no carrinho
+    // Garante que o preço seja tratado como número boato
+    const precoNum = typeof preco === 'string' ? parseFloat(preco.replace(',', '.')) : preco;
+
     const itemExistente = carrinho.find(item => item.nome === nome);
 
     if (itemExistente) {
         itemExistente.quantidade++;
     } else {
-        carrinho.push({ nome, preco, quantidade: 1 });
+        carrinho.push({ nome, preco: precoNum, quantidade: 1 });
     }
 
+    salvarCarrinhoNoStorage();
     atualizarCarrinho();
 }
 
-// Função para remover um item do carrinho
+// Função dos botões "Pedir": Adiciona + Atualiza + Abre a janela na hora
+function adicionarEAbriCarrinho(nome, preco) {
+    adicionarAoCarrinho(nome, preco);
+    
+    // Garante que a janela se abra imediatamente
+    const modal = document.getElementById('modal-carrinho');
+    const painelLateral = document.getElementById('carrinho-lateral');
+
+    if (modal) modal.style.display = 'flex';
+    if (painelLateral) painelLateral.classList.add('aberto');
+}
+
+// Remove item do carrinho
 function removerDoCarrinho(nome) {
     carrinho = carrinho.filter(item => item.nome !== nome);
+    salvarCarrinhoNoStorage();
     atualizarCarrinho();
 }
 
-// Função que reconstrói a lista visual do carrinho e soma os valores
+// Reconstrói a interface visual do carrinho
 function atualizarCarrinho() {
-    const conteinerItens = document.getElementById('carrinho-itens');
-    const contador = document.getElementById('carrinho-contador');
-    const totalTexto = document.getElementById('carrinho-total');
-
-    // Zera o container visual
-    conteinerItens.innerHTML = '';
+    // Procura elementos do Layout Modal ou do Layout Lateral
+    const conteinerItens = document.getElementById('carrinho-itens') || document.getElementById('itens-carrinho');
+    const contadorTopo = document.getElementById('carrinho-contador-topo');
+    const contadorLateral = document.getElementById('carrinho-contador');
+    const totalTexto = document.getElementById('carrinho-total') || document.getElementById('total-valor');
 
     let totalGeral = 0;
     let totalItens = 0;
 
-    if (carrinho.length === 0) {
-        conteinerItens.innerHTML = '<p class="carrinho-vazio">Seu carrinho está com fome. Adicione doces!</p>';
-    } else {
-        carrinho.forEach(item => {
-            totalGeral += item.preco * item.quantidade;
-            totalItens += item.quantidade;
+    if (conteinerItens) {
+        conteinerItens.innerHTML = '';
 
-            // Cria a linha do produto
-            const itemDiv = document.createElement('div');
-            itemDiv.classList.add('item-carrinho');
-            itemDiv.innerHTML = `
-                <div class="item-info">
-                    <h4>${item.nome} x${item.quantidade}</h4>
-                    <span>R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
-                </div>
-                <button class="btn-remover" onclick="removerDoCarrinho('${item.nome}')">Remover</button>
-            `;
-            conteinerItens.appendChild(itemDiv);
-        });
+        if (carrinho.length === 0) {
+            conteinerItens.innerHTML = '<p style="text-align:center; padding: 20px; color: #888;">Seu carrinho está vazio. Adicione doces!</p>';
+        } else {
+            carrinho.forEach(item => {
+                const subtotal = item.preco * item.quantidade;
+                totalGeral += subtotal;
+                totalItens += item.quantidade;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item-carrinho';
+                itemDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #eee;';
+                
+                itemDiv.innerHTML = `
+                    <div>
+                        <strong style="color: #6d3828; display: block; font-size: 0.95rem;">${item.nome} (x${item.quantidade})</strong>
+                        <span style="color: #f48fb1; font-size: 0.88rem; font-weight: 600;">R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <button onclick="removerDoCarrinho('${item.nome}')" style="background: none; border: none; color: #d32f2f; cursor: pointer; font-size: 0.85rem; font-weight: 600;">
+                        Remover
+                    </button>
+                `;
+                conteinerItens.appendChild(itemDiv);
+            });
+        }
     }
 
-    // Atualiza os contadores numéricos da tela
-    contador.innerText = totalItens;
-    totalTexto.innerText = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+    // Atualiza contadores numéricos na tela
+    if (contadorTopo) contadorTopo.innerText = totalItens;
+    if (contadorLateral) contadorLateral.innerText = totalItens;
+
+    // Atualiza valores totais
+    if (totalTexto) {
+        totalTexto.innerText = `${totalGeral.toFixed(2).replace('.', ',')}`;
+    }
 }
 
-// Envia a lista de compras mastigadinha direto para o WhatsApp da confeitaria
+// --- 3. DISPARO DE PEDIDO PARA O WHATSAPP ---
 function finalizarPedido() {
     if (carrinho.length === 0) {
         alert("Seu carrinho está vazio!");
         return;
     }
 
-    let numeroWhats = "5541999999999"; // Substitua pelo seu WhatsApp real com DDD
+    const numeroWhats = "5511949010900"; // Número oficial da Doce Encanto
     let mensagem = "🧁 *Novo Pedido - Doce Encanto* 🧁\n\n";
 
+    let totalGeral = 0;
     carrinho.forEach(item => {
-        mensagem += `• ${item.nome} (x${item.quantidade}) - R$ ${(item.preco * item.quantidade).toFixed(2)}\n`;
+        const subtotal = item.preco * item.quantidade;
+        totalGeral += subtotal;
+        mensagem += `• ${item.nome} (x${item.quantidade}) - R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
     });
 
-    const total = document.getElementById('carrinho-total').innerText;
-    mensagem += `\n💰 *${total}*`;
+    mensagem += `\n💰 *Total: R$ ${totalGeral.toFixed(2).replace('.', ',')}*`;
+    mensagem += `\n\n📍 Gostaria de confirmar a entrega/retirada!`;
 
-    // Converte os espaços e caracteres para formato URL
     const urlFinal = `https://wa.me/${numeroWhats}?text=${encodeURIComponent(mensagem)}`;
-    
-    // Abre a conversa
     window.open(urlFinal, '_blank');
+}
+
+// Captura opcional para botões com atributos data-* (sem quebrar os botões com onclick)
+document.addEventListener("click", function(event) {
+    const botao = event.target.closest('.btn-pedir-rosa');
+    
+    if (botao) {
+        const nome = botao.getAttribute('data-nome');
+        const preco = parseFloat(botao.getAttribute('data-preco'));
+        
+        if (nome && !isNaN(preco)) {
+            adicionarEAbriCarrinho(nome, preco);
+        }
+    }
+}); 
+// Função para ABRIR o modal do carrinho
+function abrirCarrinho(event) {
+    if(event) event.preventDefault(); // Impede a página de recarregar
+    
+    // Procura o modal na tela (tenta achar pelo ID ou pela Classe)
+    const modal = document.getElementById('modal-carrinho') || document.querySelector('.modal-carrinho');
+    
+    if (modal) {
+        modal.style.display = 'flex'; // Exibe o modal centralizado
+    }
+}
+
+// Função para FECHAR o modal do carrinho
+function fecharCarrinho() {
+    const modal = document.getElementById('modal-carrinho') || document.querySelector('.modal-carrinho');
+    
+    if (modal) {
+        modal.style.display = 'none'; // Esconde o modal
+    }
 }

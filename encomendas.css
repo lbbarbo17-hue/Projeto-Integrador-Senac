@@ -1,0 +1,307 @@
+/* --- ESTILOS DA PÁGINA DE ENCOMENDAS --- */
+
+body {
+    background-color: #fdf8f5;
+    color: #6d3828;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #fdf8f5 !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* BANNER HERO */
+.encomendas-hero {
+    position: relative;
+    background: url('imagens_inicio/encomendas-doce-encanto-1.webp') center/cover no-repeat;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+}
+
+.encomendas-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(109, 56, 40, 0.75) 0%, rgba(109, 56, 40, 0.9) 100%);
+}
+
+.encomendas-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.badge-tag {
+    background-color: #f48fb1;
+    color: #ffffff;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.encomendas-hero-content h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.4rem;
+    margin: 0 0 10px 0;
+}
+
+.encomendas-hero-content p {
+    font-size: 1rem;
+    opacity: 0.95;
+    margin: 0;
+}
+
+/* ÁREA PRINCIPAL */
+.encomendas-main {
+    max-width: 1100px;
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+}
+
+/* AVISO DE ATANTECEDÊNCIA */
+.info-notice-banner {
+    background-color: #f7ebe4;
+    border-left: 5px solid #f48fb1;
+    padding: 20px 25px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.notice-icon {
+    font-size: 2rem;
+    color: #f48fb1;
+}
+
+.notice-text h3 {
+    font-family: 'Fredoka', sans-serif;
+    color: #6d3828;
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+}
+
+.notice-text p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #5a4238;
+}
+
+/* GRID DE ENCOMENDAS */
+.section-title {
+    font-family: 'Fredoka', sans-serif;
+    text-align: center;
+    color: #6d3828;
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.encomendas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 70px;
+}
+
+.encomenda-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(109, 56, 40, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.encomenda-card:hover {
+    transform: translateY(-8px);
+}
+
+.card-img-box img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-info h3 {
+    font-family: 'Fredoka', sans-serif;
+    color: #6d3828;
+    font-size: 1.3rem;
+    margin: 0 0 10px 0;
+}
+
+.card-info p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.price-tag {
+    font-family: 'Fredoka', sans-serif;
+    color: #f48fb1;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.btn-encomendar {
+    background-color: #6d3828;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 25px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.btn-encomendar:hover {
+    background-color: #f48fb1;
+}
+
+/* PASSO A PASSO */
+.steps-section {
+    background-color: #ffffff;
+    padding: 50px 30px;
+    border-radius: 25px;
+    box-shadow: 0 6px 18px rgba(109, 56, 40, 0.05);
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.step-card {
+    text-align: center;
+}
+
+.step-num {
+    width: 45px;
+    height: 45px;
+    background-color: #f48fb1;
+    color: #ffffff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.step-card h4 {
+    font-family: 'Fredoka', sans-serif;
+    color: #6d3828;
+    margin: 0 0 8px 0;
+}
+
+.step-card p {
+    font-size: 0.88rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .encomendas-hero-content h1 {
+        font-size: 1.8rem;
+    }
+    .info-notice-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+} 
+/* --- CORREÇÃO DOS ÍCONES DO RODAPÉ (SEM CAIXA BRANCA) --- */
+
+/* Caso queira os quadradinhos em tom ROSA com ícone branco */
+.social-icon {
+    background-color: #f48fb1 !important; /* Fundo rosa claro */
+    color: #ffffff !important;           /* Cor do ícone em branco */
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;                  /* Cantos arredondados */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+/* Efeito ao passar o mouse */
+.social-icon:hover {
+    background-color: #f06292 !important; /* Rosa um pouco mais escuro */
+    transform: translateY(-3px);
+}
+
+/* Garante que qualquer ícone (Font Awesome ou SVG) fique branco */
+.social-icon i,
+.social-icon svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+.btn-ver-mais-sobre {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f085a9;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(216, 27, 96, 0.2);
+}
+
+.btn-ver-mais-sobre:hover {
+    background-color: #f085a9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(216, 27, 96, 0.3);
+}
+
+.btn-ver-mais-sobre i {
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.btn-ver-mais-sobre:hover i {
+    transform: translateX(4px);
+}

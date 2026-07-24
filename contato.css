@@ -1,0 +1,245 @@
+/* --- ESTILOS DA PÁGINA DE CONTATO COM BANNER HERO --- */
+
+body {
+    background-color: #fdf8f5;
+    color: #6d3828;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* HERO / BANNER DO TOPO COM IMAGEM */
+.contact-hero {
+    position: relative;
+    background: url('imagens_inicio/Confeitaria.jpg') center/cover no-repeat;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 60px; /* Alinha com a navbar */
+}
+
+.contact-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(109, 56, 40, 0.8) 0%, rgba(109, 56, 40, 0.92) 100%);
+}
+
+.contact-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.badge-tag {
+    background-color: #f48fb1;
+    color: #ffffff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.contact-hero-content h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.2rem;
+    margin: 0 0 20px 0;
+    line-height: 1.3;
+}
+
+/* E-mail dentro do Banner */
+.email-badge-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 8px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
+    font-size: 0.95rem;
+    color: #ffffff;
+}
+
+.email-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #f48fb1;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+/* ÁREA DE BOTÕES E CARDS */
+.contact-main {
+    max-width: 900px;
+    margin: 50px auto 80px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+/* BOTÕES MARROM DE AÇÃO */
+.contact-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 340px;
+    margin: 0 auto 60px auto;
+}
+
+.btn-contact-brown {
+    width: 100%;
+    background-color: #6d3828;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 14px 20px;
+    border-radius: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 12px rgba(109, 56, 40, 0.15);
+}
+
+.btn-contact-brown:hover {
+    background-color: #552b1e;
+    transform: translateY(-2px);
+}
+
+/* HORÁRIOS DE FUNCIONAMENTO (ROSA) */
+.schedules-section h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.8rem;
+    color: #6d3828;
+    margin-bottom: 30px;
+}
+
+.schedules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.schedule-card {
+    background-color: #f39dba;
+    color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(244, 143, 177, 0.2);
+    text-align: center;
+}
+
+.schedule-card h3 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.schedule-card p {
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.4;
+    opacity: 0.95;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .contact-hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .schedules-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* CORREÇÃO DO ESPAÇO BRANCO NO TOPO */
+
+/* 1. Remove a margem superior da imagem para encostar no topo */
+.contact-hero {
+    margin-top: 0 !important;
+    padding-top: 80px; /* Cria o espaço interno para a navbar não cobrir o texto */
+    height: 380px;
+}
+
+/* 2. Deixa a navbar transparente/integrada no topo */
+.navbar {
+    background-color: #fdf8f5 !important; /* Cor bege padrão do seu site */
+    position: relative;
+    z-index: 10;
+}
+/* --- CORREÇÃO DOS ÍCONES DO RODAPÉ (SEM CAIXA BRANCA) --- */
+
+/* Caso queira os quadradinhos em tom ROSA com ícone branco */
+.social-icon {
+    background-color: #f48fb1 !important; /* Fundo rosa claro */
+    color: #ffffff !important;           /* Cor do ícone em branco */
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;                  /* Cantos arredondados */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+/* Efeito ao passar o mouse */
+.social-icon:hover {
+    background-color: #f06292 !important; /* Rosa um pouco mais escuro */
+    transform: translateY(-3px);
+}
+
+/* Garante que qualquer ícone (Font Awesome ou SVG) fique branco */
+.social-icon i,
+.social-icon svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+.btn-ver-mais-sobre {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f085a9;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(216, 27, 96, 0.2);
+}
+
+.btn-ver-mais-sobre:hover {
+    background-color: #f085a9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(216, 27, 96, 0.3);
+}
+
+.btn-ver-mais-sobre i {
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.btn-ver-mais-sobre:hover i {
+    transform: translateX(4px);
+}
