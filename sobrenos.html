@@ -3,75 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nós | Doce Encanto</title>
-    <!-- Fonte Google Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>Doce Encanto | Sobre Nós</title>
+    
+   <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doce Encanto | Início</title>
+    
+    <!-- CSS Principal e da Página -->
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="inicio.css">
+    
+
+    <!-- Adicione este link dentro da tag <head> do seu HTML -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head> 
+<body>
+
+    <!-- Seu arquivo CSS externo -->
+    <link rel="stylesheet" href="sobrenos.css">
 </head>
 <body>
 
-    <!-- Menu de Navegação -->
-    <header class="header">
-        <nav class="nav">
-            <a href="#" class="nav-link">Início</a>
-            <a href="#" class="nav-link">Cardápio</a>
-            <a href="#" class="nav-link active">Sobre Nós</a>
-            <a href="#" class="nav-link">Contato</a>
-            <a href="#" class="cart-btn">🛒 Carrinho (0)</a>
-        </nav>
+    <!-- NAVBAR DA PÁGINA -->
+    <nav class="navbar"> 
+        <a href="inicio.html" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="sobrenos.html" class="nav-link active">Sobre Nós</a>
+        <a href="inicio.html#avaliacoes" class="nav-link">Avaliações</a>
+        <a href="inicio.html#contato" class="nav-link">Contato</a> 
+        
+        <!-- BOTÃO DO CARRINHO ESTILIZADO -->
+        <a href="#" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
+          
+    <i class="fa-solid fa-cart-shopping"></i> 
+    <span>Carrinho</span> 
+    <span class="carrinho-qtd-badge" id="contador-carrinho">0</span>
+</a>
+    </nav>
+
+    <!-- BANNER TOPO -->
+    <header class="page-banner">
+        <h1>Nossa História</h1>
+        <p>Conheça a paixão, os ingredientes e a dedicação por trás de cada doce que preparamos para você.</p>
     </header>
 
-    <!-- Banner Principal (Hero) -->
-    <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <span class="tag">♥ Nossa História</span>
-            <h1>Receitas com alma, momentos com afeto</h1>
-            <p>Conheça a trajetória de paixão, aromas e sabores que transforma cada dia em uma celebração.</p>
+    <!-- CONTEÚDO PRINCIPAL SOBRE NÓS -->
+    <main class="historia-section">
+        
+        <!-- Bloco 1 -->
+        <div class="historia-grid">
+            <div class="historia-texto">
+                <h2>Como Tudo Começou</h2>
+                <p>A <strong>Doce Encanto</strong> nasceu de um sonho em família, alimentado pelo cheiro inconfundível de bolo assando na cozinha e a vontade de criar momentos especiais ao redor da mesa.</p>
+                <p>O que começou com receitas artesanais para amigos e celebrações íntimas rapidamente conquistou o coração (e o paladar) de mais e mais pessoas. Nosso segredo? Respeito ao tempo de cada preparo e ingredientes selecionados com amor.</p>
+            </div>
+            <div class="historia-img-box">
+                <img src="imagens_inicio/Confeitaria.jpg" alt="Confeitaria Doce Encanto">
+            </div>
         </div>
-    </section>
 
-    <!-- Seção Sobre Nós -->
-    <section class="about-section">
-        <div class="container">
-            <div class="about-image-wrapper">
-                <!-- Substitua pelo caminho correto da sua imagem -->
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800" alt="Fachada Doce Encanto" class="about-img">
-                <div class="badge-experience">
-                    <span>100%</span>
-                    <small>Artesanal</small>
+        <!-- Bloco 2 -->
+        <div class="historia-grid">
+            <div class="historia-texto">
+                <h2>Qualidade & Afeto em Cada Pedaço</h2>
+                <p>Acreditamos que a confeitaria vai além da estética — é sobre conforto e memórias. Cada camada de bolo, recheio cremoso e sobremesa é preparada diariamente por nossa equipe.</p>
+                <p>Não utilizamos conservantes industriais nos nossos cremes e priorizamos frutas frescas selecionadas diariamente. Dessa forma, garantimos que cada colherada seja inesquecível.</p>
+            </div>
+            <div class="historia-img-box">
+                <img src="imagens/Fondue Brownie Supreme.jpeg" alt="Doces Artesanais">
+            </div>
+        </div>
+
+        <!-- VALORES / PILARES -->
+        <section class="valores-section">
+            <h2 class="section-title">Nossos Pilares</h2>
+            <p class="valores-sub">O que nos guia todos os dias na produção dos seus doces favoritos</p>
+
+            <div class="valores-grid">
+                <div class="valor-card">
+                    <i class="fa-solid fa-heart"></i>
+                    <h3>Amor ao Ofício</h3>
+                    <p>Produzimos cada item com a mesma dedicação e zelo de quem cozinha para a própria família.</p>
+                </div>
+                <div class="valor-card">
+                    <i class="fa-solid fa-award"></i>
+                    <h3>Ingredientes Premium</h3>
+                    <p>Chocolates nobres, recheios 100% artesanais e frutas selecionadas com rigor.</p>
+                </div>
+                <div class="valor-card">
+                    <i class="fa-solid fa-face-smile-beam"></i>
+                    <h3>Encantamento</h3>
+                    <p>Desde o pedido até a primeira colherada: nosso objetivo é encantar você em cada etapa.</p>
                 </div>
             </div>
+        </section>
 
-            <div class="about-text">
-                <h2>Como Tudo Começou</h2>
-                <p>O que era apenas um aroma gostoso na cozinha de casa acabou virando o porto seguro de centenas de clientes apaixonados por doces.</p>
-                <p>A <strong>Doce Encanto</strong> nasceu da vontade simples de resgatar memórias afetivas através do paladar. Acreditamos que a confeitaria artesanal é uma forma pura de carinho: o ponto perfeito do brigadeiro, a leveza do pão de ló, o morango fresco selecionado um a um.</p>
-                <p>Aqui, não produzimos em massa. Cada bolo de pote, torteira e docinho carrega nossa dedicação única.</p>
-                
-                <a href="#" class="btn-primary">Ver Nosso Cardápio</a>
+    </main>
+
+    
+    
+     <!-- BANNER CTA FOOTER -->
+    <section class="footer-cta-banner">
+        <div class="footer-cta-container">
+            <h2>Adoce seu dia e suas celebrações<br>com o sabor da Doce Encanto</h2>
+            <div class="footer-cta-buttons">
+                <a href="index.html" class="btn-cta-pink">Peça pelo Delivery</a>
+                <a href="https://wa.me/5541999999999?text=Olá!%20Gostaria%20de%20solicitar%20uma%20encomenda." target="_blank" class="btn-cta-pink">Solicite sua Encomenda</a>
             </div>
         </div>
     </section>
+    
+    <!-- RODAPÉ PRINCIPAL -->
+<footer class="site-footer">
+    <div class="footer-container">
+        
+        <!-- Coluna 1: Logo, Subtítulo e Slogan -->
+        <div class="footer-col footer-brand">
+            <h2 class="footer-logo">Doce<br>Encanto</h2>
+            <span class="footer-subtitle">CONFEITARIA GOURMET</span>
+            <p class="footer-slogan">
+              
+            </p>
+        </div>
 
-    <!-- Seção de Destaques/Diferenciais -->
-    <section class="highlights">
-        <div class="highlight-card">
-            <div class="icon">🍓</div>
-            <h3>Ingredientes Selecionados</h3>
-            <p>Frutas frescas e chocolates de alta qualidade em cada receita.</p>
+        <!-- Coluna 2: Unidades -->
+        <div class="footer-col">
+            <h3>Unidades</h3>
+            <ul class="footer-units">
+                <li>
+                    <i class="fa-solid fa-location-dot pin-icon"></i>
+                    <div><strong>Butantã:</strong> Rua Dr. Ulpiano da Costa Manso, 98, Jardim Peri Peri</div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-location-dot pin-icon"></i>
+                    <div><strong>Osasco:</strong> Av. Flora, 399, Jaguaribe</div>
+                </li>
+            </ul>
         </div>
-        <div class="highlight-card">
-            <div class="icon">👩‍🍳</div>
-            <h3>Feito com Amor</h3>
-            <p>Produção 100% artesanal focada no sabor de casa.</p>
+
+        <!-- Coluna 3: Links Úteis -->
+        <div class="footer-col">
+            <h3>Links Úteis</h3>
+            <ul class="footer-links">
+                <li><a href="inicio.html">Home</a></li>
+                <li><a href="index.html">Delivery</a></li>
+                <li><a href="encomendas.html">Encomendas</a></li>
+                <li><a href="sobrenos.html">Sobre nós</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="bio.html">Bio</a></li>
+            </ul>
         </div>
-        <div class="highlight-card">
-            <div class="icon">✨</div>
-            <h3>Momentos Especiais</h3>
-            <p>O toque perfeito para deixar sua comemoração inesquecível.</p>
+
+        <!-- Coluna 4: Redes Sociais -->
+        <div class="footer-col">
+            <h3>Siga nossas redes</h3>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/" class="social-box" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://pt-br.facebook.com/" class="social-box" title="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="https://www.ifood.com.br/" class="social-box" title="iFood / Delivery">
+                    <i class="fa-solid fa-burger"></i>
+                </a>
+            </div>
         </div>
-    </section>
+
+    </div>
+
+    <!-- Linha Divisória e Copyright -->
+    <div class="footer-bottom">
+        <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
+        <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+    </div>
+</footer>
+
+  <!-- 1. MODAL DE SELEÇÃO INICIAL DO CARRINHO -->
+<div id="modal-carrinho" class="modal-carrinho escondido">
+    <div class="conteudo-carrinho">
+        <h2><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h2>
+
+        <div id="carrinho-itens"></div>
+
+        <div class="total-carrinho">
+            Total: R$ <span id="total-valor">0,00</span>
+        </div>
+
+        <div class="opcao-pagamento-inicial">
+            <label for="select-pagamento-modal">Escolha como deseja pagar:</label>
+            <select id="select-pagamento-modal">
+                <option value="pix">PIX (Gerar QR Code na próxima tela)</option>
+                <option value="cartao">Cartão de Crédito / Débito (Inserir dados na próxima tela)</option>
+            </select>
+        </div>
+
+        <div class="botoes-carrinho">
+            <button type="button" class="btn-fechar" onclick="fecharCarrinho()">Voltar</button>
+            <button type="button" class="btn-finalizar" onclick="irParaCheckout()">
+                Avançar <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. TELA EXCLUSIVA DE CHECKOUT (Oculta por padrão) -->
+<div id="tela-checkout" class="checkout-overlay escondido">
+    <div class="checkout-card">
+        
+        <!-- Cabeçalho -->
+        <div class="checkout-header">
+            <h2><i class="fa-solid fa-shield-halved"></i> Finalizar Pedido</h2>
+            <button class="btn-fechar-checkout" onclick="voltarParaCarrinho()">&times;</button>
+        </div>
+
+        <div class="checkout-body">
+            
+            <!-- SEÇÃO DE ENDEREÇO (Aparece em ambos os casos) -->
+            <section class="checkout-bloco">
+                <h3><i class="fa-solid fa-location-dot"></i> 1. Endereço de Entrega</h3>
+                
+                <button type="button" class="btn-geo" onclick="obterLocalizacaoAtual()">
+                    <i class="fa-solid fa-location-crosshairs"></i> Usar Minha Localização GPS
+                </button>
+                <p id="status-geo" class="status-geo-texto"></p>
+
+                <div class="campos-grid">
+                    <input type="text" id="rua-cliente" placeholder="Rua / Avenida e Número" required>
+                    <input type="text" id="bairro-cliente" placeholder="Bairro" required>
+                    <input type="text" id="complemento-cliente" placeholder="Complemento (Apto, Bloco, Ref.)">
+                </div>
+                <input type="hidden" id="coords-gps" value="">
+            </section>
+
+            <!-- PAGAMENTO OPÇÃO 1: PIX -->
+            <section id="pagina-pix" class="checkout-bloco aba-checkout escondida">
+                <h3><i class="fa-pix fa-brands"></i> 2. Pagamento via PIX</h3>
+                <p class="instrucao-pagamento">Escaneie o QR Code abaixo no app do seu banco. O código expira em <strong>15:00</strong> minutos.</p>
+
+                <div class="qr-code-box">
+                    <img id="img-qr-code" 
+                         src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Pagamento%20Simulado%20Doce%20Encanto" 
+                         alt="QR Code Fictício">
+                    <div class="pix-copia-cola">
+                        <input type="text" readonly value="00020126580014br.gov.bcb.pix0136pix-ficticio@doceencanto.com" id="chave-pix-input">
+                        <button type="button" onclick="copiarPix()">Copiar Código</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAGAMENTO OPÇÃO 2: CARTÃO -->
+            <section id="pagina-cartao" class="checkout-bloco aba-checkout escondida">
+                <h3><i class="fa-solid fa-credit-card"></i> 2. Dados do Cartão</h3>
+                <p class="instrucao-pagamento">Insira as informações do cartão para processar o pagamento fictício.</p>
+
+                <div class="campos-grid">
+                    <div class="campo-full">
+                        <label>Nome no Cartão</label>
+                        <input type="text" id="cartao-nome" placeholder="Como impresso no cartão">
+                    </div>
+                    <div class="campo-full">
+                        <label>Número do Cartão</label>
+                        <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19">
+                    </div>
+                    <div class="campo-metade">
+                        <div>
+                            <label>Validade</label>
+                            <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div>
+                            <label>CVV</label>
+                            <input type="password" id="cartao-cvv" placeholder="123" maxlength="4">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resumo e Botão Final -->
+            <div class="resumo-checkout">
+                <span>Total a Pagar: <strong id="total-checkout-valor">R$ 0,00</strong></span>
+                <button type="button" class="btn-confirmar-pagamento" onclick="processarPedidoSite()">
+                    <i class="fa-solid fa-check-circle"></i> Pagar e Finalizar Pedido
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- SCRIPTS -->
+    <script>
+        function abrirCarrinho(event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById('modal-carrinho');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function fecharCarrinho() {
+            const modal = document.getElementById('modal-carrinho');
+            if (modal) modal.style.display = 'none';
+        }
+    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>

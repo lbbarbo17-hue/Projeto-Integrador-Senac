@@ -1,214 +1,290 @@
-// --- 1. MONITORAMENTO DE SCROLL E MENU ATIVO ---
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // Carrega o carrinho salvo assim que a página abre
-    carregarCarrinhoDoStorage();
+// ==========================================
+// CONFIGURAÇÕES GLOBAIS
+// ==========================================
+const NUMERO_WHATSAPP = "5541999999999"; // Coloque seu número aqui com DDD
 
-    // Seleciona todas as seções com ID e os links da navbar
-    const secoes = document.querySelectorAll("section[id]");
-    const linksMenu = document.querySelectorAll(".navbar a, .menu nav a");
-
-    window.addEventListener("scroll", () => {
-        let topoAtual = window.pageYOffset;
-
-        // Destaque dinâmico das seções ao rolar
-        secoes.forEach(secao => {
-            const secaoTopo = secao.offsetTop - 120; // Folga para navbar fixa
-            const secaoAltura = secao.offsetHeight;
-            const secaoId = secao.getAttribute("id");
-
-            if (topoAtual >= secaoTopo && topoAtual < secaoTopo + secaoAltura) {
-                linksMenu.forEach(link => {
-                    link.classList.remove("active");
-                    const href = link.getAttribute("href");
-                    if (href && href.endsWith("#" + secaoId)) {
-                        link.classList.add("active");
-                    }
-                });
-            }
-        });
-
-        // Caso especial: topo da página
-        if (topoAtual < 150) {
-            linksMenu.forEach(link => link.classList.remove("active"));
-            const linkInicio = document.querySelector('a[href="inicio.html"]');
-            if (linkInicio) linkInicio.classList.add("active");
-        }
-    });
-});
-
-
-// --- 2. SISTEMA DE CARRINHO (INTEGRADO E COM LOCALSTORAGE) ---
+// Garante que o carrinho existe e é válido
 let carrinho = [];
+try {
+    carrinho = JSON.parse(localStorage.getItem('carrinho_doce_encanto')) || [];
+} catch (e) {
+    carrinho = [];
+}
 
-// Carrega dados salvos no navegador ao iniciar
-function carregarCarrinhoDoStorage() {
-    const salvo = localStorage.getItem('carrinhoDoceEncanto');
-    if (salvo) {
-        carrinho = JSON.parse(salvo);
+// ==========================================
+// FLUXO DO CHECKOUT
+// ==========================================
+
+// Função do Botão "Avançar"
+function irParaCheckout() {
+    console.log("Botão Avançar clicado!");
+
+    // 1. Verifica se tem itens no carrinho
+    if (!carrinho || carrinho.length === 0) {
+        alert("Seu carrinho está vazio! Adicione produtos primeiro.");
+        return;
     }
-    atualizarCarrinho();
-}
 
-// Salva as alterações no navegador
-function salvarCarrinhoNoStorage() {
-    localStorage.setItem('carrinhoDoceEncanto', JSON.stringify(carrinho));
-}
+    // 2. Pega os elementos do DOM
+    const modalCarrinho = document.getElementById('modal-carrinho');
+    const telaCheckout = document.getElementById('tela-checkout');
+    const selectPagamento = document.getElementById('select-pagamento-modal');
+    const totalCheckoutText = document.getElementById('total-checkout-valor');
 
-// Abre/Fecha tanto o Modal quanto a Gaveta Lateral (suporta os dois layouts)
-function toggleCarrinho() {
-    const modal = document.getElementById('modal-carrinho');
-    const painelLateral = document.getElementById('carrinho-lateral');
+    if (!telaCheckout) {
+        alert("Erro no HTML: A div com id 'tela-checkout' não foi encontrada.");
+        return;
+    }
 
-    if (modal) {
-        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    // 3. Atualiza o valor total no checkout
+    if (totalCheckoutText) {
+        totalCheckoutText.innerText = `R$ ${calcularTotal().toFixed(2).replace('.', ',')}`;
+    }
+
+    // 4. Esconde o modal do carrinho e mostra a tela de checkout
+    if (modalCarrinho) {
+        modalCarrinho.classList.add('escondido');
+        modalCarrinho.style.display = 'none';
     }
     
-    if (painelLateral) {
-        painelLateral.classList.toggle('aberto');
+    telaCheckout.classList.remove('escondido');
+    telaCheckout.style.display = 'flex';
+
+    // 5. Gerencia qual aba de pagamento exibir (PIX ou Cartão)
+    const abaPix = document.getElementById('pagina-pix');
+    const abaCartao = document.getElementById('pagina-cartao');
+    const opcaoEscolhida = selectPagamento ? selectPagamento.value : 'pix';
+
+    // Oculta ambas as abas primeiro
+    if (abaPix) {
+        abaPix.classList.add('escondida');
+        abaPix.style.display = 'none';
+    }
+    if (abaCartao) {
+        abaCartao.classList.add('escondida');
+        abaCartao.style.display = 'none';
+    }
+
+    // Exibe apenas a escolhida
+    if (opcaoEscolhida === 'pix' && abaPix) {
+        abaPix.classList.remove('escondida');
+        abaPix.style.display = 'block';
+    } else if (opcaoEscolhida === 'cartao' && abaCartao) {
+        abaCartao.classList.remove('escondida');
+        abaCartao.style.display = 'block';
     }
 }
 
-// Adiciona produto e atualiza tudo
+// Voltar do Checkout para o Carrinho
+function voltarParaCarrinho() {
+    const telaCheckout = document.getElementById('tela-checkout');
+    if (telaCheckout) {
+        telaCheckout.classList.add('escondido');
+        telaCheckout.style.display = 'none';
+    }
+    abrirCarrinho();
+}
+
+// Abrir Modal do Carrinho (Impede a página de pular para o topo)
+function abrirCarrinho(e) {
+    if (e && e.preventDefault) {
+        e.preventDefault();
+    }
+    
+    const modal = document.getElementById('modal-carrinho');
+    if (modal) {
+        modal.classList.remove('escondido');
+        modal.style.display = 'flex';
+        atualizarCarrinho();
+    }
+}
+
+// Fechar Modal do Carrinho
+function fecharCarrinho() {
+    const modal = document.getElementById('modal-carrinho');
+    if (modal) {
+        modal.classList.add('escondido');
+        modal.style.display = 'none';
+    }
+}
+
+// ==========================================
+// REGRAS DO CARRINHO DE COMPRAS
+// ==========================================
+
 function adicionarAoCarrinho(nome, preco) {
-    // Garante que o preço seja tratado como número boato
-    const precoNum = typeof preco === 'string' ? parseFloat(preco.replace(',', '.')) : preco;
+    // Trata o preço para garantir que seja um Número válido
+    let precoNumerico = preco;
+    if (typeof preco === 'string') {
+        precoNumerico = parseFloat(preco.replace('R$', '').replace('.', '').replace(',', '.').trim());
+    }
+
+    if (isNaN(precoNumerico)) precoNumerico = 0;
 
     const itemExistente = carrinho.find(item => item.nome === nome);
-
     if (itemExistente) {
         itemExistente.quantidade++;
     } else {
-        carrinho.push({ nome, preco: precoNum, quantidade: 1 });
+        carrinho.push({ nome: nome, preco: precoNumerico, quantidade: 1 });
     }
-
-    salvarCarrinhoNoStorage();
+    salvarCarrinho();
     atualizarCarrinho();
+    abrirCarrinho();
 }
 
-// Função dos botões "Pedir": Adiciona + Atualiza + Abre a janela na hora
-function adicionarEAbriCarrinho(nome, preco) {
-    adicionarAoCarrinho(nome, preco);
-    
-    // Garante que a janela se abra imediatamente
-    const modal = document.getElementById('modal-carrinho');
-    const painelLateral = document.getElementById('carrinho-lateral');
-
-    if (modal) modal.style.display = 'flex';
-    if (painelLateral) painelLateral.classList.add('aberto');
-}
-
-// Remove item do carrinho
-function removerDoCarrinho(nome) {
-    carrinho = carrinho.filter(item => item.nome !== nome);
-    salvarCarrinhoNoStorage();
-    atualizarCarrinho();
-}
-
-// Reconstrói a interface visual do carrinho
 function atualizarCarrinho() {
-    // Procura elementos do Layout Modal ou do Layout Lateral
-    const conteinerItens = document.getElementById('carrinho-itens') || document.getElementById('itens-carrinho');
-    const contadorTopo = document.getElementById('carrinho-contador-topo');
-    const contadorLateral = document.getElementById('carrinho-contador');
-    const totalTexto = document.getElementById('carrinho-total') || document.getElementById('total-valor');
+    const listaItens = document.getElementById('carrinho-itens');
+    const totalValor = document.getElementById('total-valor');
+    const contadorBadge = document.getElementById('contador-carrinho');
 
-    let totalGeral = 0;
-    let totalItens = 0;
-
-    if (conteinerItens) {
-        conteinerItens.innerHTML = '';
-
+    if (listaItens) {
+        listaItens.innerHTML = '';
         if (carrinho.length === 0) {
-            conteinerItens.innerHTML = '<p style="text-align:center; padding: 20px; color: #888;">Seu carrinho está vazio. Adicione doces!</p>';
+            listaItens.innerHTML = '<p style="text-align:center; color:#888; margin: 20px 0;">Seu carrinho está vazio.</p>';
         } else {
-            carrinho.forEach(item => {
-                const subtotal = item.preco * item.quantidade;
-                totalGeral += subtotal;
-                totalItens += item.quantidade;
-
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'item-carrinho';
-                itemDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #eee;';
-                
-                itemDiv.innerHTML = `
-                    <div>
-                        <strong style="color: #6d3828; display: block; font-size: 0.95rem;">${item.nome} (x${item.quantidade})</strong>
-                        <span style="color: #f48fb1; font-size: 0.88rem; font-weight: 600;">R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+            carrinho.forEach((item, index) => {
+                const precoFormatado = Number(item.preco).toFixed(2).replace('.', ',');
+                listaItens.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
+                        <div>
+                            <strong style="font-size:0.95rem; color:#333;">${item.nome}</strong><br>
+                            <small style="color:#666;">R$ ${precoFormatado} x ${item.quantidade}</small>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button type="button" onclick="alterarQtd(${index}, -1)" style="padding:2px 8px; cursor:pointer;">-</button>
+                            <span>${item.quantidade}</span>
+                            <button type="button" onclick="alterarQtd(${index}, 1)" style="padding:2px 8px; cursor:pointer;">+</button>
+                        </div>
                     </div>
-                    <button onclick="removerDoCarrinho('${item.nome}')" style="background: none; border: none; color: #d32f2f; cursor: pointer; font-size: 0.85rem; font-weight: 600;">
-                        Remover
-                    </button>
                 `;
-                conteinerItens.appendChild(itemDiv);
             });
         }
     }
 
-    // Atualiza contadores numéricos na tela
-    if (contadorTopo) contadorTopo.innerText = totalItens;
-    if (contadorLateral) contadorLateral.innerText = totalItens;
+    const total = calcularTotal();
+    if (totalValor) totalValor.innerText = total.toFixed(2).replace('.', ',');
+    if (contadorBadge) contadorBadge.innerText = carrinho.reduce((acc, i) => acc + i.quantidade, 0);
+}
 
-    // Atualiza valores totais
-    if (totalTexto) {
-        totalTexto.innerText = `${totalGeral.toFixed(2).replace('.', ',')}`;
+function alterarQtd(index, delta) {
+    carrinho[index].quantidade += delta;
+    if (carrinho[index].quantidade <= 0) {
+        carrinho.splice(index, 1);
+    }
+    salvarCarrinho();
+    atualizarCarrinho();
+}
+
+function salvarCarrinho() {
+    localStorage.setItem('carrinho_doce_encanto', JSON.stringify(carrinho));
+}
+
+function calcularTotal() {
+    if (!carrinho || carrinho.length === 0) return 0;
+    return carrinho.reduce((acc, item) => acc + (Number(item.preco) * item.quantidade), 0);
+}
+
+// ==========================================
+// FUNÇÕES AUXILIARES DO CHECKOUT
+// ==========================================
+
+// Copiar código PIX
+function copiarPix() {
+    const input = document.getElementById('chave-pix-input');
+    if (input) {
+        input.select();
+        document.execCommand('copy');
+        alert("Código PIX copiado para a área de transferência!");
     }
 }
 
-// --- 3. DISPARO DE PEDIDO PARA O WHATSAPP ---
-function finalizarPedido() {
-    if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio!");
+// GPS / Localização
+function obterLocalizacaoAtual() {
+    const statusGeo = document.getElementById('status-geo');
+    if (!navigator.geolocation) {
+        if (statusGeo) statusGeo.innerText = "GPS não suportado neste navegador.";
         return;
     }
 
-    const numeroWhats = "5511949010900"; // Número oficial da Doce Encanto
-    let mensagem = "🧁 *Novo Pedido - Doce Encanto* 🧁\n\n";
+    if (statusGeo) {
+        statusGeo.innerText = "Buscando coordenadas GPS...";
+        statusGeo.style.color = "#000";
+    }
 
-    let totalGeral = 0;
-    carrinho.forEach(item => {
-        const subtotal = item.preco * item.quantidade;
-        totalGeral += subtotal;
-        mensagem += `• ${item.nome} (x${item.quantidade}) - R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
-    });
-
-    mensagem += `\n💰 *Total: R$ ${totalGeral.toFixed(2).replace('.', ',')}*`;
-    mensagem += `\n\n📍 Gostaria de confirmar a entrega/retirada!`;
-
-    const urlFinal = `https://wa.me/${numeroWhats}?text=${encodeURIComponent(mensagem)}`;
-    window.open(urlFinal, '_blank');
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const link = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+            const coordsInput = document.getElementById('coords-gps');
+            const ruaInput = document.getElementById('rua-cliente');
+            
+            if (coordsInput) coordsInput.value = link;
+            if (ruaInput && !ruaInput.value) ruaInput.value = `Localização GPS Selecionada`;
+            
+            if (statusGeo) {
+                statusGeo.innerText = "📍 Localização GPS capturada com sucesso!";
+                statusGeo.style.color = "#2e7d32";
+            }
+        },
+        () => {
+            if (statusGeo) {
+                statusGeo.innerText = "Erro ao obter GPS. Por favor digite o endereço.";
+                statusGeo.style.color = "#c62828";
+            }
+        }
+    );
 }
 
-// Captura opcional para botões com atributos data-* (sem quebrar os botões com onclick)
-document.addEventListener("click", function(event) {
-    const botao = event.target.closest('.btn-pedir-rosa');
+// Finalizar Pedido
+function processarPedidoSite() {
+    const ruaInput = document.getElementById('rua-cliente');
+    const bairroInput = document.getElementById('bairro-cliente');
+    const gpsInput = document.getElementById('coords-gps');
+
+    const rua = ruaInput ? ruaInput.value.trim() : '';
+    const bairro = bairroInput ? bairroInput.value.trim() : '';
+    const gps = gpsInput ? gpsInput.value : '';
+
+    if (!rua || !bairro) {
+        alert("Por favor, preencha o Endereço e o Bairro antes de finalizar.");
+        return;
+    }
+
+    const abaCartaoVisivel = document.getElementById('pagina-cartao') && document.getElementById('pagina-cartao').style.display !== 'none';
     
-    if (botao) {
-        const nome = botao.getAttribute('data-nome');
-        const preco = parseFloat(botao.getAttribute('data-preco'));
-        
-        if (nome && !isNaN(preco)) {
-            adicionarEAbriCarrinho(nome, preco);
+    if (abaCartaoVisivel) {
+        const numCartao = document.getElementById('cartao-numero');
+        const nomeCartao = document.getElementById('cartao-nome');
+        if (numCartao && nomeCartao && (!numCartao.value || !nomeCartao.value)) {
+            alert("Por favor, preencha o número e nome no cartão.");
+            return;
         }
     }
-}); 
-// Função para ABRIR o modal do carrinho
-function abrirCarrinho(event) {
-    if(event) event.preventDefault(); // Impede a página de recarregar
+
+    alert("🎉 Pedido Confirmado com Sucesso!");
+
+    // Monta a mensagem para o WhatsApp
+    let msg = "*🧁 NOVO PEDIDO - DOCE ENCANTO 🧁*\n\n";
+    carrinho.forEach(i => msg += `• ${i.quantidade}x ${i.nome}\n`);
+    msg += `\n*Total:* R$ ${calcularTotal().toFixed(2).replace('.', ',')}`;
+    msg += `\n*Endereço:* ${rua}, ${bairro}`;
+    if (gps) msg += `\n*GPS:* ${gps}`;
+    msg += `\n*Pagamento:* ${abaCartaoVisivel ? 'Cartão de Crédito/Débito' : 'PIX'} (Confirmado)`;
+
+    window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+
+    // Limpa o carrinho após finalizar
+    carrinho = [];
+    salvarCarrinho();
+    atualizarCarrinho();
     
-    // Procura o modal na tela (tenta achar pelo ID ou pela Classe)
-    const modal = document.getElementById('modal-carrinho') || document.querySelector('.modal-carrinho');
-    
-    if (modal) {
-        modal.style.display = 'flex'; // Exibe o modal centralizado
+    const telaCheckout = document.getElementById('tela-checkout');
+    if (telaCheckout) {
+        telaCheckout.classList.add('escondido');
+        telaCheckout.style.display = 'none';
     }
 }
 
-// Função para FECHAR o modal do carrinho
-function fecharCarrinho() {
-    const modal = document.getElementById('modal-carrinho') || document.querySelector('.modal-carrinho');
-    
-    if (modal) {
-        modal.style.display = 'none'; // Esconde o modal
-    }
-}
+// Inicializa a página ao carregar
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarCarrinho();
+});

@@ -7,13 +7,41 @@
 
     <!-- Estilos do Projeto -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inicio.css">
     <link rel="stylesheet" href="encomendas.css">
 
-    <!-- Fontes Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonte Cursiva da Imagem: Great Vibes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
     <!-- Font Awesome para Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Estilo para forçar a logo do rodapé exatamente igual à print -->
+    <style>
+        /* Fonte e estilo manuscrito do Rodapé */
+        .site-footer .footer-logo,
+        .footer-brand h2 {
+            font-family: 'Great Vibes', cursive !important;
+            font-size: 3.2rem !important;
+            font-weight: 400 !important;
+            line-height: 0.95 !important;
+            color: #ffffff !important;
+            margin-bottom: 8px !important;
+            letter-spacing: 1px !important;
+            text-transform: none !important;
+        }
+
+        /* Subtítulo do rodapé */
+        .footer-subtitle {
+            letter-spacing: 2.5px !important;
+            font-size: 0.72rem !important;
+            text-transform: uppercase !important;
+            color: #ffffff !important;
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
 
@@ -47,7 +75,7 @@
             <div class="notice-icon"><i class="fa-solid fa-clock"></i></div>
             <div class="notice-text">
                 <h3>Como funcionam as encomendas?</h3>
-                <p>Nossas encomendas sãofeitas de forma artesanal. Pedimos o prazo mínimo de <strong>24h a 48h de antecedência</strong> para bolos decorados e centos de doces. Entrega via delivery no Jardim Peri Peri e região!</p>
+                <p>Nossas encomendas são feitas de forma artesanal. Pedimos o prazo mínimo de <strong>24h a 48h de antecedência</strong> para bolos decorados e centos de doces. Entrega via delivery no Jardim Peri Peri e região!</p>
             </div>
         </section>
 
@@ -139,17 +167,19 @@
                 <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20solicitar%20uma%20encomenda." target="_blank" class="btn-cta-pink">Solicite sua Encomenda</a>
             </div>
         </div>
-    </section>
+    </section> 
 
-    <!-- RODAPÉ COMPLETO DA MARCA -->
+    <!-- RODAPÉ PRINCIPAL -->
     <footer class="site-footer">
-        <div class="footer-main-content">
+        <div class="footer-container">
+            
+            <!-- Coluna 1: Logo em Fonte Cursiva -->
             <div class="footer-col footer-brand">
-                <h2 class="footer-logo">Doce Encanto</h2>
+                <h2 class="footer-logo">Doce<br>Encanto</h2>
                 <span class="footer-subtitle">CONFEITARIA GOURMET</span>
-                <p class="footer-slogan">A doçura que encanta no dia a dia e transforma ocasiões em memórias inesquecíveis.</p>
             </div>
 
+            <!-- Coluna 2: Unidades -->
             <div class="footer-col">
                 <h3>Unidades</h3>
                 <ul class="footer-units">
@@ -164,6 +194,7 @@
                 </ul>
             </div>
 
+            <!-- Coluna 3: Links Úteis -->
             <div class="footer-col">
                 <h3>Links Úteis</h3>
                 <ul class="footer-links">
@@ -172,26 +203,35 @@
                     <li><a href="encomendas.html">Encomendas</a></li>
                     <li><a href="sobrenos.html">Sobre nós</a></li>
                     <li><a href="contato.html">Contato</a></li>
+                    <li><a href="bio.html">Bio</a></li>
                 </ul>
             </div>
 
+            <!-- Coluna 4: Redes Sociais -->
             <div class="footer-col">
                 <h3>Siga nossas redes</h3>
                 <div class="footer-socials">
-                    <a href="https://www.instagram.com/" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://pt-br.facebook.com/" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.ifood.com.br/" class="social-icon social-ifood" title="iFood / Delivery"><i class="fa-solid fa-burger"></i></a>
+                    <a href="https://www.instagram.com/" class="social-box" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://pt-br.facebook.com/" class="social-box" title="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.ifood.com.br/" class="social-box" title="iFood / Delivery">
+                        <i class="fa-solid fa-burger"></i>
+                    </a>
                 </div>
             </div>
+
         </div>
 
+        <!-- Linha Divisória e Copyright -->
         <div class="footer-bottom">
             <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
             <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
         </div>
     </footer>
 
-
-    <script src="script.js"></script>
+    <script src="inicio.js"></script>
 </body>
 </html>
