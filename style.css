@@ -2258,4 +2258,235 @@ button.btn-checkout,
 #carrinho-modal button:first-child {
     background-color: #FFE6EC !important;
     color: #7A3B28 !important;
+} 
+/* Botão Ver Mais */
+.btn-ver-mais {
+    background: none;
+    border: none;
+    color: #ffa7bd; /* Ajuste para a cor principal da sua marca */
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 0;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    margin-bottom: 8px;
+}
+
+/* Fundo Escuro do Modal */
+.modal-overlay {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+/* Modal Aberto */
+.modal-overlay.active {
+    display: flex;
+}
+
+/* Caixa do Modal */
+.modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Botão de Fechar X */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    line-height: 32px;
+    text-align: center;
+    z-index: 10;
+}
+
+/* Imagem Grande dentro do Modal */
+.modal-image {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+}
+
+.modal-info {
+    padding: 20px;
+}
+
+.modal-info h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.modal-info p {
+    color: #666;
+    line-height: 1.5;
+    margin: 15px 0;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+} 
+/* MOSTRA A BIO/DESCRIÇÃO COMPLETA NO CARD */
+.product-description {
+    max-height: none !important; /* Remove limite de altura */
+    white-space: normal !important; /* Permite que o texto dobre de linha */
+    overflow: visible !important; /* Mostra todo o conteúdo */
+    -webkit-line-clamp: unset !important; /* Desativa o corte de linhas do navegador */
+    font-size: 0.88rem; /* Tamanho delicado para caber bem */
+    line-height: 1.4; /* Espaçamento entre linhas agradável */
+    color: #666;
+    margin-bottom: 12px;
+} 
+/* AJUSTE PARA BIO LONGA DENTRO DO MODAL */
+#modal-descricao {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    color: #555 !important;
+    max-height: 200px; /* Se o texto for gigante, cria barra de rolagem */
+    overflow-y: auto;
+    padding-right: 5px;
+    margin: 15px 0 !important;
+} 
+/* CENTRALIZA O GRID DE CARDS NA TELA */
+.products-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    gap: 20px !important;
+    max-width: 1100px !important; /* Limita a largura máxima para dar proporção */
+    margin: 0 auto !important; /* Centraliza horizontalmente na página */
+    justify-content: center !important;
+    align-items: stretch !important;
+    padding: 0 15px !important;
+}
+
+/* GARANTE QUE O CONTAINER PAI TAMBÉM FIQUE CENTRALIZADO */
+.menu-section, 
+.menu-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+} 
+/* FORÇA O ALINHAMENTO CENTRAL EM TODOS OS NÍVEIS */
+main, 
+section, 
+.menu-section, 
+.menu-container, 
+#destaques {
+    width: 100% !important;
+    max-width: 1200px !important; /* Limita a largura máxima para não espalhar demais */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    box-sizing: border-box !important;
+}
+
+/* CENTRALIZA A GRADE DOS CARDS */
+.products-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important; /* Alinha os cards no centro da linha */
+    gap: 20px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+/* GARANTE QUE CADA CARD MANTENHA UM TAMANHO PADRÃO BONITO */
+.product-card {
+    flex: 0 1 240px !important; /* Largura fixa fofa para os cards ficarem alinhados */
+    max-width: 260px !important;
+} 
+/* CORREÇÃO ESPECÍFICA PARA A SEÇÃO BOLOS DE POTE */
+#bolos-de-pote,
+#bolo-de-pote,
+section[id*="bolo"],
+.bolos-de-pote {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* CENTRALIZA OS CARDS ESPECÍFICOS DESSA SEÇÃO */
+#bolos-de-pote .products-grid,
+#bolo-de-pote .products-grid,
+section[id*="bolo"] .products-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    gap: 20px !important;
+} 
+/* SOLUÇÃO GLOBAL: CENTRALIZA TODAS AS SEÇÕES E GRIDS DO SITE DE UMA VEZ */
+
+/* 1. Força todas as seções e o container principal a irem pro centro */
+.menu-section,
+.container,
+main,
+section {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* 2. Converte TODOS os grids de produtos para Flexbox Centralizado */
+.products-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important; /* Alinha os cards sempre no meio */
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 20px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* 3. Garante tamanho uniforme para TODOS os cards do site */
+.product-card {
+    flex: 0 1 250px !important; /* Largura base ideal para cada card */
+    max-width: 270px !important;
+    width: 100% !important;
+    margin: 0 !important; /* Remove margens tortas individuais */
 }

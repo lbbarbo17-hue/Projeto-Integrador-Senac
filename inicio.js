@@ -287,4 +287,32 @@ function processarPedidoSite() {
 // Inicializa a página ao carregar
 document.addEventListener('DOMContentLoaded', () => {
     atualizarCarrinho();
-});
+}); 
+function abrirModal(nome, precoFormatado, precoNumero, imagemSrc, descricaoCompleta) {
+    // Preenche as informações no Modal
+    document.getElementById('modal-titulo').innerText = nome;
+    document.getElementById('modal-descricao').innerText = descricaoCompleta;
+    document.getElementById('modal-preco').innerText = precoFormatado;
+    document.getElementById('modal-img').src = imagemSrc;
+
+    // Configura o botão de pedido dentro do modal
+    const btnPedir = document.getElementById('modal-btn-pedir');
+    btnPedir.onclick = function() {
+        adicionarAoCarrinho(nome, precoNumero);
+        fecharModal();
+    };
+
+    // Exibe o modal
+    document.getElementById('modal-produto').classList.add('active');
+}
+
+function fecharModal() {
+    document.getElementById('modal-produto').classList.remove('active');
+}
+
+// Fecha o modal se o usuário clicar fora do card
+function fecharModalFora(event) {
+    if (event.target.classList.contains('modal-overlay')) {
+        fecharModal();
+    }
+}
