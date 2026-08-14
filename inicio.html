@@ -4,31 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doce Encanto | Início</title>
+    
+    <!-- CSS Principal e da Página -->
+    <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="inicio.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-</head>
+    
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head> 
 <body>
 
-    
-    <nav class="navbar">
+    <!-- NAVBAR COM BOTÃO DO CARRINHO -->
+    <nav class="navbar"> 
         <a href="inicio.html" class="nav-link active">Início</a>
         <a href="index.html" class="nav-link">Cardápio</a>
         <a href="#sobre-nos" class="nav-link">Sobre Nós</a>
         <a href="#avaliacoes" class="nav-link">Avaliações</a>
-        <a href="#contato" class="nav-link">Contato</a>
-    </nav>
-   <section id="inicio" class="hero">
+        <a href="#contato" class="nav-link">Contato</a> 
         
-        <div class="hero-carousel-track">
-            
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-4.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-5.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-6.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-7.webp');"></div>
+        <a href="#" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
+            <i class="fa-solid fa-cart-shopping"></i> Carrinho <span class="carrinho-qtd-badge" id="contador-carrinho">0</span>
+        </a>
+    </nav>
 
+    <!-- HERO SECTION -->
+    <section id="inicio" class="hero">
+        <div class="hero-carousel-track">
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
@@ -36,7 +40,6 @@
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-5.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-6.webp');"></div>
             <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-7.webp');"></div>
-            
         </div>
 
         <div class="hero-overlay"></div>
@@ -48,9 +51,9 @@
                 <a href="index.html" class="btn-principal">Ver Cardápio</a>
             </div>
         </div>
+    </section> 
 
-    </section>
-    
+    <!-- SEÇÃO SOBRE NÓS -->
     <section id="sobre-nos" class="menu-section">
         <h2 class="section-title">Sobre Nós</h2>
         <div class="about-container">
@@ -58,6 +61,10 @@
                 <h3>Uma pitada de amor em cada pedaço</h3>
                 <p>A <strong>Doce Encanto</strong> nasceu de um sonho perfumado a baunilha e chocolate. Mais do que uma doceria, nós somos um refúgio para os dias que pedem um carinho em forma de sabor. Acreditamos que a vida é feita de pequenos rituais, e nenhum deles é mais gostoso do que pausar a rotina para saborear um doce feito à mão.</p>
                 <p>Nossa cozinha funciona como um laboratório de afetos: escolhemos os melhores ingredientes, testamos o ponto perfeito do brigadeiro e montamos cada bolo de pote como se fizéssemos para nossa própria família.</p>
+                
+                <a href="sobrenos.html" class="btn-ver-mais-sobre">
+                    Ver mais sobre nós <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
             <div class="about-image-box">
                 <img src="imagens_inicio/Confeitaria.jpg" alt="Nossa Confeitaria" class="about-store-img">
@@ -65,35 +72,86 @@
         </div>
     </section>
 
-    <section class="destaques">
-        <h2>Mais Vendidos</h2>
-        <div class="cards">
-            <div class="card">
-                <img src="imagens/Morangoffe no Pote.jpeg" alt="Morangoffe no Pote">
-                <h3>Morangoffe</h3>
-                <p>O queridinho da casa.</p>
+    <!-- SEÇÃO MAIS VENDIDOS -->
+    <section id="mais-vendidos" class="menu-section">
+        <h2 class="section-title">Mais Vendidos</h2>
+
+        <div class="cards-grid">
+            <!-- Produto 1 -->
+            <div class="card-produto">
+                <div class="card-img-wrapper">
+                    <img src="imagens/Supreme de Maracujá.jpeg" alt="Supreme de Maracujá">
+                </div>
+                <div class="card-body">
+                    <h3>Supreme de Maracujá</h3>
+                    <p class="card-desc">Creme de maracujá artesanal com mousse de chocolate.</p>
+                    <div class="card-footer-info">
+                        <span class="card-preco">R$ 17,00</span>
+                        <button class="btn-pedir-rosa" onclick="adicionarAoCarrinho('Supreme de Maracujá', 17.00)">
+                            <i class="fa-solid fa-cart-shopping"></i> Pedir
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <img src="imagens/Fatia de Brownie Brigadeiro Belga.jpeg" alt="Fatia de Brownie">
-                <h3>Brownie Belga</h3>
-                <p>Chocolate intenso e muito recheio.</p>
+
+            <!-- Produto 2 -->
+            <div class="card-produto">
+                <div class="card-img-wrapper">
+                    <img src="imagens/Naked Cake Prestígio 1KG.jpeg" alt="Naked Cake Prestigio 1kg">
+                </div>
+                <div class="card-body">
+                    <h3>Naked Cake Prestígio 1kg</h3>
+                    <p class="card-desc">Deliciosa massa pão de ló 50% cacau, recheada em camadas de brigadeiro belga ao leite e coco fresco, finalizado com coco ralado. </p>
+                    <div class="card-footer-info">
+                        <span class="card-preco">R$ 89,90</span>
+                        <button class="btn-pedir-rosa" onclick="adicionarAoCarrinho('Naked Cake Prestígio 1kg', 89.90)">
+                            <i class="fa-solid fa-cart-shopping"></i> Pedir
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <img src="imagens/Copo da Felicidade Supremo.jpeg" alt="Copo da Felicidade">
-                <h3>Copo da Felicidade</h3>
-                <p>Camadas de felicidade.</p>
+
+            <!-- Produto 3 -->
+            <div class="card-produto">
+                <div class="card-img-wrapper">
+                    <img src="imagens/Fondue Brownie Supreme.jpeg" alt="Fondue Brownie Supreme">
+                </div>
+                <div class="card-body">
+                    <h3>Fondue Brownie Supreme</h3>
+                    <p class="card-desc">Pedaços de brownie, uvas e morangos com dois cremes.</p>
+                    <div class="card-footer-info">
+                        <span class="card-preco">R$ 40,00</span>
+                        <button class="btn-pedir-rosa" onclick="adicionarAoCarrinho('Fondue Brownie Supreme', 40.00)">
+                            <i class="fa-solid fa-cart-shopping"></i> Pedir
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <img src="imagens/Naked Cake Ninho com Morangos 1KG.jpeg" alt="Naked Cake">
-                <h3>Naked Cake</h3>
-                <p>Perfeito para qualquer ocasião.</p>
+
+            <!-- Produto 4 -->
+            <div class="card-produto">
+                <div class="card-img-wrapper">
+                    <img src="imagens/Brownie Belga com Nutella.jpeg" alt="Brownie Belga com Nutella">
+                </div>
+                <div class="card-body">
+                    <h3>Brownie Belga com Nutella</h3>
+                    <p class="card-desc">Delicioso brownie 50% cacau artesanal coberto com Nutella e finalizado com granule ao leite Monalisa.</p>
+                    <div class="card-footer-info">
+                        <span class="card-preco">R$ 17,00</span>
+                        <button class="btn-pedir-rosa" onclick="adicionarAoCarrinho('Brownie Belga com Nutella', 17.00)">
+                            <i class="fa-solid fa-cart-shopping"></i> Pedir
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-        <a href="index.html" class="btn-secundario">
-            Ver Cardápio Completo
-        </a>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="btn-cardapio-completo">Ver Cardápio Completo</a>
+        </div>
     </section>
 
+    <!-- AVALIAÇÕES -->
     <section id="avaliacoes" class="menu-section">
         <h2 class="section-title">O que dizem nossos clientes</h2>
         <div class="reviews-grid">
@@ -123,39 +181,217 @@
             </div>
         </div>
     </section>
-
+    
+    <!-- CONTATO -->
     <section class="contato" id="contato">
         <h2>Entre em Contato</h2>
+        
         <div class="contato-grid">
-            <div>
+            <div class="contato-card">
                 <h3>📍 Endereço</h3>
-                <p>Curitiba - PR</p>
+                <p>Butantã: Jardim Peri Peri<br>Osasco: Av. Flora, 399, Jaguaribe</p>
             </div>
-            <div>
+
+            <div class="contato-card">
                 <h3>📞 WhatsApp</h3>
                 <p>(41) 99999-9999</p>
             </div>
-            <div>
-                <h3>📸 Instagram</h3>
+
+            <div class="contato-card">
+                <h3>📷 Instagram</h3>
                 <p>@doceencanto</p>
             </div>
-            <div>
-                <h3>🕒 Horário</h3>
+
+            <div class="contato-card">
+                <h3>⏰ Horário</h3>
                 <p>Segunda a Sábado<br>09h às 19h</p>
             </div>
         </div>
     </section>
 
-    <footer>
-        <h2>Doce Encanto</h2>
-        <p>Feito com ❤️ para adoçar os seus melhores momentos.</p>
-        <p>© 2026 Todos os direitos reservados.</p>
+    <!-- BANNER CTA FOOTER -->
+    <section class="footer-cta-banner">
+        <div class="footer-cta-container">
+            <h2>Adoce seu dia e suas celebrações<br>com o sabor da Doce Encanto</h2>
+            <div class="footer-cta-buttons">
+                <a href="index.html" class="btn-cta-pink">Peça pelo Delivery</a>
+                <a href="https://wa.me/5541999999999?text=Olá!%20Gostaria%20de%20solicitar%20uma%20encomenda." target="_blank" class="btn-cta-pink">Solicite sua Encomenda</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- RODAPÉ PRINCIPAL -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            
+            <!-- Coluna 1: Logo e Subtítulo -->
+            <div class="footer-col footer-brand">
+                <h2 class="footer-logo">Doce<br>Encanto</h2>
+                <span class="footer-subtitle">CONFEITARIA GOURMET</span>
+            </div>
+
+            <!-- Coluna 2: Unidades -->
+            <div class="footer-col">
+                <h3>Unidades</h3>
+                <ul class="footer-units">
+                    <li>
+                        <i class="fa-solid fa-location-dot pin-icon"></i>
+                        <div><strong>Butantã:</strong> Rua Dr. Ulpiano da Costa Manso, 98, Jardim Peri Peri</div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot pin-icon"></i>
+                        <div><strong>Osasco:</strong> Av. Flora, 399, Jaguaribe</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Coluna 3: Links Úteis -->
+            <div class="footer-col">
+                <h3>Links Úteis</h3>
+                <ul class="footer-links">
+                    <li><a href="inicio.html">Home</a></li>
+                    <li><a href="index.html">Delivery</a></li>
+                    <li><a href="encomendas.html">Encomendas</a></li>
+                    <li><a href="sobrenos.html">Sobre nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="bio.html">Bio</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna 4: Redes Sociais -->
+            <div class="footer-col">
+                <h3>Siga nossas redes</h3>
+                <div class="footer-socials">
+                    <a href="https://www.instagram.com/" class="social-box" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://pt-br.facebook.com/" class="social-box" title="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.ifood.com.br/" class="social-box" title="iFood / Delivery">
+                        <i class="fa-solid fa-burger"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Linha Divisória e Copyright -->
+        <div class="footer-bottom">
+            <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
+            <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+        </div>
     </footer>
 
-    <a class="whatsapp" href="https://wa.me/5541999999999" target="_blank">
-        💬
-    </a>
+    <!-- 1. MODAL DE SELEÇÃO INICIAL DO CARRINHO -->
+    <div id="modal-carrinho" class="modal-carrinho escondido">
+        <div class="conteudo-carrinho">
+            <h2><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h2>
 
+            <div id="carrinho-itens"></div>
+
+            <div class="total-carrinho">
+                Total: R$ <span id="total-valor">0,00</span>
+            </div>
+
+            <div class="opcao-pagamento-inicial">
+                <label for="select-pagamento-modal">Escolha como deseja pagar:</label>
+                <select id="select-pagamento-modal">
+                    <option value="pix">PIX (Gerar QR Code na próxima tela)</option>
+                    <option value="cartao">Cartão de Crédito / Débito (Inserir dados na próxima tela)</option>
+                </select>
+            </div>
+
+            <div class="botoes-carrinho">
+                <button type="button" class="btn-fechar" onclick="fecharCarrinho()">Voltar</button>
+                <button type="button" class="btn-finalizar" onclick="irParaCheckout()">
+                    Avançar <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. TELA EXCLUSIVA DE CHECKOUT -->
+    <div id="tela-checkout" class="checkout-overlay escondido">
+        <div class="checkout-card">
+            
+            <div class="checkout-header">
+                <h2><i class="fa-solid fa-credit-card"></i> Finalizar Pedido</h2>
+                <button type="button" class="btn-fechar-checkout" onclick="voltarParaCarrinho()">&times;</button>
+            </div>
+
+            <div class="checkout-body">
+                
+                <section class="checkout-bloco">
+                    <h3><i class="fa-solid fa-location-dot"></i> 1. Endereço de Entrega</h3>
+                    
+                    <button type="button" class="btn-geo" onclick="obterLocalizacaoAtual()">
+                        <i class="fa-solid fa-location-crosshairs"></i> Usar Minha Localização GPS
+                    </button>
+                    <p id="status-geo" class="status-geo-texto"></p>
+
+                    <div class="campos-grid">
+                        <input type="text" id="rua-cliente" placeholder="Rua / Avenida e Número" required>
+                        <input type="text" id="bairro-cliente" placeholder="Bairro" required>
+                        <input type="text" id="complemento-cliente" placeholder="Complemento (Apto, Bloco, Ref.)">
+                    </div>
+                    <input type="hidden" id="coords-gps" value="">
+                </section>
+
+                <section id="pagina-pix" class="checkout-bloco aba-checkout escondida">
+                    <h3><i class="fa-brands fa-pix"></i> 2. Pagamento via PIX</h3>
+                    <p class="instrucao-pagamento">Escaneie o QR Code abaixo no app do seu banco. O código expira em <strong>15:00</strong> minutos.</p>
+
+                    <div class="qr-code-box">
+                        <img id="img-qr-code" 
+                             src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Pagamento%20Simulado%20Doce%20Encanto" 
+                             alt="QR Code Fictício">
+                        <div class="pix-copia-cola">
+                            <input type="text" readonly value="00020126580014br.gov.bcb.pix0136pix-ficticio@doceencanto.com" id="chave-pix-input">
+                            <button type="button" onclick="copiarPix()">Copiar Código</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="pagina-cartao" class="checkout-bloco aba-checkout escondida">
+                    <h3><i class="fa-solid fa-credit-card"></i> 2. Dados do Cartão</h3>
+                    <p class="instrucao-pagamento">Insira as informações do cartão para processar o pagamento fictício.</p>
+
+                    <div class="campos-grid">
+                        <div class="campo-full">
+                            <label>Nome no Cartão</label>
+                            <input type="text" id="cartao-nome" placeholder="Como impresso no cartão">
+                        </div>
+                        <div class="campo-full">
+                            <label>Número do Cartão</label>
+                            <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19">
+                        </div>
+                        <div class="campo-metade">
+                            <div>
+                                <label>Validade</label>
+                                <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div>
+                                <label>CVV</label>
+                                <input type="password" id="cartao-cvv" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="resumo-checkout">
+                    <span>Total a Pagar: <strong id="total-checkout-valor">R$ 0,00</strong></span>
+                    <button type="button" class="btn-confirmar-pagamento" onclick="processarPedidoSite()">
+                        <i class="fa-solid fa-credit-card"></i> Pagar e Finalizar Pedido
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CARREGAMENTO DO SCRIPT ÚNICO -->
     <script src="inicio.js"></script>
+
 </body>
 </html>

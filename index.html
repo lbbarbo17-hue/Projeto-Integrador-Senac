@@ -4,552 +4,1101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doce Encanto - A doçura que encanta no dia a dia</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">  
+    <!-- Fontes do Google -->
+   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head> 
+<body>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="main-header">
-        <div class="header-container">
-            <h1 class="brand-title">Doce Encanto</h1>
-            <p class="brand-subtitle">A doçura que encanta no dia a dia</p>
-        </div>
-    </header> 
+   <header class="main-header">
+    <div class="header-container">
+        <h1 class="brand-title-cursiva">Doce Encanto</h1>
+        <span class="brand-subtitle-tag">CONFEITARIA GOURMET</span>
+    </div>
+</header>
     
     <nav class="navbar">
-        <a href= "inicio.html" class="nav-link">Início</a> 
-        <a href= "#promocoes" class="nav-link">Promoções</a>
-         <a href="#tortasdepote" class="nav-link">Tortas de Pote</a>
-         <a href= "#brownie" class="nav-link">Doces Brownie</a>
-        <a href="#bolospote" class="nav-link">Bolos de Pote</a>
-        <a href="#brigadeirao" class="nav-link">Brigadeirão Goumert</a> 
-        <a href="#copodafelicidade" class="nav-link">Copo da Felicidade</a>
-         <a href="#nakedcake" class="nav-link">Naked Cake </a>
+        <a href="#destaques" class="nav-link active">Promoções</a> 
+        <a href="#bolodepote" class="nav-link">Bolos de Pote</a> 
+        <a href="#bologelado" class="nav-link">Bolo Gelado</a> 
+        <a href="#tortasdepote" class="nav-link">Tortas de Pote</a> 
+        <a href="#brigadeirao" class="nav-link">Brigadeirão</a> 
+        <a href="#docesbrownie" class="nav-link">Doces Brownie</a> 
+        <a href="#naked" class="nav-link">Naked Cake</a>
+        <a href="#kit-festas" class="nav-link">Kit Festas</a>  
+        
+        <a href="#" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
+            <i class="fa-solid fa-cart-shopping"></i> Carrinho <span class="carrinho-qtd-badge" id="contador-carrinho">0</span>
+        </a>
     </nav>
+
 
     <main class="menu-container">
         
-        <section id="promocoes" class="menu-section">
+        <!-- SEÇÃO: PROMOÇÕES -->
+        <section id="destaques" class="menu-section">
             <h2 class="section-title">Promoções</h2>
             <div class="products-grid">
-                
-                <div class="product-card">
-                    <div class="product-image-container">
-                       <img src="imagens/Combo 3 Bolos de Pote.jpeg" alt="Combo 3 bolos de Pote" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Combo 3 bolos de Pote</h3>
-                        <p class="product-description">Escolha 3 sabores com um preço mega especial!!</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 39,90</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+               <div class="product-card">
+    <!-- IMAGEM COM O TEXTO LONGO NO ONCLICK -->
+    <div class="product-image-container" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 21,90', 21.90, 'imagens/Fondue Brownie Supreme.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite.')">
+        <img src="imagens/Fondue Brownie Supreme.jpeg" alt="Fondue Brownie Supreme" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fondue Brownie Supreme</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Feito com pedaços de Brownie 50% cacau e brigadeiro cremoso...</p>
+        
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 21,90', 21.90, 'imagens/Fondue Brownie Supreme.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite. Acompanhado de morangos fatiados selecionados e uvas sem caroço. Rendimento: serve até 2 pessoas. Peso aproximado de 500g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 21,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fondue Brownie Supreme', 21.90)">Pedir</button>
+        </div>
+    </div>
+</div>
 
                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Combo com 3 Brigaderão Gourmet.jpeg" alt="Combo 3 brigadeirão" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Combo 3 brigadeirão</h3>
-                        <p class="product-description">3 opções deliciosas a sua escolha!</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 25,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+                    <div class="product-image-container" onclick="abrirModal('Combo 3 Brigadeirão Gourmet', 'R$ 25,00', 25.00, 'imagens/Combo 3 Brigadeirão Gourmet.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite.')">
+        <img src="imagens/Combo com 3 Brigaderão Gourmet.jpeg" alt="Combo 3 Brigadeirão Gourmet" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Combo 3 Brigadeirão Gourmet</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">São 3 opções deliciosas a sua escolha! Com preço mega especial...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Combo 3 Brigadeirão Gourmet', 'R$ 25,00', 25.00, 'imagens/Combo com 3 Brigaderão Gourmet.jpeg ', 'São 3 opções deliciosas a sua escolha! São vários sabores deliciosos, compre com um preço mega especial para dividir com os amigos ou porque nao comer sozinho? Rs ')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 25,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Combo 3 Brigadeirão Gourmet', 25.00)">Pedir</button>
+        </div>
+    </div>
+</div>
 
                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Caixa com 4 Brigadeiros Belga ao Leite.jpeg" alt="Caixa 4 brigadeiros Belga" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Caixa 4 brigadeiros</h3>
-                        <p class="product-description">Brigadeiros de leite ninho cremosos!</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 21,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+                     <div class="product-image-container" onclick="abrirModal('Combo Queridinho', 'R$ 26,90', 26.90, 'imagens/combo queridinho.jpeg', 'Aquele combo perfeito no pós almoço com uma coca geladinha! Escolha o sabor do bolo de pote. ')">
+        <img src="imagens/combo queridinho.jpeg" alt="Combo queridinho" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Combo Queridinho</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Aquele combo perfeito no pós almoço com uma coca geladinha! Escolha o sabor do bolo de pote...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Combo Queridinho', 'R$ 26,90', 26.90, 'imagens/combo queridinho.jpeg', 'Aquele combo perfeito no pós almoço com uma coca geladinha! Escolha o sabor do bolo de pote. acompanha 1 bolo de pote a sua escolha, coca-cola 200ml e 1 brigadeiro belga 15g.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 26,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Combo Queridinho', 26.90)">Pedir</button>
+        </div>
+    </div>
+</div>
 
                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Fatia de Brownie Duo.jpeg" alt="Fatia de Brownie Duo" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Fatia de Brownie Duo</h3>
-                        <p class="product-description">Delicioso brownie 50% cacau</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 25,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 17,00', 17.00, 'imagens/Fatia de Brownie Duo.jpeg', 'Delicioso brownie 50% cacau.')">
+        <img src="imagens/Fatia de Brownie Duo.jpeg" alt="Fatia de Brownie Duo" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Duo</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau, recheado em camadas de brigadeiro.</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 17,00', 17.00, 'imagens/Fatia de Brownie Duo.jpeg', 'Delicioso brownie 50% cacau.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Duo', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+
 
             </div> 
         </section> 
-
-        <section id="tortasdepote" class="menu-section">
-            <h2 class="section-title">Tortas de Pote</h2>
-            <div class="products-grid">
-                
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Morangoffe no Pote.jpeg" alt="Morangoffe no pote" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Morangoffe no pote</h3>
-                        <p class="product-description">Recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 17,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Banoffe no Pote.jpeg" alt="Banoffe no Pote" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Banoffe no Pote</h3>
-                        <p class="product-description">Deliciosa massa amanteigada, 1 camada de doce de leite e 1 de mousse de doce leite cremoso.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 17,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Torta de Limão.jpeg" alt="Torta de Limão" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Torta de Limão</h3>
-                        <p class="product-description">2 camadas de recheio sendo, uma camada de creme branco e uma de mousse de limão irresistível.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 17,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Supreme de Maracujá.jpeg" alt="Supreme de Maracujá" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Supreme de Maracujá</h3>
-                        <p class="product-description">Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 17,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-        </section> 
-
-        <section id="brownie" class="menu-section">
-            <h2 class="section-title">Doces Brownie</h2>
-            <div class="products-grid">
-                
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Fondue Brownie Supreme.jpeg" alt="Fondue Brownie Supreme" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Fondue Brownie Supreme</h3>
-                        <p class="product-description">Feito com pedaços de Brownie, recheado com brigadeiro. Acompanhado de morangos fatiados e uvas.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 40,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Fatia de Brownie Ninho Trufado com Nutella.jpeg" alt="Fatia de Brownie Ninho Trufado Com Nutella" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Fatia de Brownie Ninho Trufado Com Nutella</h3>
-                        <p class="product-description">Deliciosa Fatia de brownie 50% cacau artesanal, recheado com brigadeiro belga ao leite finalizado com brigadeiro.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 25,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Fatia de Brownie Brigadeiro Belga.jpeg" alt="Fatia de Brownie Brigadeiro Belga" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Fatia de Brownie Brigadeiro Belga</h3>
-                        <p class="product-description">Deliciosa Fatia de brownie 50% cacau artesanal, recheado com brigadeiro belga ao leite finalizado com brigadeiro.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 25,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Brownie Belga com Nutella.jpeg" alt="Brownie Belga com Nutella" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Brownie Belga com Nutella</h3>
-                        <p class="product-description">Delicioso brownie 50% cacau artesanal coberto com Nutella e finalizado com granule ao leite Monalisa.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 17,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div> 
-            </section>
-
-                <section id="bolospote" class="menu-section">
+         <!-- SEÇÃO: BOLO DE POTE-->
+        <section id="bolodepote" class="menu-section">
             <h2 class="section-title">Bolos de Pote</h2>
             <div class="products-grid">
                 
                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de pote Ninho com Morango.jpeg" alt="Bolo de Pote Ninho Com Morangos" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de Pote Ninho Com Morangos</h3>
-                        <p class="product-description">Deliciosa massa branca amanteigada, recheada com creme de leite Ninho e pedaços selecionados de morangos.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 12,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga.jpeg', 'Um bolo delicioso e cremoso com sabor intenso de chocolate belga!')">
+        <img src="imagens/Bolo de pote Chocolate Belga.jpeg" alt="Bolo de pote Chocolate Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Chocolate Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 50% cacau, recheada com creme de chocolate belga ao leite 70% cacau.</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga.jpeg', 'Deliciosa massa 50% cacau, recheada com creme de chocolate belga ao leite 70% cacau. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Chocolate Belga', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga.jpeg', 'Um bolo delicioso e cremoso com sabor intenso de chocolate belga!')">
+        <img src="imagens/Bolo de pote Prestígio.jpeg" alt="Bolo de pote Prestígio" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Prestígio</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa fofinha 50% cacau, recheada com um delicioso creme de chocolate belga...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Prestígio', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Prestígio.jpeg', 'Deliciosa massa fofinha 50% cacau, recheada com um delicioso creme de chocolate belga ao leite e o nosso irresistível brigadeiro cremoso de coco fresco. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Prestígio', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+                 <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Duo Ninho com Chocolate Belga.jpeg" alt="Bolo de pote Duo Ninho com Chocolate Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Duo Ninho com Chocolate Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa caseira 50% cacau, recheada com os melhores brigadeiros...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Duo Ninho com Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Duo Ninho com Chocolate Belga.jpeg', 'Deliciosa massa caseira 50% cacau, recheada com os melhores brigadeiros e mais vendidos da loja! Ninho e chocolate belga ao leite. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Duo Ninho com Chocolate Belga', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div> 
+
+             <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Ninho com Morango.jpeg" alt="Bolo de pote Ninho com Morango" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Ninho com Morango</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa branca amanteigada, recheada com creme de leite Ninho e pedaços selecionados...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Ninho com Morango', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Ninho com Morango.jpeg', 'Deliciosa massa branca amanteigada, recheada com creme de leite Ninho e pedaços selecionados de morangos. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Ninho com Morango', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div> 
+          <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Abacaxi com Coco Fresco.jpeg" alt="Bolo de pote Abacaxi com Coco Fresco" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Abacaxi com Coco Fresco</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de ló bem fofinha molhadinha, recheada...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Abacaxi com Coco Fresco', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Abacaxi com Coco Fresco.jpeg', 'Deliciosa massa pão de ló bem fofinha molhadinha, recheada em camadas de brigadeiro de coco fresco e creme de abacaxi artesanal, sensacional. Peso aproximado: 270g')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Abacaxi com Coco Fresco', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>    
+                <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Chocolate Belga com Maracujá.jpeg" alt="Bolo de pote Chocolate Belga com Maracujá" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Chocolate Belga com Maracujá</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 50% cacau artesanal, recheada com duas camadas de brigadeiro cremoso ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Chocolate Belga com Maracujá', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga com Maracujá.jpeg', 'Deliciosa massa 50% cacau artesanal, recheada com duas camadas de brigadeiro cremoso de chocolate belga e nosso delicioso brigadeiro de maracujá. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Chocolate Belga com Maracujá', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>
                 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de pote Chocolate Belga.jpeg" alt="Bolo de Pote Chocolate Belga" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de Pote Chocolate Belga</h3>
-                        <p class="product-description">Deliciosa massa 50% cacau, recheada com creme de chocolate belga ao leite 70% cacau..</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 12,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de Pote Ninho com Maracujá.jpeg" alt="Bolo de pote Ninho com Maracujá" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Ninho com Maracujá</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa branca artesanal, recheada com brigadeiro cremoso de leite ninho e uma ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Ninho com Maracujá', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Ninho com Maracujá.jpeg', 'Deliciosa massa branca artesanal, recheada com brigadeiro cremoso de leite ninho e uma camada deliciosa e geladinha de brigadeiro de maracujá. A combinação perfeita existe. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Ninho com Maracujá', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+         
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de Pote Ninho com Maracujá.jpeg" alt="Bolo de Pote Ninho com Maracujá" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de Pote Ninho com Maracujá</h3>
-                        <p class="product-description">Deliciosa massa branca artesanal, recheada com brigadeiro cremoso de leite ninho e uma camada deliciosa e geladinha de brigadeiro de maracujá.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 12,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Cenoura com Brigadeiro Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Cenoura com Brigadeiro Belga.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/Bolo de pote Cenoura com Brigadeiro Belga.jpeg" alt="Bolo de pote Cenoura com Brigadeiro Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Cenoura com Brigadeiro Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa artesanal feita com cenouras selecionadas e fresquinhas, recheada com um ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Cenoura com Brigadeiro Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Cenoura com Brigadeiro Belga.jpeg', 'Deliciosa massa artesanal feita com cenouras selecionadas e fresquinhas, recheada com um delicioso brigadeiro belga ao leite. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Cenoura com Brigadeiro Belga', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+              
+                 
+            </div> 
+        </section>  
+        <!-- SEÇÃO: BOLOS GELADOS -->
+        <section id="bologelado" class="menu-section">
+            <h2 class="section-title">Bolos Gelados</h2>
+            <div class="products-grid"> 
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado de Cacau', 'R$ 12,00', 12.00, 'imagens/bologeladocacau.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/bologeladocacau.jpeg" alt="Bolo Gelado de Cacau" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado de Cacau</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa caseira artesanal feita com cacau 100%, recheado com brigadeiro cremoso ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado de Cacau', 'R$ 12,00', 12.00, 'imagens/bologeladocacau.jpeg', 'Deliciosa massa caseira artesanal feita com cacau 100%, recheado com brigadeiro cremoso de cacau 100% e chocolate nobre meio amargo belga. Geladinho e cremoso. Peso aproximado de 100g. Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado de Cacau', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                   
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado de Prestígio', 'R$ 12,00', 12.00, 'imagens/bologeladoprestigio.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/bologeladoprestigio.jpeg" alt="Bolo Gelado de Prestígio" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado de Prestígio</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 100% cacau artesanal, molhadinha no ponto certo. Recheado com um...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado de Prestígio', 'R$ 12,00', 12.00, 'imagens/bologeladoprestigio.jpeg', 'Deliciosa massa 100% cacau artesanal, molhadinha no ponto certo. Recheado com um delicioso brigadeiro cremoso de prestigio. Impossível comer só um. Peso aproximado de 100g. Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado de Prestígio', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+             
+    
+               
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de pote Prestígio.jpeg" alt="Bolo de Pote Prestígio" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de Pote Prestígio</h3>
-                        <p class="product-description">Massa 50% cacau, recheada com um delicioso creme de chocolate belga ao leite e brigadeiro de coco fresco.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 11,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de pote Duo Ninho com Chocolate Belga.jpeg" alt="Bolo de Pote Duo Ninho com Chocolate Belga" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de Pote Duo Ninho com Chocolate Belga</h3>
-                        <p class="product-description">Deliciosa massa caseira 50% cacau, recheada com os melhores brigadeiros e mais vendidos da loja! Ninho e chocolate belga ao leite.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 12,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de pote Chocolate Belga com Maracujá.jpeg" alt="Bolo de Pote Chocolate Belga com Maracujá" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de Pote Chocolate Belga com Maracujá</h3>
-                        <p class="product-description">Deliciosa massa caseira 50% cacau, recheada com os melhores brigadeiros e mais vendidos da loja! Ninho e chocolate belga ao leite.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 12,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de pote Cenoura com Brigadeiro Belga.jpeg" alt="Bolo de Pote Cenoura com Brigadeiro Belga" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de Pote Cenoura com Brigadeiro Belga</h3>
-                        <p class="product-description">Deliciosa massa artesanal feita com cenouras, recheada com um delicioso brigadeiro belga ao leite. </p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 12,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Bolo de pote Abacaxi com Coco Fresco.jpeg" alt="Bolo de pote Abacaxi com Coco Fresco" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Bolo de pote Abacaxi com Coco Fresco</h3>
-                        <p class="product-description">Deliciosa massa pão de ló, recheada em camadas de brigadeiro de coco fresco e creme de abacaxi artesanal. </p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 12,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>  
-                 </section>
-
-                <section id="brigadeirao" class="menu-section">
-            <h2 class="section-title">Brigadeirão Gourmet</h2>
+ <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado Coco Fresco', 'R$ 12,00', 12.00, 'imagens/BOLOGALADOCOCFRESCO.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/BOLOGALADOCOCFRESCO.jpeg" alt="Bolo Gelado Coco Fresco" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado Coco Fresco</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa de pão de ló, recheado com cremoso recheio de coco *Fresco*, molhadinho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado Coco Fresco', 'R$ 12,00', 12.00, 'imagens/BOLOGALADOCOCFRESCO.jpeg', 'Deliciosa massa de pão de ló, recheado com cremoso recheio de coco *Fresco*, molhadinho e bem gelado. Peso aproximado de 100G Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado Coco Fresco', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+        <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado Coco Fresco', 'R$ 12,00', 12.00, 'imagens/bologeladodocedeleite.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/bologeladodocedeleite.jpeg" alt="Bolo Gelado Doce de Leite com Coco Fresco" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado Doce de Leite com Coco Fresco</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Feito com massa pão de ló caseira, recheada com delicioso doce de leite cremoso...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado Doce de Leite com Coco Fresco', 'R$ 12,00', 12.00, 'imagens/bologeladodocedeleite.jpeg', 'Feito com massa pão de ló caseira, recheada com delicioso doce de leite cremoso. Peso aproximado de 100g. Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado Doce de Leite com Coco Fresco', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+             
+            </div> 
+        </section> 
+        <!-- SEÇÃO: TORTAS DE POTE -->
+        <section id="tortasdepote" class="menu-section">
+            <h2 class="section-title">Tortas de Pote</h2>
             <div class="products-grid">
                 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Brigadeirão Ninho Com Morangos.jpeg" alt="Brigadeirão Ninho Com Morangos" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Brigadeirão Ninho Com Morangos</h3>
-                        <p class="product-description">Delicioso brigadeirão de leite Ninho cremoso, recheado com um morango graudo selecionado e fresco.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 10,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Brigadeirão Chocolate Belga.jpeg" alt="Brigadeirão Chocolate Belga" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Brigadeirão Chocolate Belga</h3>
-                        <p class="product-description">Deliciso brigadeirão de chocolate belga, feito com chocolate 50% cacau e chocolate belga ao leite, finalizado com granule ao leite Monalisa.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 10,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Brigadeirão Chocolate Belga com Morangos.jpeg" alt="Brigadeirão Chocolate Belga com Morangos" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Brigadeirão Chocolate Belga com Morangos</h3>
-                        <p class="product-description">Delicioso brigadeirão artesanal de chocolate belga ao leite, recheado com morango graudo e fresquinho, finalizado com granule ao leite Monalisa.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 10,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Brigadeirão Ninho com Uva.jpeg" alt="Brigadeirão Ninho com Uva" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Brigadeirão Ninho com Uva</h3>
-                        <p class="product-description">Deliciosa massa de leite ninho cremosa, recheado com uvas verde sem caroço selecionadas, finalizado com granulado Monalisa ao leite.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 10,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-                        </div>
-                    </div>
-                </div> 
-                </section>
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Morangoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Morangoffe no Pote.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Morangoffe no Pote.jpeg" alt="Morangoffe no Pote" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Morangoffe no Pote</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Morangoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Morangoffe no Pote.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Morangoffe no Pote', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+          
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Banoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Banoffe no Pote.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Banoffe no Pote.jpeg" alt="Banoffe no Pote" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Banoffe no Pote</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa amanteigada, 1 camada de doce de leite e 1 de mousse de doce leite cremoso, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Banoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Banoffe no Pote.jpeg', 'Deliciosa massa amanteigada, 1 camada de doce de leite e 1 de mousse de doce leite cremoso, pedaços de banana nanica fatiadas, finalizado com chantilly e canela. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Banoffe no Pote', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                
+               
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Torta de Limão', 'R$ 17,00', 17.00, 'imagens/Torta de Limão.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Torta de Limão.jpeg" alt="Torta de Limão" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Torta de Limão</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa crocante amanteigada, 2 camadas de recheio sendo, uma camada de creme branco...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Torta de Limão', 'R$ 17,00', 17.00, 'imagens/Torta de Limão.jpeg', 'Deliciosa massa crocante amanteigada, 2 camadas de recheio sendo, uma camada de creme branco e uma de mousse de limão irresistível, essas camadas tem a harmonia perfeita. Finalizada com chantilly e raspas de limão. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Torta de Limão', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
 
-                <section id="copodafelicidade" class="menu-section">
-            <h2 class="section-title">Copo da felicidade</h2>
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Supreme de Maracujá', 'R$ 17,00', 17.00, 'imagens/Supreme de Maracujá.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Supreme de Maracujá.jpeg" alt="Supreme de Maracujá" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Supreme de Maracujá</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso mousse de maracujá artesanal,feito com a fruta selecionada, brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Supreme de Maracujá', 'R$ 17,00', 17.00, 'imagens/Supreme de Maracujá.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Supreme de Maracujá', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+            </div> 
+        </section> 
+<!-- SEÇÃO: brigadeirão -->
+        <section id="brigadeirao" class="menu-section">
+            <h2 class="section-title">Brigadeirão</h2>
             <div class="products-grid">
                 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Copo da Felicidade Supremo.jpeg" alt="Copo da Felicidade Supremo" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Copo da Felicidade Supremo</h3>
-                        <p class="product-description">Deliciosa camada de chocolate belga ao leite, brownie 50% cacau artesanal, brigadeiro de leite Ninho cremoso, finalizado com brigadeiro gourmet de chocolate belga e morango.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 18,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+               
 
-                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Copo da Felicidade Kinder Encantado.jpeg" alt="Copo da Felicidade Kinder Encantado" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Copo da Felicidade Kinder Encantado</h3>
-                        <p class="product-description">Deliciosas camadas de chocolate belga ao leite, com nosso brownie artesanal 50% cacau e finalizado com pedaços de Kinder Bueno White e brigadeiros gourmet belga ao leite.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 18,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-                </section>
-
-                <section id="nakedcake" class="menu-section">
-            <h2 class="section-title">Naked Cake</h2>
-            <div class="products-grid">
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Chocolate Belga com Morangos.jpeg" alt="Brigadeirão Chocolate Belga com Morangos" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Chocolate Belga com Morangos</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brigadeirão artesanal de chocolate belga ao leite, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Chocolate Belga com Morangos.jpeg', 'Delicioso brigadeirão artesanal de chocolate belga ao leite, recheado com morango graudo e fresquinho, finalizado com granule ao leite Monalisa. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Chocolate Belga com Morangos', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
                 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked Cake Ninho com Morangos 1KG.jpeg" alt="Naked Cake Ninho com Morangos 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked Cake Ninho com Morangos 1KG</h3>
-                        <p class="product-description">Deliciosa massa branca pão de ló artesanal, recheado em camadas de brigadeiro cremoso de leite Ninho. Finalizado com morangos selecionados e brigadeiros de leite ninho.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Chocolate Belga.jpeg" alt="Brigadeirão Chocolate Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Chocolate Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciso brigadeirão de chocolate belga, feito com chocolate 50% cacau e chocolate belga ao leite, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Chocolate Belga', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Chocolate Belga.jpeg', 'Deliciso brigadeirão de chocolate belga, feito com chocolate 50% cacau e chocolate belga ao leite, finalizado com granule ao leite Monalisa. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Chocolate Belga', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>    
+                 
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Ninho Com Morangos.jpeg" alt="Brigadeirão Ninho Com Morangos" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Ninho Com Morangos</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciso brigadeirão ninho com morangos, feito com chocolate ninho e morangos, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Ninho Com Morangos', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Ninho Com Morangos.jpeg', 'Deliciso brigadeirão ninho com morangos, feito com chocolate ninho e morangos, com ingredientes de qualidade. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Ninho Com Morangos', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
+           
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Ninho com Uva.jpeg" alt="Brigadeirão Ninho Com Uva" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Ninho Com Uva</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciso brigadeirão ninho com uvas, feito com chocolate ninho e uvas, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Ninho Com Uva', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Ninho Com Uva.jpeg', 'Deliciso brigadeirão ninho com uvas, feito com chocolate ninho e uvas, com ingredientes de qualidade. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Ninho Com Uva', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked Cake Floresta Negra 1KG.jpeg" alt="Naked Cake Floresta Negra 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked Cake Floresta Negra 1KG</h3>
-                        <p class="product-description">Deliciosa massa artesanal 50% cacau, recheada com mousse de chocolate, geleia artesanal de cereja e finalizado com raspas de chocolate.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
+               
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked Cake Casadinho 1KG.jpeg" alt="Naked Cake Casadinho 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked Cake Casadinho 1KG</h3>
-                        <p class="product-description">Produzido com massa de chocolate 50% cacau, recheado em deliciosas camadas de brigadeiro cremoso de leite Ninho e brigadeiro belga. Finalizado com morangos selecionados fresquinhos.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked cake Duo 1KG.jpeg" alt="Naked cake Duo 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked cake Duo 1KG</h3>
-                        <p class="product-description">Deliciosa massa 50% cacau, feita artesanalmente. Recheado com brigadeiro cremoso de Ninho e brigadeiro belga ao leite.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked Cake Prestígio 1KG.jpeg" alt="Naked Cake Prestígio 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked Cake Prestígio 1KG</h3>
-                        <p class="product-description">Deliciosa massa pão de ló 50% cacau, recheada em camadas de brigadeiro belga ao leite e coco fresco, finalizado com coco ralado. </p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                 <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked Cake Ninho com Maracujá 1KG.jpeg" alt="Naked Cake Ninho com Maracujá 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked Cake Ninho com Maracujá 1KG</h3>
-                        <p class="product-description">Produzido com massa pão de ló artesanal, recheado em camadas de mousse de maracujá e brigadeiro cremoso de leite Ninho. Finalizado com confeito belga branco.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked Cake Chocolate Belga 1KG.jpeg" alt="Naked Cake Chocolate Belga 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked Cake Chocolate Belga 1KG</h3>
-                        <p class="product-description">Deliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração.</p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img src="imagens/Naked Cake Doce de Leite com Coco 1KG.jpeg" alt="Naked Cake Doce de Leite com Coco 1KG" class="product-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Naked Cake Doce de Leite com Coco 1KG</h3>
-                        <p class="product-description">Deliciosa massa branca pão de ló artesanal, recheado com doce de leite cremoso e brigadeiro de coco fresco. </p>
-                        <div class="product-footer">
-                            <span class="product-price">R$ 89,00</span>
-                            <button class="btn-order">Pedir</button>
-                        </div>
-                    </div>
-                </div>
             </div> 
         </section>
 
-        <br>
+        
 
-    <footer class="main-footer">
-        <p>&copy; 2026 Doce Encanto. Todos os direitos reservados.</p>
-    </footer>
+        <!-- SEÇÃO: DOCES BROWNIE -->
+        <section id="docesbrownie" class="menu-section">
+            <h2 class="section-title">Doces Brownie</h2>
+            <div class="products-grid">
+                
+               
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 25,00', 25.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/FONDUE BROWNIE SUPREME.jpeg" alt="Fondue Brownie Supreme" class="product-image">
+    </div>
     
-<script src="script.js"></script>
+    <div class="product-info">
+        <h3 class="product-name">Fondue Brownie Supreme</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 25,00', 25.00, 'imagens/FONDUE BROWNIE SUPREME.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite. Acompanhado de morangos fatiados selecionados e uvas sem caroço. Rendimento: serve até 2 pessoas. Peso aproximado de 500g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 25,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fondue Brownie Supreme', 25.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
+
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Ninho Trufado com Nutella', 'R$ 25,00', 25.00, 'imagens/Fatia de Brownie Ninho Trufado com Nutella.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Fatia de Brownie Ninho Trufado com Nutella.jpeg" alt="Fatia de Brownie Ninho Trufado com Nutella" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Ninho Trufado com Nutella</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella..</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Ninho Trufado com Nutella', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Ninho Trufado com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 22,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Ninho Trufado com Nutella', 22.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+<div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Brigadeiro Belga', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Brigadeiro Belga.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Fatia de Brownie Brigadeiro Belga.jpeg" alt="Fatia de Brownie Brigadeiro Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Brigadeiro Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Brigadeiro Belga', 'R$ 25,00', 22.90, 'imagens/Fatia de Brownie Brigadeiro Belga.jpeg', 'Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho. Finalizado com brigadeiro gourmet. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 22,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Brigadeiro Belga', 22.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+
+    <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Duo.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Fatia de Brownie Duo.jpeg" alt="Fatia de Brownie Duo" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Duo</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Duo.jpeg', 'Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho. Finalizado com brigadeiro gourmet. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 22,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Duo', 22.90)">Pedir</button>
+        </div>
+    </div>
+</div>    
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brownie Belga com Nutella.jpeg" alt="Brownie Belga com Nutella" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brownie Belga com Nutella</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau artesanal coberto com Nutella e finalizado com granule ao leite Monalisa...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Delicioso brownie 50% cacau artesanal coberto com Nutella e finalizado com granule ao leite Monalisa. Peso aproximado de 100g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 15,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brownie Belga com Nutella', 15.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+      
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/brownietradicional.jpeg" alt="Brownie tradicional" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brownie tradicional</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau artesanal. Peso aproximado de 50g. Instruções: esquentar no microondas para uma melhor experiencia...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brownie tradicional', 'R$ 15,00', 15.00, 'imagens/brownietradicional.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 15,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brownie tradicional', 15.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+      
+        
+        
+        
+              
+  
+
+                
+
+
+            </div> 
+        </section>
+        
+        <!-- SEÇÃO: Naked Cake -->
+        <section id="naked" class="menu-section">
+            <h2 class="section-title">Naked Cake</h2>
+            <div class="products-grid">
+                
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Casadinho 1KG.jpeg" alt="Naked Cake Casadinho 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Casadinho 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Produzido com massa artesanal de chocolate 50% cacau, deliciosas camadas de brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Casadinho 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Casadinho 1KG.jpeg', 'Produzido com massa artesanal de chocolate 50% cacau, deliciosas camadas de brigadeiro cremoso de leite Ninho e brigadeiro belga ao leite. Finalizado com morangos selecionados fresquinhos.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Casadinho 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+      
+                
+               
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Chocolate Belga 1KG.jpeg" alt="Naked Cake Chocolate Belga 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Chocolate Belga 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Chocolate Belga 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Chocolate Belga 1KG.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Chocolate Belga 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                 
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Prestígio 1KG.jpeg" alt="Naked Cake Prestígio 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Prestígio 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de ló 50% cacau, recheada em camadas de brigadeiro belga ao leite e coco fresco,...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Prestígio 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Prestígio 1KG.jpeg', 'Deliciosa massa pão de ló 50% cacau, recheada em camadas de brigadeiro belga ao leite e coco fresco, finalizado com coco ralado. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Prestígio 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>    
+  
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked cake Duo 1KG.jpeg" alt="Naked Cake Duo 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Duo 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 50% cacau, feita artesanalmente. Recheado com brigadeiro cremoso de Ninho e brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Duo 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Duo 1KG.jpeg', 'Deliciosa massa 50% cacau, feita artesanalmente. Recheado com brigadeiro cremoso de Ninho e brigadeiro belga ao leite. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Duo 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                
+ <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Ninho com Maracujá 1KG.jpeg" alt="Naked Cake Ninho com Maracujá 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Ninho com Maracujá 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Produzido com massa pão de ló artesanal bem fofinha e molhada, recheado em camadas de mousse...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Ninho com Maracujá 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Ninho com Maracujá 1KG.jpeg', 'Produzido com massa pão de ló artesanal bem fofinha e molhada, recheado em camadas de mousse de maracujá bem azedinho e delicioso e brigadeiro cremoso de leite Ninho. Finalizado com confeito belga branco.Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Ninho com Maracujá 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+        <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Ninho com Morangos 1KG.jpeg" alt="Naked Cake Ninho com Morangos 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Ninho com Morangos 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa artesanal branca, recheada em camadas de brigadeiro cremoso de leite ninho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Ninho com Morangos 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Ninho com Morangos 1KG.jpeg', 'Deliciosa massa artesanal branca, recheada em camadas de brigadeiro cremoso de leite ninho. Finalizado com brigadeiros de ninho e morangos frescos. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Ninho com Morangos 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Doce de Leite com Coco 1KG.jpeg" alt="Naked Cake Doce de Leite com Coco 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Doce de Leite com Coco 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa branca artesanal bem molhadinha, recheada com doce de leite artesanal...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Doce de Leite com Coco 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Doce de Leite com Coco 1KG.jpeg', 'Deliciosa massa branca artesanal bem molhadinha, recheada com doce de leite artesanal e brigadeiro cremoso de coco fresco. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Doce de Leite com Coco 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>     
+ <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/NAKEDABACAXI.jpeg" alt="Naked Cake Doce de Leite com Coco 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Abacaxi com Coco Fresco 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de lo artesanal bem molhadinha, recheado em camadas de brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Abacaxi com Coco Fresco 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Abacaxi com Coco Fresco 1KG.jpeg', 'Deliciosa massa pão de lo artesanal bem molhadinha, recheado em camadas de brigadeiro de abacaxi cremoso com pedaços e brigadeiro de coco fresco. Finalizado com lascas de coco. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Abacaxi com Coco Fresco 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>     
+
+                 </div> 
+        </section>
+        
+                
+                <!-- SEÇÃO: Kit Festas.-->
+        <section id="kit-festas" class="menu-section">
+            <h2 class="section-title">Kit Festas</h2>
+            <div class="products-grid">
+                 <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/kitfestaP.jpeg" alt="Kit Festas - Pequeno" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Kit Festas - Pequeno</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">O kit festa P acompanha nosso bolo Mini naked sabor a escolha, 6 brigadeiros belga ao leite e uma coca 600ml...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Kit Festas - Pequeno', 'R$ 89,90', 89.90, 'imagens/kitfestaP.jpeg', 'O kit festa P acompanha nosso bolo Mini naked sabor a escolha, 6 brigadeiros belga ao leite e uma coca 600ml. Rendimento: serve de  - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Kit Festas - Pequeno', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>     
+                
+                
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="imagens/kitfestaM.jpeg" alt="Naked Cake Chocolate Belga 1KG" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Naked Cake Chocolate Belga 1KG</h3>
+                        <p class="product-description">Delicioso Naked Cake de 1kg, feito com ingredientes de qualidade e decorado com frutas frescas.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 89,90</span>
+                            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Chocolate Belga 1KG', 89.90)">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src= "imagens/kitfestaG.jpeg" alt="Naked Cake Doce de Leite com Coco 1KG" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Naked Cake Doce de Leite com Coco 1KG</h3>
+                        <p class="product-description">Delicioso Naked Cake de 1kg, feito com ingredientes de qualidade e decorado com frutas frescas.</p>
+                        <div class="product-footer">
+                            <span class="product-price">R$ 89,90</span>
+                            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Doce de Leite com Coco 1KG', 89.90)">Pedir</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+        
+        
+    </main>
+  <!-- BANNER CTA FOOTER -->
+<section class="footer-cta-banner">
+    <div class="footer-cta-container">
+        <h2>Adoce seu dia e suas celebrações<br>com o sabor da Doce Encanto</h2>
+        <div class="footer-cta-buttons">
+            <a href="index.html" class="btn-cta-pink">Peça pelo Delivery</a>
+            <a href="https://wa.me/5541999999999?text=Olá!%20Gostaria%20de%20solicitar%20uma%20encomenda." target="_blank" class="btn-cta-pink">Solicite sua Encomenda</a>
+        </div>
+    </div>
+</section>
+
+<!-- RODAPÉ PRINCIPAL -->
+<footer class="site-footer">
+    <div class="footer-container">
+        
+        <!-- Coluna 1: Logo e Subtítulo -->
+        <div class="footer-col footer-brand">
+            <h2 class="footer-logo-cursiva">Doce<br>Encanto</h2>
+            <span class="footer-subtitle">CONFEITARIA GOURMET</span>
+        </div>
+
+        <!-- Coluna 2: Unidades -->
+        <div class="footer-col">
+            <h3>Unidades</h3>
+            <ul class="footer-units">
+                <li>
+                    <i class="fa-solid fa-location-dot pin-icon"></i>
+                    <div><strong>Butantã:</strong> Rua Dr. Ulpiano da Costa Manso, 98, Jardim Peri Peri</div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-location-dot pin-icon"></i>
+                    <div><strong>Osasco:</strong> Av. Flora, 399, Jaguaribe</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Coluna 3: Links Úteis -->
+        <div class="footer-col">
+            <h3>Links Úteis</h3>
+            <ul class="footer-links">
+                <li><a href="inicio.html">Home</a></li>
+                <li><a href="index.html">Delivery</a></li>
+                <li><a href="encomendas.html">Encomendas</a></li>
+                <li><a href="sobrenos.html">Sobre nós</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="bio.html">Bio</a></li>
+            </ul>
+        </div>
+
+        <!-- Coluna 4: Redes Sociais -->
+        <div class="footer-col">
+            <h3>Siga nossas redes</h3>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/" class="social-box" title="Instagram" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://pt-br.facebook.com/" class="social-box" title="Facebook" target="_blank">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="https://www.ifood.com.br/" class="social-box" title="iFood / Delivery" target="_blank">
+                    <i class="fa-solid fa-burger"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Linha Divisória e Copyright -->
+    <div class="footer-bottom">
+        <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
+        <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+    </div>
+</footer>
+    <!-- 1. MODAL DE SELEÇÃO INICIAL DO CARRINHO -->
+    <div id="modal-carrinho" class="modal-carrinho escondido">
+        <div class="conteudo-carrinho">
+            <h2><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h2>
+
+            <div id="carrinho-itens"></div>
+
+            <div class="total-carrinho">
+                Total: R$ <span id="total-valor">0,00</span>
+            </div>
+
+            <div class="opcao-pagamento-inicial">
+                <label for="select-pagamento-modal">Escolha como deseja pagar:</label>
+                <select id="select-pagamento-modal">
+                    <option value="pix">PIX (Gerar QR Code na próxima tela)</option>
+                    <option value="cartao">Cartão de Crédito / Débito (Inserir dados na próxima tela)</option>
+                </select>
+            </div>
+
+            <div class="botoes-carrinho">
+                <button type="button" class="btn-fechar" onclick="fecharCarrinho()">Voltar</button>
+                <button type="button" class="btn-finalizar" onclick="irParaCheckout()">
+                    Avançar <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. TELA EXCLUSIVA DE CHECKOUT -->
+    <div id="tela-checkout" class="checkout-overlay escondido">
+        <div class="checkout-card">
+            
+            <div class="checkout-header">
+                <h2><i class="fa-solid fa-credit-card"></i> Finalizar Pedido</h2>
+                <button type="button" class="btn-fechar-checkout" onclick="voltarParaCarrinho()">&times;</button>
+            </div>
+
+            <div class="checkout-body">
+                
+                <section class="checkout-bloco">
+                    <h3><i class="fa-solid fa-location-dot"></i> 1. Endereço de Entrega</h3>
+                    
+                    <button type="button" class="btn-geo" onclick="obterLocalizacaoAtual()">
+                        <i class="fa-solid fa-location-crosshairs"></i> Usar Minha Localização GPS
+                    </button>
+                    <p id="status-geo" class="status-geo-texto"></p>
+
+                    <div class="campos-grid">
+                        <input type="text" id="rua-cliente" placeholder="Rua / Avenida e Número" required>
+                        <input type="text" id="bairro-cliente" placeholder="Bairro" required>
+                        <input type="text" id="complemento-cliente" placeholder="Complemento (Apto, Bloco, Ref.)">
+                    </div>
+                    <input type="hidden" id="coords-gps" value="">
+                </section>
+
+                <section id="pagina-pix" class="checkout-bloco aba-checkout escondida">
+                    <h3><i class="fa-brands fa-pix"></i> 2. Pagamento via PIX</h3>
+                    <p class="instrucao-pagamento">Escaneie o QR Code abaixo no app do seu banco. O código expira em <strong>15:00</strong> minutos.</p>
+
+                    <div class="qr-code-box">
+                        <img id="img-qr-code" 
+                             src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Pagamento%20Simulado%20Doce%20Encanto" 
+                             alt="QR Code Fictício">
+                        <div class="pix-copia-cola">
+                            <input type="text" readonly value="00020126580014br.gov.bcb.pix0136pix-ficticio@doceencanto.com" id="chave-pix-input">
+                            <button type="button" onclick="copiarPix()">Copiar Código</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="pagina-cartao" class="checkout-bloco aba-checkout escondida">
+                    <h3><i class="fa-solid fa-credit-card"></i> 2. Dados do Cartão</h3>
+                    <p class="instrucao-pagamento">Insira as informações do cartão para processar o pagamento fictício.</p>
+
+                    <div class="campos-grid">
+                        <div class="campo-full">
+                            <label>Nome no Cartão</label>
+                            <input type="text" id="cartao-nome" placeholder="Como impresso no cartão">
+                        </div>
+                        <div class="campo-full">
+                            <label>Número do Cartão</label>
+                            <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19">
+                        </div>
+                        <div class="campo-metade">
+                            <div>
+                                <label>Validade</label>
+                                <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div>
+                                <label>CVV</label>
+                                <input type="password" id="cartao-cvv" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="resumo-checkout">
+                    <span>Total a Pagar: <strong id="total-checkout-valor">R$ 0,00</strong></span>
+                    <button type="button" class="btn-confirmar-pagamento" onclick="processarPedidoSite()">
+                        <i class="fa-solid fa-credit-card"></i> Pagar e Finalizar Pedido
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CARREGAMENTO DO SCRIPT ÚNICO -->
+    <script src="inicio.js"></script>
+<!-- Modal de Detalhes do Produto -->
+<div id="modal-produto" class="modal-overlay" onclick="fecharModalFora(event)">
+    <div class="modal-content">
+        <button class="modal-close" onclick="fecharModal()">&times;</button>
+        <div class="modal-body">
+            <img id="modal-img" src="" alt="Imagem do Produto" class="modal-image">
+            <div class="modal-info">
+                <h2 id="modal-titulo"></h2>
+                <p id="modal-descricao"></p>
+                <div class="modal-footer">
+                    <span id="modal-preco" class="product-price"></span>
+                    <button id="modal-btn-pedir" class="btn-order">Adicionar ao Pedido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
