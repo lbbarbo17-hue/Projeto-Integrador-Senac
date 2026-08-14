@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --rosa: #fab3cb;
+    --rosa-escuro: #f48fb1;
+    --rosa-claro: #fceef2;
+    --marrom: #6d3828;
+    --marrom-escuro: #473936;
+    --branco: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--marrom-escuro);
+    font-family: 'Poppins', sans-serif;
+    background:
+        radial-gradient(circle at 8% 13%, rgba(250, 179, 203, .5) 0, rgba(250, 179, 203, 0) 25rem),
+        radial-gradient(circle at 93% 88%, rgba(244, 143, 177, .27) 0, rgba(244, 143, 177, 0) 28rem),
+        #fbf7f8;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, .96);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
+}
+
+.navbar a {
+    padding: 8px 18px;
+    border-radius: 25px;
+    color: var(--marrom-escuro);
+    font-size: .95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.navbar a:hover, .navbar .active {
+    color: var(--rosa-escuro);
+    background: var(--rosa-claro);
+}
+
+.navbar .nav-link-carrinho {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--marrom);
+    font-size: .9rem;
+    font-weight: 600;
+    background: var(--rosa-claro);
+}
+
+.navbar .nav-link-carrinho:hover { color: var(--branco); background: var(--rosa-escuro); }
+
+.login-page {
+    display: grid;
+    min-height: calc(100vh - 72px);
+    padding: 54px 20px;
+    place-items: center;
+}
+
+.login-card {
+    width: min(100%, 490px);
+    padding: 44px 48px 38px;
+    text-align: center;
+    background: rgba(255, 255, 255, .93);
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 28px;
+    box-shadow: 0 18px 45px rgba(109, 56, 40, .13);
+}
+
+.brand {
+    color: var(--marrom);
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.3rem;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.brand-subtitle { margin: 7px 0 31px; color: var(--marrom); font-size: .63rem; font-weight: 700; letter-spacing: 2.1px; }
+.login-heading { margin-bottom: 30px; }
+.heading-icon { display: grid; width: 42px; height: 42px; margin: 0 auto 12px; color: var(--rosa-escuro); background: var(--rosa-claro); border-radius: 50%; place-items: center; }
+.login-heading h1 { margin: 0 0 8px; color: var(--marrom); font-family: 'Fredoka', sans-serif; font-size: 1.65rem; }
+.login-heading p { margin: 0; color: #766663; font-size: .88rem; line-height: 1.55; }
+
+.input-group { margin-bottom: 18px; text-align: left; }
+.input-group label { display: block; margin-bottom: 7px; color: var(--marrom); font-size: .86rem; font-weight: 600; }
+.input-wrapper { display: flex; align-items: center; gap: 11px; padding: 0 15px; background: #fffafb; border: 1px solid #efdde3; border-radius: 12px; transition: .2s ease; }
+.input-wrapper:focus-within { border-color: var(--rosa-escuro); box-shadow: 0 0 0 3px rgba(244, 143, 177, .17); }
+.input-wrapper i { color: #be8b9c; font-size: .9rem; }
+.input-wrapper input { width: 100%; min-height: 48px; border: 0; outline: 0; color: var(--marrom-escuro); font: inherit; font-size: .9rem; background: transparent; }
+.input-wrapper input::placeholder { color: #b9a8ac; }
+.input-help { display: block; margin: 6px 0 0; color: #99736b; font-size: .72rem; }
+
+.btn-entrar { width: 100%; margin-top: 8px; padding: 14px 22px; border: 0; border-radius: 24px; color: var(--branco); background: #f085a9; box-shadow: 0 5px 13px rgba(216, 27, 96, .19); cursor: pointer; font: 600 .95rem 'Poppins', sans-serif; transition: .2s ease; }
+.btn-entrar:hover { background: var(--rosa-escuro); transform: translateY(-2px); box-shadow: 0 7px 16px rgba(216, 27, 96, .25); }
+.btn-entrar i { margin-left: 8px; }
+
+.register-link { margin: 25px 0 14px; color: #766663; font-size: .83rem; }
+.register-link a { color: #d96790; font-weight: 700; text-decoration: none; }
+.register-link a:hover { text-decoration: underline; }
+.back-link { color: #99736b; font-size: .79rem; text-decoration: none; }
+.back-link:hover { color: var(--marrom); }
+.back-link i { margin-right: 6px; }
+
+@media (max-width: 800px) {
+    .navbar { gap: 4px; flex-wrap: wrap; }
+    .navbar a { padding: 7px 11px; font-size: .82rem; }
+}
+
+@media (max-width: 480px) {
+    .login-page { padding: 28px 14px; }
+    .login-card { padding: 36px 24px 30px; border-radius: 22px; }
+    .brand { font-size: 2.9rem; }
+    .navbar { padding: 10px 8px; }
+    .navbar a { padding: 6px 8px; font-size: .76rem; }
+}

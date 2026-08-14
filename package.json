@@ -1,0 +1,17 @@
+{
+  "name": "doce-encanto-login",
+  "version": "1.0.0",
+  "description": "Sistema de cadastro, login e sessões da Doce Encanto.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "sqlite3": "^5.1.7"
+  }
+}

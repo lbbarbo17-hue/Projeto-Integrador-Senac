@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração | Doce Encanto</title>
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <main class="admin-page">
+        <header class="admin-header">
+            <div><a class="brand" href="/inicio">Doce Encanto</a><p class="brand-subtitle">PAINEL ADMINISTRATIVO</p></div>
+            <div class="admin-actions"><a href="/inicio">Minha conta</a><form action="/logout" method="POST"><button>Sair</button></form></div>
+        </header>
+        <section class="admin-card" aria-labelledby="titulo-admin">
+            <div class="admin-title"><div><h1 id="titulo-admin">Gerenciar usuários</h1><p>Consulte contas, defina administradores ou exclua usuários.</p></div><span><i class="fa-solid fa-users"></i> <%= usuarios.length %> usuários</span></div>
+            <% if (mensagem) { %><p class="alerta <%= mensagem.tipo %>" role="alert"><%= mensagem.texto %></p><% } %>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Usuário</th><th>E-mail</th><th>Cadastro</th><th>Acesso</th><th>Ações</th></tr></thead>
+                    <tbody>
+                        <% usuarios.forEach(conta => { %>
+                            <tr>
+                                <td><strong><%= conta.nome %></strong><% if (conta.id === usuario.id) { %><small class="meu-usuario">Sua conta</small><% } %></td>
+                                <td><%= conta.email %></td>
+                                <td><%= new Date(conta.criado_em + 'Z').toLocaleDateString('pt-BR') %></td>
+                                <td><span class="role <%= conta.administrador ? 'admin' : 'cliente' %>"><%= conta.administrador ? 'Administrador' : 'Cliente' %></span></td>
+                                <td class="table-actions">
+                                    <% if (conta.id !== usuario.id) { %>
+                                        <form action="/admin/usuarios/<%= conta.id %>/administrador" method="POST"><button class="btn-small" type="submit"><%= conta.administrador ? 'Remover admin' : 'Tornar admin' %></button></form>
+                                        <form action="/admin/usuarios/<%= conta.id %>/excluir" method="POST" onsubmit="return confirm('Excluir esta conta? Esta ação não pode ser desfeita.');"><button class="btn-small danger" type="submit">Excluir</button></form>
+                                    <% } else { %><span class="self-label">Conta atual</span><% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
