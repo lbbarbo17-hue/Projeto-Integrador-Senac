@@ -17,9 +17,9 @@
 </head> 
 <body>
 
-    <!-- NAVBAR COM BOTÃO DO CARRINHO -->
+    <!-- NAVBAR COM BOTÃO DO CARRINHO (Sem 'active' fixo) -->
     <nav class="navbar"> 
-        <a href="inicio.html" class="nav-link active">Início</a>
+        <a href="inicio.html" class="nav-link">Início</a>
         <a href="index.html" class="nav-link">Cardápio</a>
         <a href="#sobre-nos" class="nav-link">Sobre Nós</a>
         <a href="#avaliacoes" class="nav-link">Avaliações</a>
@@ -30,29 +30,25 @@
         </a>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section id="inicio" class="hero">
-        <div class="hero-carousel-track">
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-4.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-5.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-6.webp');"></div>
-            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-7.webp');"></div>
+    <!-- HERO SECTION - CARROSSEL FULL WIDTH -->
+    <!-- BANNER MOSAICO ESTILO DOCE ENCANTO -->
+<section id="inicio" class="mosaico-banner">
+    <div class="mosaico-grid">
+        <div class="mosaico-item" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
+        <div class="mosaico-item" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
+        <div class="mosaico-item" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
+        <div class="mosaico-item" style="background-image: url('imagens_inicio/encomendas-doce-encanto-4.webp');"></div>
+    </div>
+
+    <!-- PLACA DE VIDRO CENTRALIZADA -->
+    <div class="hero-glass-panel">
+        <div class="hero-content">
+            <h1 class="brand-title-main">Doce Encanto</h1>
+            <br>
+            <a href="index.html" class="btn-principal">Ver Cardápio</a>
         </div>
-
-        <div class="hero-overlay"></div>
-
-        <div class="hero-glass-panel">
-            <div class="hero-content">
-                <h1 class="brand-title-main">Doce Encanto</h1>
-                <br>
-                <a href="index.html" class="btn-principal">Ver Cardápio</a>
-            </div>
-        </div>
-    </section> 
-
+    </div>
+</section>
     <!-- SEÇÃO SOBRE NÓS -->
     <section id="sobre-nos" class="menu-section">
         <h2 class="section-title">Sobre Nós</h2>

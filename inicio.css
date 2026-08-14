@@ -1301,4 +1301,52 @@ button[class*="geo"],
     padding: 10px 12px;
     color: #5d4037 !important;
     outline: none;
+} 
+/* CONTAINER PRINCIPAL (OCUPA A TELA DE PONTA A PONTA) */
+.mosaico-banner {
+    position: relative !important;
+    width: 100vw !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    height: 520px !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* GRADE DE FOTOS LADO A LADO */
+.mosaico-grid {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* CADA COLUNA DE IMAGEM */
+.mosaico-item {
+    flex: 1 !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border-right: 2px solid #ffffff; /* Divisória fina e elegante */
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.mosaico-item:last-child {
+    border-right: none !important;
+}
+
+/* EFEITO AO PASSAR O MOUSE NAS FOTOS */
+.mosaico-item:hover {
+    transform: scale(1.03);
+    z-index: 2;
+}
+
+/* CARTÃO DE VIDRO "DOCE ENCANTO" */
+.hero-glass-panel {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
 }

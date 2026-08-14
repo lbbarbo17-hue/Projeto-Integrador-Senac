@@ -1,124 +1,27 @@
-// ==========================================
-// CONFIGURAÇÕES GLOBAIS
-// ==========================================
-const NUMERO_WHATSAPP = "5541999999999"; // Coloque seu número aqui com DDD
+// =========================================================
+// CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
+// =========================================================
+const NUMERO_WHATSAPP = "5541999999999"; 
 
-// Garante que o carrinho existe e é válido
+const TAXA_ENTREGA = 5.00;
+const TAXA_SERVICO = 2.50;
+
+let valorDescontoCupom = 0;
+let cupomAtivo = '';
+
 let carrinho = [];
 try {
     carrinho = JSON.parse(localStorage.getItem('carrinho_doce_encanto')) || [];
-} catch (e) {
-    carrinho = [];
-}
+} catch (e) { carrinho = []; }
 
-// ==========================================
-// FLUXO DO CHECKOUT
-// ==========================================
-
-// Função do Botão "Avançar"
-function irParaCheckout() {
-    console.log("Botão Avançar clicado!");
-
-    // 1. Verifica se tem itens no carrinho
-    if (!carrinho || carrinho.length === 0) {
-        alert("Seu carrinho está vazio! Adicione produtos primeiro.");
-        return;
-    }
-
-    // 2. Pega os elementos do DOM
-    const modalCarrinho = document.getElementById('modal-carrinho');
-    const telaCheckout = document.getElementById('tela-checkout');
-    const selectPagamento = document.getElementById('select-pagamento-modal');
-    const totalCheckoutText = document.getElementById('total-checkout-valor');
-
-    if (!telaCheckout) {
-        alert("Erro no HTML: A div com id 'tela-checkout' não foi encontrada.");
-        return;
-    }
-
-    // 3. Atualiza o valor total no checkout
-    if (totalCheckoutText) {
-        totalCheckoutText.innerText = `R$ ${calcularTotal().toFixed(2).replace('.', ',')}`;
-    }
-
-    // 4. Esconde o modal do carrinho e mostra a tela de checkout
-    if (modalCarrinho) {
-        modalCarrinho.classList.add('escondido');
-        modalCarrinho.style.display = 'none';
-    }
-    
-    telaCheckout.classList.remove('escondido');
-    telaCheckout.style.display = 'flex';
-
-    // 5. Gerencia qual aba de pagamento exibir (PIX ou Cartão)
-    const abaPix = document.getElementById('pagina-pix');
-    const abaCartao = document.getElementById('pagina-cartao');
-    const opcaoEscolhida = selectPagamento ? selectPagamento.value : 'pix';
-
-    // Oculta ambas as abas primeiro
-    if (abaPix) {
-        abaPix.classList.add('escondida');
-        abaPix.style.display = 'none';
-    }
-    if (abaCartao) {
-        abaCartao.classList.add('escondida');
-        abaCartao.style.display = 'none';
-    }
-
-    // Exibe apenas a escolhida
-    if (opcaoEscolhida === 'pix' && abaPix) {
-        abaPix.classList.remove('escondida');
-        abaPix.style.display = 'block';
-    } else if (opcaoEscolhida === 'cartao' && abaCartao) {
-        abaCartao.classList.remove('escondida');
-        abaCartao.style.display = 'block';
-    }
-}
-
-// Voltar do Checkout para o Carrinho
-function voltarParaCarrinho() {
-    const telaCheckout = document.getElementById('tela-checkout');
-    if (telaCheckout) {
-        telaCheckout.classList.add('escondido');
-        telaCheckout.style.display = 'none';
-    }
-    abrirCarrinho();
-}
-
-// Abrir Modal do Carrinho (Impede a página de pular para o topo)
-function abrirCarrinho(e) {
-    if (e && e.preventDefault) {
-        e.preventDefault();
-    }
-    
-    const modal = document.getElementById('modal-carrinho');
-    if (modal) {
-        modal.classList.remove('escondido');
-        modal.style.display = 'flex';
-        atualizarCarrinho();
-    }
-}
-
-// Fechar Modal do Carrinho
-function fecharCarrinho() {
-    const modal = document.getElementById('modal-carrinho');
-    if (modal) {
-        modal.classList.add('escondido');
-        modal.style.display = 'none';
-    }
-}
-
-// ==========================================
-// REGRAS DO CARRINHO DE COMPRAS
-// ==========================================
-
+// =========================================================
+// 1. ADICIONAR AO CARRINHO (SEM ABRIR MODAL)
+// =========================================================
 function adicionarAoCarrinho(nome, preco) {
-    // Trata o preço para garantir que seja um Número válido
     let precoNumerico = preco;
     if (typeof preco === 'string') {
         precoNumerico = parseFloat(preco.replace('R$', '').replace('.', '').replace(',', '.').trim());
     }
-
     if (isNaN(precoNumerico)) precoNumerico = 0;
 
     const itemExistente = carrinho.find(item => item.nome === nome);
@@ -127,33 +30,75 @@ function adicionarAoCarrinho(nome, preco) {
     } else {
         carrinho.push({ nome: nome, preco: precoNumerico, quantidade: 1 });
     }
+
     salvarCarrinho();
-    atualizarCarrinho();
-    abrirCarrinho();
+    atualizarCarrinho(); // <-- Atualiza a contagem na hora!
+    
+    mostrarNotificacao(`✓ "${nome}" adicionado à sacola!`);
 }
 
+// =========================================================
+// 2. MENSAGEM FLUTUANTE (TOAST)
+// =========================================================
+function mostrarNotificacao(texto) {
+    let notif = document.getElementById('notificacao-item');
+    if (!notif) {
+        notif = document.createElement('div');
+        notif.id = 'notificacao-item';
+        notif.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#d81b60; color:#fff; padding:12px 20px; border-radius:30px; font-size:0.85rem; font-weight:bold; box-shadow:0 4px 15px rgba(216,27,96,0.3); z-index:1000000; display:none;';
+        document.body.appendChild(notif);
+    }
+    notif.innerText = texto;
+    notif.style.display = 'block';
+    setTimeout(() => {
+        notif.style.display = 'none';
+    }, 2200);
+}
+
+// =========================================================
+// 3. ATUALIZA O NÚMERO DO CARRINHO E OS VALORES
+// =========================================================
 function atualizarCarrinho() {
     const listaItens = document.getElementById('carrinho-itens');
-    const totalValor = document.getElementById('total-valor');
-    const contadorBadge = document.getElementById('contador-carrinho');
+    const subtotalEl = document.getElementById('subtotal-valor');
+    const taxaEntregaEl = document.getElementById('taxa-entrega');
+    const taxaServicoEl = document.getElementById('taxa-servico');
+    const totalEl = document.getElementById('total-valor');
+    const totalRodapeEl = document.getElementById('total-rodape-txt');
+    const totalCheckoutEl = document.getElementById('total-checkout-valor');
+    
+    const linhaDesconto = document.getElementById('linha-desconto');
+    const nomeCupomTxt = document.getElementById('nome-cupom-txt');
+    const descontoValorTxt = document.getElementById('desconto-valor');
 
+    // --- CORREÇÃO DO "0" DO CARRINHO ---
+    // Soma a quantidade total de produtos
+    const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+    
+    // Atualiza TODOS os elementos de contador que estiverem na página
+    const contadores = document.querySelectorAll('#contador-carrinho, .carrinho-qtd-badge');
+    contadores.forEach(el => {
+        el.innerText = totalQtd;
+    });
+
+    // Renderiza a lista dentro do modal (se ele existir na tela)
     if (listaItens) {
         listaItens.innerHTML = '';
         if (carrinho.length === 0) {
-            listaItens.innerHTML = '<p style="text-align:center; color:#888; margin: 20px 0;">Seu carrinho está vazio.</p>';
+            listaItens.innerHTML = '<p style="text-align:center; color:#888; padding:15px;">Sua sacola está vazia.</p>';
         } else {
             carrinho.forEach((item, index) => {
                 const precoFormatado = Number(item.preco).toFixed(2).replace('.', ',');
                 listaItens.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
-                        <div>
-                            <strong style="font-size:0.95rem; color:#333;">${item.nome}</strong><br>
-                            <small style="color:#666;">R$ ${precoFormatado} x ${item.quantidade}</small>
+                    <div class="item-carrinho-linha">
+                        <div class="item-detalhes">
+                            <strong>${item.nome}</strong>
+                            <span>R$ ${precoFormatado}</span>
                         </div>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                            <button type="button" onclick="alterarQtd(${index}, -1)" style="padding:2px 8px; cursor:pointer;">-</button>
+                        <div class="item-carrinho-qtd">
+                            <button type="button" onclick="alterarQtd(${index}, -1)">-</button>
                             <span>${item.quantidade}</span>
-                            <button type="button" onclick="alterarQtd(${index}, 1)" style="padding:2px 8px; cursor:pointer;">+</button>
+                            <button type="button" onclick="alterarQtd(${index}, 1)">+</button>
                         </div>
                     </div>
                 `;
@@ -161,16 +106,84 @@ function atualizarCarrinho() {
         }
     }
 
-    const total = calcularTotal();
-    if (totalValor) totalValor.innerText = total.toFixed(2).replace('.', ',');
-    if (contadorBadge) contadorBadge.innerText = carrinho.reduce((acc, i) => acc + i.quantidade, 0);
+    // Cálculos dos totais
+    const subtotal = calcularSubtotal();
+    let totalGeral = 0;
+
+    if (subtotal > 0) {
+        totalGeral = (subtotal + TAXA_ENTREGA + TAXA_SERVICO) - valorDescontoCupom;
+        if (totalGeral < 0) totalGeral = 0;
+    } else {
+        valorDescontoCupom = 0;
+        cupomAtivo = '';
+    }
+
+    // Exibição dos valores
+    if (subtotalEl) subtotalEl.innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+    if (taxaEntregaEl) taxaEntregaEl.innerText = subtotal > 0 ? `R$ ${TAXA_ENTREGA.toFixed(2).replace('.', ',')}` : `R$ 0,00`;
+    if (taxaServicoEl) taxaServicoEl.innerText = subtotal > 0 ? `R$ ${TAXA_SERVICO.toFixed(2).replace('.', ',')}` : `R$ 0,00`;
+
+    if (valorDescontoCupom > 0 && subtotal > 0) {
+        if (linhaDesconto) linhaDesconto.style.display = 'flex';
+        if (nomeCupomTxt) nomeCupomTxt.innerText = cupomAtivo;
+        if (descontoValorTxt) descontoValorTxt.innerText = `- R$ ${valorDescontoCupom.toFixed(2).replace('.', ',')}`;
+    } else {
+        if (linhaDesconto) linhaDesconto.style.display = 'none';
+    }
+
+    const totalFormatado = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+    if (totalEl) totalEl.innerText = totalFormatado;
+    if (totalRodapeEl) totalRodapeEl.innerText = totalFormatado;
+    if (totalCheckoutEl) totalCheckoutEl.innerText = totalFormatado;
+}
+
+// =========================================================
+// 4. FUNÇÕES AUXILIARES DO CARRINHO E CUPOM
+// =========================================================
+function calcularSubtotal() {
+    if (!carrinho || carrinho.length === 0) return 0;
+    return carrinho.reduce((acc, item) => acc + (Number(item.preco) * item.quantidade), 0);
+}
+
+function aplicarCupom(codigo, regra) {
+    const subtotal = calcularSubtotal();
+    if (subtotal === 0) {
+        alert("Adicione itens à sacola antes de aplicar um cupom!");
+        return;
+    }
+
+    cupomAtivo = codigo;
+
+    if (regra === '10%') {
+        valorDescontoCupom = subtotal * 0.10;
+    } else {
+        valorDescontoCupom = Number(regra);
+    }
+
+    if (valorDescontoCupom > subtotal) {
+        valorDescontoCupom = subtotal;
+    }
+
+    alert(`Cupom "${codigo}" aplicado!\nDesconto: R$ ${valorDescontoCupom.toFixed(2).replace('.', ',')}`);
+    atualizarCarrinho();
 }
 
 function alterarQtd(index, delta) {
     carrinho[index].quantidade += delta;
-    if (carrinho[index].quantidade <= 0) {
-        carrinho.splice(index, 1);
+    if (carrinho[index].quantidade <= 0) carrinho.splice(index, 1);
+    
+    if (cupomAtivo === 'DOCE10') {
+        valorDescontoCupom = calcularSubtotal() * 0.10;
     }
+
+    salvarCarrinho();
+    atualizarCarrinho();
+}
+
+function limparCarrinho() {
+    carrinho = [];
+    valorDescontoCupom = 0;
+    cupomAtivo = '';
     salvarCarrinho();
     atualizarCarrinho();
 }
@@ -179,140 +192,93 @@ function salvarCarrinho() {
     localStorage.setItem('carrinho_doce_encanto', JSON.stringify(carrinho));
 }
 
-function calcularTotal() {
-    if (!carrinho || carrinho.length === 0) return 0;
-    return carrinho.reduce((acc, item) => acc + (Number(item.preco) * item.quantidade), 0);
-}
-
-// ==========================================
-// FUNÇÕES AUXILIARES DO CHECKOUT
-// ==========================================
-
-// Copiar código PIX
-function copiarPix() {
-    const input = document.getElementById('chave-pix-input');
-    if (input) {
-        input.select();
-        document.execCommand('copy');
-        alert("Código PIX copiado para a área de transferência!");
+// =========================================================
+// 5. ABRIR E FECHAR MODAIS
+// =========================================================
+function abrirCarrinho(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const modal = document.getElementById('modal-carrinho');
+    if (modal) {
+        modal.classList.remove('escondido');
+        atualizarCarrinho();
     }
 }
 
-// GPS / Localização
-function obterLocalizacaoAtual() {
-    const statusGeo = document.getElementById('status-geo');
-    if (!navigator.geolocation) {
-        if (statusGeo) statusGeo.innerText = "GPS não suportado neste navegador.";
+function fecharCarrinho() {
+    const modal = document.getElementById('modal-carrinho');
+    if (modal) modal.classList.add('escondido');
+}
+
+function irParaCheckout() {
+    if (!carrinho || carrinho.length === 0) {
+        alert("Sua sacola está vazia!");
         return;
     }
-
-    if (statusGeo) {
-        statusGeo.innerText = "Buscando coordenadas GPS...";
-        statusGeo.style.color = "#000";
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        (pos) => {
-            const link = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
-            const coordsInput = document.getElementById('coords-gps');
-            const ruaInput = document.getElementById('rua-cliente');
-            
-            if (coordsInput) coordsInput.value = link;
-            if (ruaInput && !ruaInput.value) ruaInput.value = `Localização GPS Selecionada`;
-            
-            if (statusGeo) {
-                statusGeo.innerText = "📍 Localização GPS capturada com sucesso!";
-                statusGeo.style.color = "#2e7d32";
-            }
-        },
-        () => {
-            if (statusGeo) {
-                statusGeo.innerText = "Erro ao obter GPS. Por favor digite o endereço.";
-                statusGeo.style.color = "#c62828";
-            }
-        }
-    );
+    fecharCarrinho();
+    const telaCheckout = document.getElementById('tela-checkout');
+    if (telaCheckout) telaCheckout.classList.remove('escondido');
 }
 
-// Finalizar Pedido
+function voltarParaCarrinho() {
+    const telaCheckout = document.getElementById('tela-checkout');
+    if (telaCheckout) telaCheckout.classList.add('escondido');
+    abrirCarrinho();
+}
+
+// =========================================================
+// 6. ENVIAR PEDIDO AO WHATSAPP
+// =========================================================
 function processarPedidoSite() {
     const ruaInput = document.getElementById('rua-cliente');
     const bairroInput = document.getElementById('bairro-cliente');
-    const gpsInput = document.getElementById('coords-gps');
-
     const rua = ruaInput ? ruaInput.value.trim() : '';
     const bairro = bairroInput ? bairroInput.value.trim() : '';
-    const gps = gpsInput ? gpsInput.value : '';
 
     if (!rua || !bairro) {
-        alert("Por favor, preencha o Endereço e o Bairro antes de finalizar.");
+        alert("Preencha o Endereço para continuar!");
         return;
     }
 
-    const abaCartaoVisivel = document.getElementById('pagina-cartao') && document.getElementById('pagina-cartao').style.display !== 'none';
-    
-    if (abaCartaoVisivel) {
-        const numCartao = document.getElementById('cartao-numero');
-        const nomeCartao = document.getElementById('cartao-nome');
-        if (numCartao && nomeCartao && (!numCartao.value || !nomeCartao.value)) {
-            alert("Por favor, preencha o número e nome no cartão.");
-            return;
-        }
-    }
+    const subtotal = calcularSubtotal();
+    let totalGeral = (subtotal + TAXA_ENTREGA + TAXA_SERVICO) - valorDescontoCupom;
+    if (totalGeral < 0) totalGeral = 0;
 
-    alert("🎉 Pedido Confirmado com Sucesso!");
-
-    // Monta a mensagem para o WhatsApp
-    let msg = "*🧁 NOVO PEDIDO - DOCE ENCANTO 🧁*\n\n";
+    let msg = "*🧁 PEDIDO REALIZADO - DOCE ENCANTO 🧁*\n\n";
     carrinho.forEach(i => msg += `• ${i.quantidade}x ${i.nome}\n`);
-    msg += `\n*Total:* R$ ${calcularTotal().toFixed(2).replace('.', ',')}`;
-    msg += `\n*Endereço:* ${rua}, ${bairro}`;
-    if (gps) msg += `\n*GPS:* ${gps}`;
-    msg += `\n*Pagamento:* ${abaCartaoVisivel ? 'Cartão de Crédito/Débito' : 'PIX'} (Confirmado)`;
+    msg += `\n*Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+    msg += `\n*Taxa Entrega:* R$ ${TAXA_ENTREGA.toFixed(2).replace('.', ',')}`;
+    msg += `\n*Taxa Serviço:* R$ ${TAXA_SERVICO.toFixed(2).replace('.', ',')}`;
+    if (valorDescontoCupom > 0) {
+        msg += `\n*Cupom (${cupomAtivo}):* - R$ ${valorDescontoCupom.toFixed(2).replace('.', ',')}`;
+    }
+    msg += `\n*TOTAL FINAL:* R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+    msg += `\n\n*Endereço:* ${rua}, ${bairro}`;
 
     window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
-
-    // Limpa o carrinho após finalizar
-    carrinho = [];
-    salvarCarrinho();
-    atualizarCarrinho();
-    
-    const telaCheckout = document.getElementById('tela-checkout');
-    if (telaCheckout) {
-        telaCheckout.classList.add('escondido');
-        telaCheckout.style.display = 'none';
-    }
 }
 
-// Inicializa a página ao carregar
-document.addEventListener('DOMContentLoaded', () => {
-    atualizarCarrinho();
+// Executa a atualização assim que a página carregar
+document.addEventListener('DOMContentLoaded', atualizarCarrinho); 
+document.addEventListener('DOMContentLoaded', function() {
+    const linksNav = document.querySelectorAll('.navbar .nav-link');
+
+    linksNav.forEach(link => {
+        link.addEventListener('click', function() {
+            // Limpa o rosa de todo mundo
+            linksNav.forEach(l => l.classList.remove('active'));
+            
+            // Coloca o rosa APENAS no botão que recebeu o clique
+            this.classList.add('active');
+        });
+    });
 }); 
-function abrirModal(nome, precoFormatado, precoNumero, imagemSrc, descricaoCompleta) {
-    // Preenche as informações no Modal
-    document.getElementById('modal-titulo').innerText = nome;
-    document.getElementById('modal-descricao').innerText = descricaoCompleta;
-    document.getElementById('modal-preco').innerText = precoFormatado;
-    document.getElementById('modal-img').src = imagemSrc;
+document.addEventListener('DOMContentLoaded', function() {
+    const linksNav = document.querySelectorAll('.navbar .nav-link');
 
-    // Configura o botão de pedido dentro do modal
-    const btnPedir = document.getElementById('modal-btn-pedir');
-    btnPedir.onclick = function() {
-        adicionarAoCarrinho(nome, precoNumero);
-        fecharModal();
-    };
-
-    // Exibe o modal
-    document.getElementById('modal-produto').classList.add('active');
-}
-
-function fecharModal() {
-    document.getElementById('modal-produto').classList.remove('active');
-}
-
-// Fecha o modal se o usuário clicar fora do card
-function fecharModalFora(event) {
-    if (event.target.classList.contains('modal-overlay')) {
-        fecharModal();
-    }
-}
+    linksNav.forEach(link => {
+        link.addEventListener('click', function() {
+            linksNav.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
