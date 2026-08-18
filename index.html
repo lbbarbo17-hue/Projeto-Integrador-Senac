@@ -1178,8 +1178,8 @@ function confirmarKitGrande() {
         <div class="footer-col">
             <h3>Links Úteis</h3>
             <ul class="footer-links">
-                <li><a href="inicio.html">Home</a></li>
-                <li><a href="index.html">Delivery</a></li>
+                <li><a href="inicio.html">Início</a></li>
+                <li><a href="index.html">Cardápio</a></li>
                 <li><a href="encomendas.html">Encomendas</a></li>
                 <li><a href="sobrenos.html">Sobre nós</a></li>
                 <li><a href="contato.html">Contato</a></li>
@@ -1217,8 +1217,11 @@ function confirmarKitGrande() {
 <style>
 div#modal-carrinho.escondido,
 div#tela-checkout.escondido,
+div#pagina-pix.escondida,
+div#pagina-cartao.escondida,
 section#pagina-pix.escondida,
-section#pagina-cartao.escondida {
+section#pagina-cartao.escondida,
+.aba-checkout.escondida {
     display: none !important;
 }
 
@@ -1650,16 +1653,70 @@ div#tela-checkout .checkout-card {
                 <input type="text" id="bairro-cliente" placeholder="Bairro" style="padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
             </div>
 
-            <h3 class="secao-titulo" style="margin-top:20px;">Forma de Pagamento</h3>
-            <select id="select-pagamento-modal" style="width:100%; padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
-                <option value="pix">PIX (Chave Copia e Cola)</option>
-                <option value="cartao">Cartão de Crédito / Débito</option>
+            <h3 class="secao-titulo" style="margin-top:20px;"><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</h3>
+            <select id="select-pagamento-modal" onchange="trocarFormaPagamento()" style="width:100%; padding:11px 14px; border:1px solid #f8bbd0; border-radius:10px; background:#fff5f8; font-size:0.9rem; font-weight:600; color:#4a2c2a; outline:none; cursor:pointer;">
+                <option value="pix">📱 PIX (QR Code / Copia e Cola)</option>
+                <option value="cartao">💳 Cartão de Crédito / Débito</option>
             </select>
 
+            <!-- ABA 1: PIX (QR CODE E CHAVE COPIA E COLA) -->
             <div id="pagina-pix" class="aba-checkout" style="margin-top: 15px;">
-                <div style="text-align:center;">
-                    <p style="font-size:0.8rem; color:#666;">Escaneie o QR Code no app do seu banco:</p>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=DoceEncanto" style="width:120px;">
+                <div style="text-align:center; background:#fff5f8; border:1px dashed #f8bbd0; border-radius:14px; padding:15px;">
+                    <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block; margin-bottom:8px;">
+                        <i class="fa-brands fa-pix"></i> Pagamento via PIX
+                    </span>
+                    <p style="font-size:0.78rem; color:#666; margin-bottom:10px;">Escaneie o QR Code no app do seu banco ou copie a chave abaixo:</p>
+                    <div style="background:#fff; padding:10px; border-radius:12px; display:inline-block; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:12px;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" alt="QR Code PIX" style="width:130px; height:130px; display:block;">
+                    </div>
+                    
+                    <div style="display:flex; gap:6px; margin-top:5px;">
+                        <input type="text" id="chave-pix-input" readonly value="00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" style="flex:1; padding:8px 10px; font-size:0.75rem; border:1px solid #f8bbd0; border-radius:8px; background:#fff; color:#555;">
+                        <button type="button" onclick="copiarPix()" style="background:#d81b60; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:4px; white-space:nowrap;">
+                            <i class="fa-regular fa-copy"></i> Copiar
+                        </button>
+                    </div>
+                    <small style="display:block; margin-top:8px; font-size:0.72rem; color:#888;">Código expira em 15 minutos</small>
+                </div>
+            </div>
+
+            <!-- ABA 2: CARTÃO DE CRÉDITO / DÉBITO -->
+            <div id="pagina-cartao" class="aba-checkout escondida" style="margin-top: 15px;">
+                <div style="background:#fff5f8; border:1px solid #f8bbd0; border-radius:14px; padding:15px; display:flex; flex-direction:column; gap:10px;">
+                    <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block;">
+                        <i class="fa-solid fa-credit-card"></i> Inserir Dados do Cartão
+                    </span>
+                    
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Nome impresso no Cartão</label>
+                        <input type="text" id="cartao-nome" placeholder="Como impresso no cartão" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                    </div>
+
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Número do Cartão</label>
+                        <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19" oninput="mascaraCartao(this)" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                    </div>
+
+                    <div style="display:flex; gap:10px;">
+                        <div style="flex:1;">
+                            <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Validade</label>
+                            <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" oninput="mascaraValidade(this)" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">CVV</label>
+                            <input type="password" id="cartao-cvv" placeholder="123" maxlength="4" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Tipo de Pagamento</label>
+                        <select id="cartao-tipo" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.82rem; box-sizing:border-box; background:#fff; color:#333;">
+                            <option value="debito">Débito (À vista)</option>
+                            <option value="credito_1x">Crédito (1x sem juros)</option>
+                            <option value="credito_2x">Crédito (2x sem juros)</option>
+                            <option value="credito_3x">Crédito (3x sem juros)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -1678,126 +1735,8 @@ div#tela-checkout .checkout-card {
     </div>
 </div>
 
-<!-- =======================================================
-     SCRIPT JS - ADICIONA SILENCIOSAMENTE AO CARRINHO
-     ======================================================= -->
-<script>
-    // Configurações Globais
-    const NUMERO_WHATSAPP = "5541999999999"; 
-    const TAXA_ENTREGA = 5.00;
-    const TAXA_SERVICO = 2.50;
-    let valorDescontoCupom = 0;
-    let cupomAtivo = '';
-
-    // Carrega o carrinho salvo
-    let carrinho = [];
-    try {
-        carrinho = JSON.parse(localStorage.getItem('carrinho_doce_encanto')) || [];
-    } catch (e) { carrinho = []; }
-
-    // 1. ADICIONAR AO CARRINHO
-    function adicionarAoCarrinho(nome, preco) {
-        let precoNumerico = preco;
-        if (typeof preco === 'string') {
-            precoNumerico = parseFloat(preco.replace('R$', '').replace('.', '').replace(',', '.').trim());
-        }
-        if (isNaN(precoNumerico)) precoNumerico = 0;
-
-        const itemExistente = carrinho.find(item => item.nome === nome);
-        if (itemExistente) {
-            itemExistente.quantidade++;
-        } else {
-            carrinho.push({ nome: nome, preco: precoNumerico, quantidade: 1 });
-        }
-
-        salvarCarrinho();
-        atualizarCarrinho();
-        mostrarNotificacao(`✓ "${nome}" adicionado à sacola!`);
-    }
-
-    // 2. ATUALIZAR O NÚMERO "0" E O MODAL
-    function atualizarCarrinho() {
-        // Soma as quantidades
-        const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-
-        // ATUALIZA TODOS OS NÚMEROS DO CARRINHO NA TELA DE UMA VEZ
-        const contadores = document.querySelectorAll('#contador-carrinho, .carrinho-qtd-badge');
-        contadores.forEach(el => {
-            el.innerText = totalQtd;
-        });
-
-        // Atualiza a lista dentro do Modal (se estiver aberto)
-        const listaItens = document.getElementById('carrinho-itens');
-        if (listaItens) {
-            listaItens.innerHTML = '';
-            if (carrinho.length === 0) {
-                listaItens.innerHTML = '<p style="text-align:center; color:#888; padding:15px;">Sua sacola está vazia.</p>';
-            } else {
-                carrinho.forEach((item, index) => {
-                    const precoFormatado = Number(item.preco).toFixed(2).replace('.', ',');
-                    listaItens.innerHTML += `
-                        <div class="item-carrinho-linha" style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                            <div>
-                                <strong>${item.nome}</strong><br>
-                                <small>R$ ${precoFormatado}</small>
-                            </div>
-                            <div>
-                                <button type="button" onclick="alterarQtd(${index}, -1)">-</button>
-                                <span style="margin:0 8px;">${item.quantidade}</span>
-                                <button type="button" onclick="alterarQtd(${index}, 1)">+</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        // Atualiza valores financeiros se os elementos existirem
-        const subtotal = carrinho.reduce((acc, item) => acc + (Number(item.preco) * item.quantidade), 0);
-        const subtotalEl = document.getElementById('subtotal-valor');
-        if (subtotalEl) subtotalEl.innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-    }
-
-    // 3. AUXILIARES
-    function alterarQtd(index, delta) {
-        carrinho[index].quantidade += delta;
-        if (carrinho[index].quantidade <= 0) carrinho.splice(index, 1);
-        salvarCarrinho();
-        atualizarCarrinho();
-    }
-
-    function salvarCarrinho() {
-        localStorage.setItem('carrinho_doce_encanto', JSON.stringify(carrinho));
-    }
-
-    function mostrarNotificacao(texto) {
-        let notif = document.getElementById('notificacao-item');
-        if (!notif) {
-            notif = document.createElement('div');
-            notif.id = 'notificacao-item';
-            notif.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#d81b60; color:#fff; padding:12px 20px; border-radius:30px; font-weight:bold; z-index:10000;';
-            document.body.appendChild(notif);
-        }
-        notif.innerText = texto;
-        notif.style.display = 'block';
-        setTimeout(() => { notif.style.display = 'none'; }, 2000);
-    }
-
-    function abrirCarrinho(e) {
-        if(e) e.preventDefault();
-        const modal = document.getElementById('modal-carrinho');
-        if (modal) modal.classList.remove('escondido');
-    }
-
-    function fecharCarrinho() {
-        const modal = document.getElementById('modal-carrinho');
-        if (modal) modal.classList.add('escondido');
-    }
-
-    // RODA ASSIM QUE A PÁGINA CARREGA
-    document.addEventListener('DOMContentLoaded', atualizarCarrinho);
-    atualizarCarrinho();
-</script>
+    <!-- CARREGAMENTO DO SCRIPT PRINCIPAL -->
+    <script src="inicio.js"></script>
 
 </body>
 </html>
