@@ -34,9 +34,9 @@
         <a href="inicio.html" class="nav-link">Início</a>
         <a href="index.html" class="nav-link">Cardápio</a>
         <a href="sobrenos.html" class="nav-link active">Sobre Nós</a>
-        <a href="inicio.html#avaliacoes" class="nav-link">Avaliações</a>
-        <a href="inicio.html#contato" class="nav-link">Contato</a> 
-        
+        <a href="encomendas.html" class="nav-link">Encomendas</a>
+        <a href="contato.html" class="nav-link">Contato</a> 
+        <a href="login.html" class="nav-link" id="user-nav-link" title="Minha Conta / Entrar"><i class="fa-regular fa-user"></i> Login</a>
         <!-- BOTÃO DO CARRINHO ESTILIZADO -->
         <a href="#" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
           
@@ -177,12 +177,72 @@
 
     </div>
 
-    <!-- Linha Divisória e Copyright -->
-    <div class="footer-bottom">
-        <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
-        <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+        <!-- Linha Divisória e Copyright -->
+        <div class="footer-bottom">
+            <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
+            <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+        </div>
+    </footer>
+
+    <!-- NOTIFICAÇÃO DISCRETA -->
+    <div id="notificacao-item">✓ Item adicionado à sacola!</div>
+
+    <!-- 1. MODAL DO CARRINHO -->
+    <div id="modal-carrinho" class="modal-carrinho escondido" style="display:none;">
+        <div class="conteudo-carrinho">
+            <div class="delivery-header">
+                <button type="button" class="btn-voltar-topo" onclick="fecharCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2>Minha sacola</h2>
+                <button type="button" class="btn-limpar" onclick="limparCarrinho()">Limpar</button>
+            </div>
+
+            <div class="etapas-bar">
+                <div class="etapa-item ativa">1</div>
+                <div class="etapa-item">2</div>
+                <div class="etapa-item">3</div>
+            </div>
+
+            <div class="delivery-body">
+                <h3 class="secao-titulo">Itens adicionados</h3>
+                <div id="carrinho-itens"></div>
+
+                <div class="bloco-observacao" style="margin-top: 15px; margin-bottom: 15px;">
+                    <h3 class="secao-titulo"><i class="fa-regular fa-comment-dots"></i> Observações do Pedido</h3>
+                    <textarea id="observacao-carrinho" placeholder="Ex: Tirar o morango, mandar velas, sem lactose..." style="width: 100%; padding: 12px; border: 2px solid #f8e1e7; border-radius: 12px; font-family: inherit; font-size: 0.88rem; outline: none; box-sizing: border-box; resize: vertical; min-height: 70px; background: #fffbfd;" onchange="salvarObservacao()"></textarea>
+                </div>
+
+                <div class="bloco-cupom" style="margin-bottom: 10px;">
+                    <h3 class="secao-titulo">Resumo de valores</h3>
+                    <div class="resumo-linha">
+                        <span>Subtotal</span>
+                        <span id="subtotal-valor">R$ 0,00</span>
+                    </div>
+                    <div class="resumo-linha">
+                        <span>Taxa de entrega</span>
+                        <span id="taxa-entrega">R$ 5,00</span>
+                    </div>
+                    <div class="resumo-linha">
+                        <span>Taxa de Serviço</span>
+                        <span id="taxa-servico">R$ 2,50</span>
+                    </div>
+                    <div class="resumo-linha total-destaque">
+                        <span>Total</span>
+                        <span id="total-valor">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-footer">
+                <div class="total-rodape">
+                    <small>Total a pagar:</small>
+                    <strong id="total-rodape-txt">R$ 0,00</strong>
+                </div>
+                <button type="button" class="btn-continuar-rosa" onclick="irParaCheckout()">
+                    Continuar <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
-</footer>
 
   <!-- 1. MODAL DE SELEÇÃO INICIAL DO CARRINHO -->
 <div id="modal-carrinho" class="modal-carrinho escondido">
@@ -297,19 +357,6 @@
 </div>
 
     <!-- SCRIPTS -->
-    <script>
-        function abrirCarrinho(event) {
-            if (event) event.preventDefault();
-            const modal = document.getElementById('modal-carrinho');
-            if (modal) modal.style.display = 'flex';
-        }
-
-        function fecharCarrinho() {
-            const modal = document.getElementById('modal-carrinho');
-            if (modal) modal.style.display = 'none';
-        }
-    </script>
-    <script src="script.js"></script>
-
+    <script src="inicio.js"></script>
 </body>
 </html>

@@ -49,35 +49,75 @@
     <nav class="navbar">
         <a href="inicio.html" class="nav-link">Início</a>
         <a href="index.html" class="nav-link">Cardápio</a>
-        <a href="encomendas.html" class="nav-link active">Encomendas</a>
         <a href="sobrenos.html" class="nav-link">Sobre Nós</a>
-        <a href="contato.html" class="nav-link">Contato</a>
-        <a href="javascript:void(0)" class="nav-link nav-carrinho" onclick="toggleCarrinho()">
-            🛒 Carrinho (<span id="carrinho-contador-topo">0</span>)
+        <a href="encomendas.html" class="nav-link">Encomendas</a>
+        <a href="contato.html" class="nav-link">Contato</a> 
+        <a href="login.html" class="nav-link" id="user-nav-link" title="Minha Conta / Entrar"><i class="fa-regular fa-user"></i> Login</a>
+        
+        <a href="#" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
+            <i class="fa-solid fa-cart-shopping"></i> Carrinho <span class="carrinho-qtd-badge" id="contador-carrinho">0</span>
         </a>
     </nav>
 
-    <!-- BANNER HERO COM IMAGEM E TITULO DA PÁGINA -->
-    <section class="encomendas-hero">
-        <div class="encomendas-hero-overlay"></div>
-        <div class="encomendas-hero-content">
-            <span class="badge-tag"><i class="fa-solid fa-cake-candles"></i> Faça sua Festa Conosco</span>
-            <h1>Encomendas Especiais & Kits Festa</h1>
-            <p><i class="fa-solid fa-location-dot"></i> Atendendo Jardim Peri Peri (Butantã), Osasco e Região de SP</p>
+    <!-- HERO SECTION - CARROSSEL INFINITO ANIMADO IGUAL À PÁGINA INÍCIO -->
+    <section id="inicio" class="hero" style="height: 380px !important; min-height: 380px !important;">
+        <div class="hero-carousel-track">
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-4.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-5.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-6.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-7.webp');"></div>
+
+            <!-- DUPLICAÇÃO PARA LOOP INFINITO PERFEITO -->
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-1.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-2.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-3.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-4.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-5.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-6.webp');"></div>
+            <div class="slide" style="background-image: url('imagens_inicio/encomendas-doce-encanto-7.webp');"></div>
+        </div>
+
+        <div class="hero-overlay"></div>
+
+        <!-- PLACA DE VIDRO CENTRALIZADA -->
+        <div class="hero-glass-panel" style="padding: 30px 40px !important;">
+            <div class="hero-content">
+                <span class="badge-tag" style="background:#f48fb1; color:#fff; padding:6px 18px; border-radius:20px; font-size:0.85rem; font-weight:600; display:inline-block; margin-bottom:10px;"><i class="fa-solid fa-cake-candles"></i> Faça sua Festa Conosco</span>
+                <h1 style="color: #ffffff; margin: 10px 0; font-size: 2.2rem; font-weight: 700; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85); font-family: 'Fredoka', sans-serif;">Encomendas Especiais & Kits Festa</h1>
+                <p style="color: #ffffff; margin: 0; font-size: 1rem; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);"><i class="fa-solid fa-location-dot"></i> Atendendo Jardim Peri Peri (Butantã), Osasco e Região de SP</p>
+            </div>
         </div>
     </section>
-
     <!-- CONTEÚDO DE ENCOMENDAS -->
     <main class="encomendas-main">
         
-        <!-- SEÇÃO INFORMATIVA SOBRE PRAZOS -->
-        <section class="info-notice-banner">
-            <div class="notice-icon"><i class="fa-solid fa-clock"></i></div>
-            <div class="notice-text">
-                <h3>Como funcionam as encomendas?</h3>
-                <p>Nossas encomendas são feitas de forma artesanal. Pedimos o prazo mínimo de <strong>24h a 48h de antecedência</strong> para bolos decorados e centos de doces. Entrega via delivery no Jardim Peri Peri e região!</p>
+       
+    
+    <div class="cards-avisos-container">
+        <!-- CARD 1 -->
+        <div class="card-aviso-item" style="cursor: pointer;" onclick="abrirModalAviso('TEMPO DE ANTECEDÊNCIA', 'Encomendas feitas com carinho precisam de um tempinho especial! Para que cada doce seja preparado com todo o cuidado, sabor e capricho que você merece, pedimos o prazo mínimo de 24h a 48h de antecedência para a produção. Entre em contato conosco para confirmar a disponibilidade da data desejada.')">
+            <div class="card-aviso-conteudo">
+                <h4>TEMPO DE ANTECEDÊNCIA</h4>
+                <p>Encomendas feitas com carinho precisam de um tempinho especial! Para que cada doce seja preparado com todo o cuidado, sabor e capricho que você merece...</p>
+                <span class="card-aviso-preco" style="color: #2ecc71; font-weight: bold;"><i class="fa-brands fa-whatsapp"></i> Clique para ler e combinar</span>
             </div>
-        </section>
+            <i class="fa-solid fa-chevron-right seta-card"></i>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card-aviso-item" style="cursor: pointer;" onclick="abrirModalAviso('ANTECIPAÇÃO DE VALOR', 'Para garantir sua encomenda e organizar tudo com muito carinho, trabalhamos com o pagamento antecipado de 50% do valor do pedido, caso ele já não tenha sido pago integralmente pelo site. Aceitamos PIX e cartões de crédito ou débito. Em caso de cancelamento com menos de 24 horas de antecedência, não realizamos a devolução do valor, pois os insumos já terão sido adquiridos. Agradecemos a compreensão!')">
+            <div class="card-aviso-conteudo">
+                <h4>ANTECIPAÇÃO DE VALOR</h4>
+                <p>Para garantir sua encomenda e organizar tudo com muito carinho, trabalhamos com o pagamento antecipado de 50% do valor do pedido...</p>
+                <span class="card-aviso-preco" style="color: #2ecc71; font-weight: bold;"><i class="fa-brands fa-whatsapp"></i> Clique para ler e combinar</span>
+            </div>
+            <i class="fa-solid fa-chevron-right seta-card"></i>
+        </div>
+    </div>
+</section>
 
         <!-- OPÇÕES DE ENCOMENDAS (GRID DE CARDS) -->
         <section class="encomendas-grid-section">
@@ -103,12 +143,12 @@
                 <!-- CARD 2: CENTOS DE DOCINHOS -->
                 <div class="encomenda-card">
                     <div class="card-img-box">
-                        <img src="imagens_inicio/Confeitaria.jpg" alt="Centos de Docinhos">
+                        <img src="imagens/brigadeirogoumert.jpeg" alt="Centos de Docinhos">
                     </div>
                     <div class="card-info">
                         <h3>Centos de Docinhos Gourmet</h3>
-                        <p>Brigadeiro belga, beijinho, bicho de pé, ninho com nutella e churros para deixar sua festa incrível.</p>
-                        <span class="price-tag">A partir de R$ 120,00 / cento</span>
+                        <p>A qualidade de nossos brigadeiros é indiscutível, feitos artesanalmente desde o 1 passo e com ingredientes de alta qualidade. O peso da unidade é 25 gramas. Selecione a quantidade e sabor</p>
+                        <span class="price-tag">A partir de R$ 95,00/ cento</span>
                         <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20encomendar%20Centos%20de%20Docinhos." target="_blank" class="btn-encomendar">
                             <i class="fa-brands fa-whatsapp"></i> Encomendar Doces
                         </a>
@@ -118,12 +158,12 @@
                 <!-- CARD 3: KITS FESTA PRONTOS -->
                 <div class="encomenda-card">
                     <div class="card-img-box">
-                        <img src="imagens_inicio/encomendas-doce-encanto-1.webp" alt="Kit Festa">
+                        <img src="imagens/kitgestag.jpeg" alt="Kit Festa">
                     </div>
                     <div class="card-info">
                         <h3>Kits Festa Completos</h3>
                         <p>Combos práticos com bolo decorado + centos de doces + refrigerante. A solução inteira para seu evento.</p>
-                        <span class="price-tag">A partir de R$ 199,00</span>
+                        <span class="price-tag">A partir de R$ 89,90 (dependendo do tamanho do kit)</span>
                         <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20Kits%20Festa." target="_blank" class="btn-encomendar">
                             <i class="fa-brands fa-whatsapp"></i> Ver Kits Festa
                         </a>
@@ -231,6 +271,156 @@
             <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
         </div>
     </footer>
+
+    <!-- NOTIFICAÇÃO DISCRETA -->
+    <div id="notificacao-item">✓ Item adicionado à sacola!</div>
+
+    <!-- 1. MODAL DO CARRINHO (ESTRUTURA UNIFICADA) -->
+    <div id="modal-carrinho" class="modal-carrinho escondido" style="display:none;">
+        <div class="conteudo-carrinho">
+            <div class="delivery-header">
+                <button type="button" class="btn-voltar-topo" onclick="fecharCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2>Minha sacola</h2>
+                <button type="button" class="btn-limpar" onclick="limparCarrinho()">Limpar</button>
+            </div>
+
+            <div class="etapas-bar">
+                <div class="etapa-item ativa">1</div>
+                <div class="etapa-item">2</div>
+                <div class="etapa-item">3</div>
+            </div>
+
+            <div class="delivery-body">
+                <h3 class="secao-titulo">Itens adicionados</h3>
+                <div id="carrinho-itens"></div>
+
+                <div class="bloco-observacao" style="margin-top: 15px; margin-bottom: 15px;">
+                    <h3 class="secao-titulo"><i class="fa-regular fa-comment-dots"></i> Observações do Pedido</h3>
+                    <textarea id="observacao-carrinho" placeholder="Ex: Tirar o morango, mandar velas, sem lactose..." style="width: 100%; padding: 12px; border: 2px solid #f8e1e7; border-radius: 12px; font-family: inherit; font-size: 0.88rem; outline: none; box-sizing: border-box; resize: vertical; min-height: 70px; background: #fffbfd;" onchange="salvarObservacao()"></textarea>
+                </div>
+
+                <div class="bloco-cupom" style="margin-bottom: 10px;">
+                    <h3 class="secao-titulo">Resumo de valores</h3>
+                    <div class="resumo-linha">
+                        <span>Subtotal</span>
+                        <span id="subtotal-valor">R$ 0,00</span>
+                    </div>
+                    <div class="resumo-linha">
+                        <span>Taxa de entrega</span>
+                        <span id="taxa-entrega">R$ 5,00</span>
+                    </div>
+                    <div class="resumo-linha">
+                        <span>Taxa de Serviço</span>
+                        <span id="taxa-servico">R$ 2,50</span>
+                    </div>
+                    <div class="resumo-linha total-destaque">
+                        <span>Total</span>
+                        <span id="total-valor">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-footer">
+                <div class="total-rodape">
+                    <small>Total a pagar:</small>
+                    <strong id="total-rodape-txt">R$ 0,00</strong>
+                </div>
+                <button type="button" class="btn-continuar-rosa" onclick="irParaCheckout()">
+                    Continuar <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. CHECKOUT -->
+    <div id="tela-checkout" class="checkout-overlay escondido" style="display:none;">
+        <div class="checkout-card">
+            <div class="delivery-header">
+                <button type="button" class="btn-voltar-topo" onclick="voltarParaCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2>Finalizar Pedido</h2>
+                <div></div>
+            </div>
+
+            <div class="etapas-bar">
+                <div class="etapa-item">1</div>
+                <div class="etapa-item ativa">2</div>
+                <div class="etapa-item">3</div>
+            </div>
+
+            <div class="delivery-body">
+                <h3 class="secao-titulo"><i class="fa-solid fa-location-dot"></i> Endereço de Entrega</h3>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" id="rua-cliente" placeholder="Rua / Avenida e Número" style="padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
+                    <input type="text" id="bairro-cliente" placeholder="Bairro" style="padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
+                </div>
+
+                <h3 class="secao-titulo" style="margin-top:20px;"><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</h3>
+                <select id="select-pagamento-modal" onchange="trocarFormaPagamento()" style="width:100%; padding:11px 14px; border:1px solid #f8bbd0; border-radius:10px; background:#fff5f8; font-size:0.9rem; font-weight:600; color:#4a2c2a; outline:none; cursor:pointer;">
+                    <option value="pix">📱 PIX (QR Code / Copia e Cola)</option>
+                    <option value="cartao">💳 Cartão de Crédito / Débito</option>
+                </select>
+
+                <div id="pagina-pix" class="aba-checkout" style="margin-top: 15px;">
+                    <div style="text-align:center; background:#fff5f8; border:1px dashed #f8bbd0; border-radius:14px; padding:15px;">
+                        <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block; margin-bottom:8px;"><i class="fa-brands fa-pix"></i> Pagamento via PIX</span>
+                        <p style="font-size:0.78rem; color:#666; margin-bottom:10px;">Escaneie o QR Code no app do seu banco ou copie a chave abaixo:</p>
+                        <div style="background:#fff; padding:10px; border-radius:12px; display:inline-block; margin-bottom:12px;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" alt="QR Code PIX" style="width:130px; height:130px; display:block;">
+                        </div>
+                        <div style="display:flex; gap:6px; margin-top:5px;">
+                            <input type="text" id="chave-pix-input" readonly value="00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" style="flex:1; padding:8px 10px; font-size:0.75rem; border:1px solid #f8bbd0; border-radius:8px; background:#fff; color:#555;">
+                            <button type="button" onclick="copiarPix()" style="background:#d81b60; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold; cursor:pointer;">Copiar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pagina-cartao" class="aba-checkout escondida" style="margin-top: 15px; display:none;">
+                    <div style="background:#fff5f8; border:1px solid #f8bbd0; border-radius:14px; padding:15px; display:flex; flex-direction:column; gap:10px;">
+                        <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block;"><i class="fa-solid fa-credit-card"></i> Inserir Dados do Cartão</span>
+                        <input type="text" id="cartao-nome" placeholder="Nome impresso no cartão" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem;">
+                        <input type="text" id="cartao-numero" placeholder="Número do Cartão" maxlength="19" oninput="mascaraCartao(this)" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem;">
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" oninput="mascaraValidade(this)" style="flex:1; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem;">
+                            <input type="password" id="cartao-cvv" placeholder="CVV" maxlength="4" style="flex:1; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delivery-footer">
+                <div class="total-rodape">
+                    <small>Total Final:</small>
+                    <strong id="total-checkout-valor">R$ 0,00</strong>
+                </div>
+                <button type="button" class="btn-continuar-rosa" onclick="processarPedidoSite()">
+                    Fazer Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE AVISOS (TEMPO DE ANTECEDÊNCIA & ANTECIPAÇÃO DE VALOR) -->
+    <div id="modal-aviso-encomenda" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.65); align-items:center; justify-content:center; z-index:999999; padding:20px; box-sizing:border-box; backdrop-filter:blur(4px);">
+        <div style="background:#ffffff; width:100%; max-width:480px; border-radius:24px; padding:32px 25px; text-align:center; box-shadow:0 15px 35px rgba(0,0,0,0.25); border:2px solid #fce4ec; font-family:'Poppins', sans-serif; position:relative;">
+            <button onclick="fecharModalAviso()" style="position:absolute; top:15px; right:15px; background:#fceef2; color:#6d3828; border:none; width:34px; height:34px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:bold;">&times;</button>
+            
+            <div style="width:65px; height:65px; background:#fceef2; color:#f48fb1; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.9rem; margin:0 auto 15px auto;">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            
+            <h3 id="modal-aviso-titulo" style="font-family:'Fredoka', sans-serif; color:#6d3828; font-size:1.5rem; margin:0 0 14px 0;"></h3>
+            
+            <div id="modal-aviso-texto" style="color:#555; font-size:0.92rem; line-height:1.6; margin-bottom:20px; text-align:justify; background:#fff8fa; padding:18px; border-radius:14px; border:1px dashed #f8e1e7; max-height:220px; overflow-y:auto;"></div>
+
+            <a id="btn-modal-aviso-whats" href="#" target="_blank" onclick="fecharModalAviso()" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#25d366; color:#ffffff; text-decoration:none; padding:14px; border-radius:30px; font-weight:bold; font-size:1.05rem; font-family:'Fredoka', sans-serif; box-shadow:0 6px 20px rgba(37,211,102,0.35); margin-bottom:12px;">
+                <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i> Combinar pelo WhatsApp
+            </a>
+
+            <button onclick="fecharModalAviso()" style="background:transparent; border:none; color:#888; font-size:0.88rem; cursor:pointer; font-weight:600;">
+                Fechar aviso
+            </button>
+        </div>
+    </div>
 
     <script src="inicio.js"></script>
 </body>

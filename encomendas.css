@@ -192,47 +192,69 @@ body {
 /* PASSO A PASSO */
 .steps-section {
     background-color: #ffffff;
-    padding: 50px 30px;
+    padding: 50px 35px;
     border-radius: 25px;
-    box-shadow: 0 6px 18px rgba(109, 56, 40, 0.05);
+    box-shadow: 0 10px 30px rgba(109, 56, 40, 0.06);
+    border: 1px solid #f8e1e7;
+    margin-top: 40px;
 }
 
 .steps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 35px;
 }
 
 .step-card {
     text-align: center;
+    background: #fff8fa;
+    padding: 30px 20px;
+    border-radius: 20px;
+    border: 1px dashed #f8e1e7;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(244, 143, 177, 0.2);
+    border-color: #f48fb1;
 }
 
 .step-num {
-    width: 45px;
-    height: 45px;
-    background-color: #f48fb1;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #fab3cb 0%, #f48fb1 100%);
     color: #ffffff;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-family: 'Fredoka', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(244, 143, 177, 0.3);
 }
 
 .step-card h4 {
     font-family: 'Fredoka', sans-serif;
     color: #6d3828;
-    margin: 0 0 8px 0;
+    font-size: 1.15rem;
+    margin: 0 0 10px 0;
 }
 
 .step-card p {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     color: #666;
-    line-height: 1.4;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* RESPONSIVIDADE */
@@ -1618,4 +1640,172 @@ button[class*="geo"],
 .encomendas-hero-content h1, 
 .section-title {
     font-family: 'Shrikhand', cursive !important;
+} 
+/* Importação da fonte arredondada padrão dos seus títulos */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap');
+
+/* Estrutura do Título Igual a "O que você gostaria de encomendar?" */
+.titulo-secao-com-linha {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.titulo-secao-com-linha h2 {
+    font-family: 'Fredoka', 'Poppins', sans-serif !important;
+    font-size: 2.2rem !important;
+    color: #4a2c2a !important; /* Marrom idêntico ao título de baixo */
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.linha-decorativa {
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #f8a5c2; /* Barrinha rosa abaixo do texto */
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+/* Ajustes da Seção e Cards */
+.secao-sua-encomenda {
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.cards-avisos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card-aviso-item {
+    background: #fff8f9;
+    border: 1px solid #fce4ec;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+}
+
+.card-aviso-item:hover {
+    transform: translateY(-2px);
+    background: #fff0f3;
+    border-color: #f8a5c2;
+    box-shadow: 0 4px 12px rgba(224, 122, 147, 0.12);
+}
+
+.card-aviso-conteudo h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.9rem;
+    color: #4a2c2a;
+    font-weight: 700;
+}
+
+.card-aviso-conteudo p {
+    margin: 0 0 6px 0;
+    font-size: 0.82rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.card-aviso-preco {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #4a2c2a;
+}
+
+.seta-card {
+    color: #e07a93;
+    font-size: 0.9rem;
+    margin-left: 15px;
+} 
+.encomendas-hero {
+    background-image: url('bolos.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+/* Caixa branca transparente sem o tom marrom */
+.caixa-branca-transparente {
+    background-color: rgba(255, 255, 255, 0.85); /* Fundo branco levemente transparente */
+    padding: 30px;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px); /* Efeito suave de desfoque no fundo */
+}
+
+/* Ajuste das cores do texto para sobressair no fundo branco */
+.caixa-branca-transparente h1 {
+    color: #333333;
+    margin: 15px 0 10px 0;
+}
+
+.caixa-branca-transparente p {
+    color: #555555;
+    margin: 0;
+}
+.encomendas-hero {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    
+    /* Usa ../ para sair da pasta do CSS e acessar a pasta imagem */
+    background-image: url('../imagem/bolos.webp'); 
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Camada marrom transparente */
+.encomendas-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(92, 42, 28, 0.75); 
+    z-index: 1;
+}
+
+/* Texto por cima */
+.encomendas-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #ffffff;
+    padding: 20px;
+    max-width: 800px;
+}
+
+.encomendas-hero-content h1 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin: 15px 0 10px 0;
+    font-weight: 700;
+}
+
+.encomendas-hero-content p {
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin: 0;
+} 
+body, html {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
 }
