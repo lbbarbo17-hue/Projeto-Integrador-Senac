@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastre-se | Doce Encanto</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar" aria-label="Navegação principal">
+        <a href="inicio.html#inicio" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="inicio.html#sobre-nos" class="nav-link">Sobre Nós</a>
+        <a href="inicio.html#avaliacoes" class="nav-link">Avaliações</a>
+        <a href="inicio.html#contato" class="nav-link">Contato</a>
+        <a href="login.html" class="nav-link"><i class="fa-regular fa-user"></i> Login</a>
+        <a href="index.html" class="nav-link-carrinho"><i class="fa-solid fa-cart-shopping"></i> Carrinho</a>
+    </nav>
+
+    <main class="login-page cadastro-page">
+        <section class="login-card" aria-labelledby="titulo-cadastro">
+            <a class="brand" href="inicio.html" aria-label="Voltar para a página inicial">Doce Encanto</a>
+            <p class="brand-subtitle">CONFEITARIA GOURMET</p>
+
+            <div class="login-heading">
+                <span class="heading-icon"><i class="fa-solid fa-cake-candles"></i></span>
+                <h1 id="titulo-cadastro">Crie sua conta</h1>
+                <p>Cadastre-se e aproveite uma experiência ainda mais doce.</p>
+            </div>
+
+            <!-- Mensagem de Feedback -->
+            <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
+
+            <form id="cadastro-form" action="#" method="post">
+                <div class="input-group">
+                    <label for="nome">Nome completo</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user"></i>
+                        <input id="nome" type="text" name="nome" placeholder="Como podemos te chamar?" autocomplete="name" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input id="email" type="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input id="senha" type="password" name="senha" placeholder="Crie uma senha" autocomplete="new-password" minlength="6" required>
+                    </div>
+                    <small class="input-help">Use pelo menos 6 caracteres.</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="confirmar-senha">Confirmar Senha</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input id="confirmar-senha" type="password" name="confirmar-senha" placeholder="Repita sua senha" autocomplete="new-password" minlength="6" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-entrar">Criar minha conta <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+
+            <p class="register-link">Já possui uma conta? <a href="login.html">Faça login</a></p>
+            <a class="back-link" href="inicio.html"><i class="fa-solid fa-arrow-left"></i> Voltar para o início</a>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cadastroForm = document.getElementById('cadastro-form');
+        const alertaBox = document.getElementById('mensagem-alerta');
+
+        // Função para mostrar alertas visuais na tela
+        function exibirMensagem(texto, tipo = 'erro') {
+            alertaBox.style.display = 'block';
+            alertaBox.style.padding = '12px';
+            alertaBox.style.marginBottom = '15px';
+            alertaBox.style.borderRadius = '8px';
+            alertaBox.style.textAlign = 'center';
+            alertaBox.style.fontSize = '0.9rem';
+
+            if (tipo === 'erro') {
+                alertaBox.style.backgroundColor = '#e74c3c';
+                alertaBox.style.color = '#fff';
+            } else {
+                alertaBox.style.backgroundColor = '#2ecc71';
+                alertaBox.style.color = '#fff';
+            }
+            alertaBox.textContent = texto;
+        }
+
+        if (cadastroForm) {
+            cadastroForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const nome = document.getElementById('nome').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const senha = document.getElementById('senha').value;
+                const confirmarSenha = document.getElementById('confirmar-senha').value;
+
+                // 1. Validar se as senhas coincidem
+                if (senha !== confirmarSenha) {
+                    exibirMensagem('As senhas não coincidem!');
+                    return;
+                }
+
+                // 2. Buscar usuários cadastrados anteriormente no localStorage
+                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+
+                // 3. Verificar se o e-mail já existe
+                const usuarioExiste = usuariosSalvos.some(u => u.email === email);
+                if (usuarioExiste) {
+                    exibirMensagem('Este e-mail já está cadastrado!');
+                    return;
+                }
+
+                // 4. Salvar o novo usuário no localStorage
+                usuariosSalvos.push({ nome, email, senha });
+                localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+
+                // 5. Exibir mensagem de sucesso e redirecionar para o login
+                exibirMensagem('Conta criada com sucesso! Redirecionando para o login...', 'sucesso');
+
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            });
+        }
+    });
+    </script>
+</body>
+</html>

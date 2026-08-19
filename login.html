@@ -2,21 +2,120 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Confeitaria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar | Doce Encanto</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+    <nav class="navbar" aria-label="Navegação principal">
+        <a href="inicio.html#inicio" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="inicio.html#sobre-nos" class="nav-link">Sobre Nós</a>
+        <a href="inicio.html#avaliacoes" class="nav-link">Avaliações</a>
+        <a href="inicio.html#contato" class="nav-link">Contato</a>
+        <a href="login.html" class="nav-link active"><i class="fa-regular fa-user"></i> Login</a>
+        <a href="index.html" class="nav-link-carrinho"><i class="fa-solid fa-cart-shopping"></i> Carrinho</a>
+    </nav>
 
-    <h2>Acessar minha Conta</h2>
-    
-    <form action="processa_login.php" method="POST">
-        <label>E-mail:</label>
-        <input type="email" name="email" required><br><br>
-        
-        <label>Senha:</label>
-        <input type="password" name="senha" required><br><br>
-        
-        <button type="submit">Entrar</button>
-    </form>
+    <main class="login-page">
+        <section class="login-card" aria-labelledby="titulo-login">
+            <a class="brand" href="inicio.html" aria-label="Voltar para a página inicial">Doce Encanto</a>
+            <p class="brand-subtitle">CONFEITARIA GOURMET</p>
 
+            <div class="login-heading">
+                <span class="heading-icon"><i class="fa-solid fa-heart"></i></span>
+                <h1 id="titulo-login">Que bom ter você de volta!</h1>
+                <p>Entre para deixar seus momentos ainda mais doces.</p>
+            </div>
+
+            <!-- Mensagem de Feedback -->
+            <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input id="email" type="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input id="senha" type="password" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-entrar">Entrar <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+
+            <p class="register-link">Ainda não possui uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+            <a class="back-link" href="inicio.html"><i class="fa-solid fa-arrow-left"></i> Voltar para o início</a>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginForm = document.getElementById('login-form');
+        const alertaBox = document.getElementById('mensagem-alerta');
+
+        // Função para exibir alertas diretamente na tela
+        function exibirMensagem(texto, tipo = 'erro') {
+            alertaBox.style.display = 'block';
+            alertaBox.style.padding = '12px';
+            alertaBox.style.marginBottom = '15px';
+            alertaBox.style.borderRadius = '8px';
+            alertaBox.style.textAlign = 'center';
+            alertaBox.style.fontSize = '0.9rem';
+
+            if (tipo === 'erro') {
+                alertaBox.style.backgroundColor = '#e74c3c';
+                alertaBox.style.color = '#fff';
+            } else {
+                alertaBox.style.backgroundColor = '#2ecc71';
+                alertaBox.style.color = '#fff';
+            }
+            alertaBox.textContent = texto;
+        }
+
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value.trim();
+                const senha = document.getElementById('senha').value;
+
+                // Busca usuários salvos no localStorage
+                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+
+                // Procura usuário cadastrado
+                const usuarioEncontrado = usuariosSalvos.find(u => u.email === email && u.senha === senha);
+                const eAdmin = (email === 'admin@doceencanto.com' && senha === '123456');
+
+                if (usuarioEncontrado || eAdmin) {
+                    exibirMensagem('Login efetuado com sucesso! Redirecionando...', 'sucesso');
+
+                    // Salva os dados da sessão ativa no navegador
+                    const dadosSessao = {
+                        nome: usuarioEncontrado ? usuarioEncontrado.nome : 'Administrador',
+                        email: email
+                    };
+                    localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(dadosSessao));
+
+                    // Redireciona após o login
+                    setTimeout(() => {
+                        window.location.href = 'inicio.html';
+                    }, 1200);
+                } else {
+                    exibirMensagem('E-mail ou senha incorretos.');
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>
