@@ -37,14 +37,14 @@ function adicionarAoCarrinho(nome, preco) {
 }
 
 // =========================================================
-// 2. MENSAGEM FLUTUANTE (TOAST)
+// 2. MENSAGEM FLUTUANTE (TOAST ENCAIXADA NA PALETA ROSA)
 // =========================================================
 function mostrarNotificacao(texto) {
     let notif = document.getElementById('notificacao-item');
     if (!notif) {
         notif = document.createElement('div');
         notif.id = 'notificacao-item';
-        notif.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#d81b60; color:#fff; padding:12px 20px; border-radius:30px; font-size:0.85rem; font-weight:bold; box-shadow:0 4px 15px rgba(216,27,96,0.3); z-index:1000000; display:none;';
+        notif.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#e07a93; color:#fff; padding:12px 20px; border-radius:30px; font-size:0.85rem; font-weight:bold; box-shadow:0 4px 15px rgba(224,122,147,0.4); z-index:1000000; display:none; font-family:"Poppins", sans-serif;';
         document.body.appendChild(notif);
     }
     notif.innerText = texto;
@@ -357,7 +357,7 @@ function processarPedidoSite() {
 }
 
 // =========================================================
-// 8. ABRIR E FECHAR MODAL DE DETALHES DO PRODUTO (VER MAIS)
+// 8. ABRIR E FECHAR MODAL DE DETALHES DO PRODUTO (VER MAIS COM ROSA PADRONIZADO)
 // =========================================================
 function abrirModal(nome, precoTexto, precoNumero, imagem, descricao) {
     let modal = document.getElementById('modal-produto');
@@ -369,15 +369,15 @@ function abrirModal(nome, precoTexto, precoNumero, imagem, descricao) {
         modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:99999; padding:15px; box-sizing:border-box;';
         
         modal.innerHTML = `
-            <div style="background:#fff; width:100%; max-width:450px; border-radius:20px; overflow:hidden; position:relative; box-shadow:0 10px 25px rgba(0,0,0,0.2); animation: popIn 0.3s ease; font-family:'Poppins', sans-serif;">
-                <button onclick="fecharModalProduto()" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.5); color:#fff; border:none; width:32px; height:32px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center;">&times;</button>
+            <div style="background:#fff; width:100%; max-width:420px; border-radius:20px; overflow:hidden; position:relative; box-shadow:0 10px 25px rgba(0,0,0,0.2); animation: popIn 0.3s ease; font-family:'Poppins', sans-serif;">
+                <button onclick="fecharModalProduto()" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.4); color:#fff; border:none; width:32px; height:32px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center;">&times;</button>
                 <img id="modal-img-produto" src="" alt="Produto" style="width:100%; height:220px; object-fit:cover; display:block;">
                 <div style="padding:20px;">
                     <h3 id="modal-nome-produto" style="margin:0 0 8px 0; font-size:1.25rem; color:#4a2c2a; font-weight:700;"></h3>
                     <p id="modal-desc-produto" style="font-size:0.88rem; color:#666; line-height:1.5; margin-bottom:15px; max-height:150px; overflow-y:auto; word-break:break-word;"></p>
                     <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #fce4ec; padding-top:14px;">
-                        <span id="modal-preco-produto" style="font-size:1.25rem; font-weight:bold; color:#d81b60;"></span>
-                        <button id="modal-btn-pedir" style="background:#d81b60; color:#fff; border:none; padding:10px 22px; border-radius:20px; font-weight:bold; font-size:0.9rem; cursor:pointer; box-shadow:0 4px 12px rgba(216,27,96,0.3);">Pedir Agora</button>
+                        <span id="modal-preco-produto" style="font-size:1.25rem; font-weight:bold; color:#e07a93;"></span>
+                        <button id="modal-btn-pedir" style="background:#e07a93; color:#fff; border:none; padding:10px 22px; border-radius:20px; font-weight:bold; font-size:0.9rem; cursor:pointer; box-shadow:0 4px 12px rgba(224,122,147,0.3);">Pedir Agora</button>
                     </div>
                 </div>
             </div>
@@ -416,9 +416,7 @@ function fecharModalProduto() {
     }
 } 
 
-// =========================================================
-// SISTEMA AUTOMÁTICO DO BOTÃO "VER MAIS" (Via data-* attributes)
-// =========================================================
+// Captura cliques automáticos do botão "Ver Mais" que utilizam data-attributes
 document.addEventListener('click', function (event) {
     const btn = event.target.closest('.btn-ver-mais');
     if (!btn) return;
@@ -431,62 +429,8 @@ document.addEventListener('click', function (event) {
     const img = btn.getAttribute('data-img');
     const desc = btn.getAttribute('data-descricao');
 
-    exibirModalProduto(nome, precoTxt, precoNum, img, desc);
+    abrirModal(nome, precoTxt, precoNum, img, desc);
 });
-
-function exibirModalProduto(nome, precoTexto, precoNumero, imagem, descricao) {
-    let modal = document.getElementById('modal-produto-global');
-    
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'modal-produto-global';
-        modal.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); display:flex; align-items:center; justify-content:center; z-index:999999; padding:15px; box-sizing:border-box;';
-        
-        modal.innerHTML = `
-            <div style="background:#fff; width:100%; max-width:420px; border-radius:18px; overflow:hidden; position:relative; box-shadow:0 12px 30px rgba(0,0,0,0.3); font-family:sans-serif;">
-                <button onclick="fecharModalProdutoGlobal()" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.5); color:#fff; border:none; width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center;">&times;</button>
-                <img id="mg-img" src="" style="width:100%; height:210px; object-fit:cover; display:block;">
-                <div style="padding:20px;">
-                    <h3 id="mg-nome" style="margin:0 0 10px 0; font-size:1.25rem; color:#333;"></h3>
-                    <p id="mg-desc" style="font-size:0.9rem; color:#555; line-height:1.5; margin-bottom:18px; max-height:140px; overflow-y:auto;"></p>
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #eee; padding-top:15px;">
-                        <span id="mg-preco" style="font-size:1.25rem; font-weight:bold; color:#d81b60;"></span>
-                        <button id="mg-btn-pedir" style="background:#d81b60; color:#fff; border:none; padding:10px 22px; border-radius:25px; font-weight:bold; cursor:pointer; font-size:0.9rem;">Adicionar à sacola</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) fecharModalProdutoGlobal();
-        });
-        document.body.appendChild(modal);
-    }
-
-    const imgEl = document.getElementById('mg-img');
-    const nomeEl = document.getElementById('mg-nome');
-    const descEl = document.getElementById('mg-desc');
-    const precoEl = document.getElementById('mg-preco');
-
-    if (imgEl) imgEl.src = imagem || '';
-    if (nomeEl) nomeEl.innerText = nome || '';
-    if (descEl) descEl.innerText = descricao || '';
-    if (precoEl) precoEl.innerText = precoTexto || '';
-    
-    const btnPedir = document.getElementById('mg-btn-pedir');
-    if (btnPedir) {
-        btnPedir.onclick = function() {
-            adicionarAoCarrinho(nome, precoNumero);
-            fecharModalProdutoGlobal();
-        };
-    }
-
-    modal.style.display = 'flex';
-}
-
-function fecharModalProdutoGlobal() {
-    const modal = document.getElementById('modal-produto-global');
-    if (modal) modal.style.display = 'none';
-}
 
 // =========================================================
 // 9. PESQUISA NA PÁGINA
@@ -588,4 +532,54 @@ window.addEventListener('focus', function() {
         carrinho = [];
     }
     atualizarCarrinho();
+}); 
+let avisoTituloAtual = "";
+
+function abrirModalAviso(titulo, texto) {
+    avisoTituloAtual = titulo;
+    document.getElementById('modal-aviso-titulo').innerText = titulo;
+    document.getElementById('modal-aviso-texto').innerText = texto;
+    document.getElementById('obs-aviso').value = "";
+    
+    document.getElementById('modal-aviso-encomenda').style.display = 'flex';
+}
+
+function fecharModalAviso() {
+    document.getElementById('modal-aviso-encomenda').style.display = 'none';
+}
+
+function enviarAvisoWhatsapp() {
+    const obs = document.getElementById('obs-aviso').value.trim();
+    let msg = `*DÚVIDA SOBRE ENCOMENDA - DOCE ENCANTO*\n\n`;
+    msg += `📌 *Assunto:* ${avisoTituloAtual}\n`;
+    if (obs) {
+        msg += `📝 *Observação:* ${obs}\n`;
+    }
+    msg += `\nOlá! Gostaria de tirar dúvidas sobre as regras de encomenda.`;
+
+    window.open(`https://wa.me/5511949010900?text=${encodeURIComponent(msg)}`, '_blank');
+    fecharModalAviso();
+} 
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleciona os cards de antecedência e antecipação
+    const cardsInfo = document.querySelectorAll('.card-info, .antecedencia-card, [data-accordion]'); 
+
+    cardsInfo.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Alterna a classe que abre/fecha o conteúdo
+            this.classList.toggle('active');
+            
+            // Encontra o painel ou texto escondido dentro do card
+            const painel = this.nextElementSibling || this.querySelector('.card-detalhes');
+            if (painel) {
+                if (painel.style.maxHeight) {
+                    painel.style.maxHeight = null;
+                } else {
+                    painel.style.maxHeight = painel.scrollHeight + "px";
+                }
+            }
+        });
+    });
 });

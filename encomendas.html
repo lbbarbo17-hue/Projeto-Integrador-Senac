@@ -57,27 +57,45 @@
         </a>
     </nav>
 
-    <!-- BANNER HERO COM IMAGEM E TITULO DA PÁGINA -->
-    <section class="encomendas-hero">
-        <div class="encomendas-hero-overlay"></div>
-        <div class="encomendas-hero-content">
-            <span class="badge-tag"><i class="fa-solid fa-cake-candles"></i> Faça sua Festa Conosco</span>
-            <h1>Encomendas Especiais & Kits Festa</h1>
-            <p><i class="fa-solid fa-location-dot"></i> Atendendo Jardim Peri Peri (Butantã), Osasco e Região de SP</p>
-        </div>
-    </section>
-
+    <section class="encomendas-hero" style="position: relative; width: 100vw; left: 50%; transform: translateX(-50%); min-height: 380px; background-image: url('imagens/bolo (1).png'); background-size: cover; background-position: center; background-repeat: no-repeat; display: flex; align-items: center; justify-content: center; padding: 60px 20px; box-sizing: border-box; clear: both; pointer-events: auto;">
+    
+    <!-- Camada marrom leve sem bloquear cliques (pointer-events: none) -->
+    <div class="encomendas-hero-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(92, 42, 28, 0.35); z-index: 1; pointer-events: none;"></div>
+    
+    <!-- Conteúdo do texto -->
+    <div class="encomendas-hero-content" style="position: relative; z-index: 2; text-align: center; color: #ffffff; max-width: 800px; margin: 0 auto;">
+        <span class="badge-tag"><i class="fa-solid fa-cake-candles"></i> Faça sua Festa Conosco</span>
+        <h1 style="color: #ffffff; margin: 15px 0 10px 0; font-size: 2.2rem; font-weight: 700; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);">Encomendas Especiais & Kits Festa</h1>
+        <p style="color: #ffffff; margin: 0; font-size: 1.1rem; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);"><i class="fa-solid fa-location-dot"></i> Atendendo Jardim Peri Peri (Butantã), Osasco e Região de SP</p>
+    </div>
+</section>
     <!-- CONTEÚDO DE ENCOMENDAS -->
     <main class="encomendas-main">
         
-        <!-- SEÇÃO INFORMATIVA SOBRE PRAZOS -->
-        <section class="info-notice-banner">
-            <div class="notice-icon"><i class="fa-solid fa-clock"></i></div>
-            <div class="notice-text">
-                <h3>Como funcionam as encomendas?</h3>
-                <p>Nossas encomendas são feitas de forma artesanal. Pedimos o prazo mínimo de <strong>24h a 48h de antecedência</strong> para bolos decorados e centos de doces. Entrega via delivery no Jardim Peri Peri e região!</p>
+       
+    
+    <div class="cards-avisos-container">
+        <!-- CARD 1 -->
+        <div class="card-aviso-item" onclick="abrirModalAviso('TEMPO DE ANTECEDENCIA', 'Encomendas feitas com carinho precisam de um tempinho especial! Para que cada doce seja preparado com todo o cuidado, sabor e capricho que você merece, pedimos o prazo mínimo de 24h a 48h de antecedência para a produção. Entre em contato conosco para confirmar a disponibilidade da data desejada.')">
+            <div class="card-aviso-conteudo">
+                <h4>TEMPO DE ANTECEDENCIA</h4>
+                <p>Encomendas feitas com carinho precisam de um tempinho especial! Para que cada doce seja preparado com todo o cuidado, sabor e capricho que você merece, pedimos o prazo d...</p>
+                <span class="card-aviso-preco">R$ 0,00</span>
             </div>
-        </section>
+            <i class="fa-solid fa-chevron-right seta-card"></i>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card-aviso-item" onclick="abrirModalAviso('ANTECIPAÇÃO DE VALOR', 'Para garantir sua encomenda e organizar tudo com muito carinho, trabalhamos com o pagamento antecipado de 50% do valor do pedido, caso ele já não tenha sido pago integralmente pelo site. Aceitamos PIX e cartões de crédito ou débito. Em caso de cancelamento com menos de 24 horas de antecedência, não realizamos a devolução do valor, pois os insumos já terão sido adquiridos. Agradecemos a compreensão!')">
+            <div class="card-aviso-conteudo">
+                <h4>ANTECIPAÇÃO DE VALOR</h4>
+                <p>Para garantir sua encomenda e organizar tudo com muito carinho, trabalhamos com o pagamento antecipado de 50% do valor do pedido, caso ele já não tenha sido pago integralmente pelo site...</p>
+                <span class="card-aviso-preco">R$ 0,00</span>
+            </div>
+            <i class="fa-solid fa-chevron-right seta-card"></i>
+        </div>
+    </div>
+</section>
 
         <!-- OPÇÕES DE ENCOMENDAS (GRID DE CARDS) -->
         <section class="encomendas-grid-section">
@@ -103,12 +121,12 @@
                 <!-- CARD 2: CENTOS DE DOCINHOS -->
                 <div class="encomenda-card">
                     <div class="card-img-box">
-                        <img src="imagens_inicio/Confeitaria.jpg" alt="Centos de Docinhos">
+                        <img src="imagens/brigadeirogoumert.jpeg" alt="Centos de Docinhos">
                     </div>
                     <div class="card-info">
                         <h3>Centos de Docinhos Gourmet</h3>
-                        <p>Brigadeiro belga, beijinho, bicho de pé, ninho com nutella e churros para deixar sua festa incrível.</p>
-                        <span class="price-tag">A partir de R$ 120,00 / cento</span>
+                        <p>A qualidade de nossos brigadeiros é indiscutível, feitos artesanalmente desde o 1 passo e com ingredientes de alta qualidade. O peso da unidade é 25 gramas. Selecione a quantidade e sabor</p>
+                        <span class="price-tag">A partir de R$ 95,00/ cento</span>
                         <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20encomendar%20Centos%20de%20Docinhos." target="_blank" class="btn-encomendar">
                             <i class="fa-brands fa-whatsapp"></i> Encomendar Doces
                         </a>
@@ -118,12 +136,12 @@
                 <!-- CARD 3: KITS FESTA PRONTOS -->
                 <div class="encomenda-card">
                     <div class="card-img-box">
-                        <img src="imagens_inicio/encomendas-doce-encanto-1.webp" alt="Kit Festa">
+                        <img src="imagens/kitgestag.jpeg" alt="Kit Festa">
                     </div>
                     <div class="card-info">
                         <h3>Kits Festa Completos</h3>
                         <p>Combos práticos com bolo decorado + centos de doces + refrigerante. A solução inteira para seu evento.</p>
-                        <span class="price-tag">A partir de R$ 199,00</span>
+                        <span class="price-tag">A partir de R$ 89,90 (dependendo do tamanho do kit)</span>
                         <a href="https://wa.me/5511949010900?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20Kits%20Festa." target="_blank" class="btn-encomendar">
                             <i class="fa-brands fa-whatsapp"></i> Ver Kits Festa
                         </a>
