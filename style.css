@@ -759,7 +759,7 @@ body {
     font-family: 'Poppins', sans-serif;
     background: #fbf7f8;
     color: #2b2b2b;
-    overflow-x: hidden;
+    overflow-x: clip;
     margin: 0;
     padding: 0;
 }
@@ -787,13 +787,34 @@ body {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    gap: 15px !important;
+    gap: 12px !important;
     background-color: #ffffff !important;
-    padding: 15px 20px !important;
+    padding: 12px 20px !important;
     position: sticky !important;
     top: 0 !important;
-    z-index: 1000 !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04) !important;
+    z-index: 99999 !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06) !important;
+    width: 100% !important;
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 10px 15px !important;
+        gap: 8px !important;
+        scrollbar-width: none !important;
+    }
+    .navbar::-webkit-scrollbar {
+        display: none !important;
+    }
+    .navbar a,
+    .navbar a.nav-link,
+    .navbar a.nav-link-carrinho {
+        flex-shrink: 0 !important;
+    }
 }
 
 .navbar a,
@@ -805,8 +826,8 @@ body {
     color: #473936 !important;
     text-decoration: none !important;
     font-weight: 500 !important;
-    font-size: 0.95rem !important;
-    padding: 8px 18px !important;
+    font-size: 0.92rem !important;
+    padding: 8px 16px !important;
     border-radius: 25px !important;
     transition: all 0.2s ease !important;
     box-shadow: none !important;
@@ -863,34 +884,44 @@ body {
    4. SEÇÃO HERO
 ========================================== */
 .hero {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background: #2b2b2b;
+    position: relative !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    background: #2b2b2b !important;
 }
 
 .hero-carousel-track {
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: max-content;
-    z-index: 1;
+    display: flex !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100% !important;
+    width: max-content !important;
+    z-index: 1 !important;
+    animation: rolarEsteiraContinua 25s linear infinite !important;
+    will-change: transform !important;
 }
 
 .hero-carousel-track .slide {
-    width: 25vw;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    flex-shrink: 0;
-    animation: rolarEsteiraContinua 10s linear infinite;
+    width: 25vw !important;
+    min-width: 280px !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    flex-shrink: 0 !important;
 }
 
 @keyframes rolarEsteiraContinua {
@@ -2489,4 +2520,361 @@ section {
     max-width: 270px !important;
     width: 100% !important;
     margin: 0 !important; /* Remove margens tortas individuais */
+} 
+/* ==========================================
+   AJUSTE DE COR PARA EMOJIS ROSAS
+   ========================================== */
+
+/* 1. Troca a cor de texto e aplica filtro rosa para emojis */
+.emoji-rosa, 
+#input-pesquisa + span, 
+.search-icon,
+span[style*="f8a5c2"] {
+    color: #ffa7bd !important;
+    /* Filtro que converte a tonalidade padrão de emojis/ícones para rosa */
+    filter: sepia(1) saturate(5) hue-rotate(300deg);
 }
+
+/* 2. Caso prefira usar os ícones de busca ou lupa do Font Awesome */
+.fa-search, .fa-magnifying-glass {
+    color: #ffa7bd !important;
+} 
+/* ==========================================
+   MÁSCARA E ESTRUTURA DO CARRINHO (IGUAL AO APP)
+   ========================================== */
+
+/* Esconde elementos com a classe escondido */
+.escondido {
+    display: none !important;
+}
+
+/* Fundo escurecido que cobre a tela inteira */
+.sacola-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    justify-content: flex-end !important; /* Encosta a gaveta na direita */
+    align-items: stretch !important;
+}
+
+/* A caixa da sacola (Gaveta Lateral / Tela Cheia) */
+.sacola-container {
+    width: 100% !important;
+    max-width: 480px !important; /* Largura ideal do app */
+    height: 100% !important;
+    background: #ffffff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+    border-radius: 0 !important; /* Tira borda de popup central */
+    animation: deslizarEntrada 0.25s ease-out;
+}
+
+/* Animação suave de abertura lateral */
+@keyframes deslizarEntrada {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+} 
+/* ==========================================
+   MÁSCARA E ESTRUTURA COMPLETA DA SACOLA
+   ========================================== */
+
+.escondido {
+    display: none !important;
+}
+
+/* Fundo escuro cobrindo a tela */
+.sacola-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    justify-content: flex-end !important; /* Gaveta no lado direito */
+    align-items: stretch !important;
+}
+
+/* Container do App */
+.sacola-container {
+    width: 100% !important;
+    max-width: 450px !important;
+    height: 100% !important;
+    background: #ffffff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+.sacola-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.btn-voltar-sacola {
+    background: #f8e1e7;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    color: #f8a5c2;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.sacola-header h2 {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.btn-limpar-sacola {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* Stepper 1 - 2 - 3 */
+.stepper-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.step {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+
+.step.active {
+    border-color: #3498db;
+    color: #3498db;
+    font-weight: bold;
+}
+
+.step-line {
+    width: 40px;
+    height: 1px;
+    background: #eee;
+    margin: 0 6px;
+}
+
+/* Conteúdo Roolável */
+.sacola-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background: #fafafa;
+}
+
+.sacola-secao {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+    border: 1px solid #f0f0f0;
+}
+
+.sacola-secao h3 {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Cards dos produtos dentro da sacola */
+.item-sacola-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.item-sacola-info strong {
+    display: block;
+    font-size: 0.88rem;
+    color: #333;
+}
+
+.item-sacola-info span {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.item-sacola-qtd {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 2px 8px;
+    gap: 8px;
+}
+
+.item-sacola-qtd button {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-adicionar-mais, .btn-cupom {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.banner-cashback {
+    background: #eaf6ff;
+    color: #0066cc;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.linha-resumo {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.linha-resumo.total-destaque {
+    color: #111;
+    font-size: 0.95rem;
+    border-top: 1px solid #eee;
+    padding-top: 6px;
+}
+
+.gratis {
+    color: #2e7d32;
+}
+
+/* Rodapé */
+.sacola-footer {
+    background: #fff;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-preco-bottom small {
+    color: #888;
+    font-size: 0.7rem;
+}
+
+.preco-final-bottom strong {
+    font-size: 1rem;
+    color: #222;
+}
+
+.btn-continuar-app {
+    background: #52c2f6;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-confirmar-whatsapp {
+    width: 100%;
+    background: #25d366;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.input-checkout {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.btn-geo {
+    width: 100%;
+    background: #f8e1e7;
+    color: #f8a5c2;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 8px;
+} 
+/* FORÇA O CARROSSEL A OCUPAR A TELA INTEIRA (DE PONTA A PONTA) */
+.hero-banner, 
+.carrossel-container, 
+.banner-secao {
+    width: 100vw !important;        /* Ocupa 100% da largura da janela */
+    max-width: 100vw !important;
+    position: relative !important;
+    left: 50% !important;
+    right: 50% !important;
+    margin-left: -50vw !important;  /* Estica tirando as margens das laterais */
+    margin-right: -50vw !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+
+/* GARANTE QUE A IMAGEM PREENCHA TODO O ESPAÇO SEM DISTORCER */
+.hero-banner img, 
+.carrossel-container img,
+.banner-secao img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;  /* Ajusta a imagem perfeitamente */
+    display: block !important;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow-x: clip !important;
+} 
