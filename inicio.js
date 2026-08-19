@@ -1,3 +1,15 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const linkCarrinho = document.getElementById("abrir-carrinho-link");
+
+    if (linkCarrinho) {
+        linkCarrinho.addEventListener("click", function (event) {
+            event.preventDefault();
+            abrirCarrinho();
+        });
+    }
+});
+
+
 // =========================================================
 // CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
 // =========================================================
@@ -197,8 +209,8 @@ function abrirCarrinho(e) {
     if (e && e.preventDefault) e.preventDefault();
     const modal = document.getElementById('modal-carrinho');
     if (modal) {
-        modal.classList.remove('escondido');
-        modal.style.display = 'flex';
+        modal.classList.remove('escondido', 'oculto');
+        modal.style.setProperty('display', 'flex', 'important');
         atualizarCarrinho();
     } else {
         window.location.href = 'index.html#modal-carrinho';
@@ -209,14 +221,12 @@ function toggleCarrinho(e) {
     if (e && e.preventDefault) e.preventDefault();
     const modal = document.getElementById('modal-carrinho');
     if (modal) {
-        if (modal.classList.contains('escondido') || modal.style.display === 'none') {
-            modal.classList.remove('escondido');
-            modal.style.display = 'flex';
+        const visivel = window.getComputedStyle(modal).display !== 'none';
+        if (visivel) {
+            fecharCarrinho();
         } else {
-            modal.classList.add('escondido');
-            modal.style.display = 'none';
+            abrirCarrinho();
         }
-        atualizarCarrinho();
     } else {
         window.location.href = 'index.html#modal-carrinho';
     }
@@ -226,7 +236,7 @@ function fecharCarrinho() {
     const modal = document.getElementById('modal-carrinho');
     if (modal) {
         modal.classList.add('escondido');
-        modal.style.display = 'none';
+        modal.style.setProperty('display', 'none', 'important');
     }
 }
 
@@ -238,14 +248,18 @@ function irParaCheckout() {
     fecharCarrinho();
     const telaCheckout = document.getElementById('tela-checkout');
     if (telaCheckout) {
-        telaCheckout.classList.remove('escondido');
+        telaCheckout.classList.remove('escondido', 'escondida');
+        telaCheckout.style.setProperty('display', 'flex', 'important');
         trocarFormaPagamento();
     }
 }
 
 function voltarParaCarrinho() {
     const telaCheckout = document.getElementById('tela-checkout');
-    if (telaCheckout) telaCheckout.classList.add('escondido');
+    if (telaCheckout) {
+        telaCheckout.classList.add('escondido');
+        telaCheckout.style.setProperty('display', 'none', 'important');
+    }
     abrirCarrinho();
 }
 
@@ -739,4 +753,4 @@ function fecharModalAviso() {
     if (window.location.hash === '#modal-carrinho') {
         abrirCarrinho();
     }
-});
+;

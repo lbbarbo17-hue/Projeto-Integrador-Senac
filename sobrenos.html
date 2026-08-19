@@ -5,27 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doce Encanto | Sobre Nós</title>
     
-   <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doce Encanto | Início</title>
-    
-    <!-- CSS Principal e da Página -->
+    <!-- CSS Principal e das Páginas -->
     <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="inicio.css">
+    <link rel="stylesheet" href="sobrenos.css">
     
-
-    <!-- Adicione este link dentro da tag <head> do seu HTML -->
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Fredoka:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head> 
-<body>
-
-    <!-- Seu arquivo CSS externo -->
-    <link rel="stylesheet" href="sobrenos.css">
 </head>
 <body>
 
@@ -38,12 +26,11 @@
         <a href="contato.html" class="nav-link">Contato</a> 
         <a href="login.html" class="nav-link" id="user-nav-link" title="Minha Conta / Entrar"><i class="fa-regular fa-user"></i> Login</a>
         <!-- BOTÃO DO CARRINHO ESTILIZADO -->
-        <a href="#" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
-          
-    <i class="fa-solid fa-cart-shopping"></i> 
-    <span>Carrinho</span> 
-    <span class="carrinho-qtd-badge" id="contador-carrinho">0</span>
-</a>
+        <a href="javascript:void(0)" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
+            <i class="fa-solid fa-cart-shopping"></i> 
+            <span>Carrinho</span> 
+            <span class="carrinho-qtd-badge" id="contador-carrinho">0</span>
+        </a>
     </nav>
 
     <!-- BANNER TOPO -->
@@ -188,8 +175,62 @@
     <div id="notificacao-item">✓ Item adicionado à sacola!</div>
 
     <!-- 1. MODAL DO CARRINHO -->
-    <div id="modal-carrinho" class="modal-carrinho escondido" style="display:none;">
+<div id="modal-carrinho" class="modal-carrinho escondido">
+    <div class="conteudo-carrinho">
+        
+        <div class="delivery-header">
+            <button type="button" class="btn-voltar-topo" onclick="fecharCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>Minha sacola</h2>
+            <button type="button" class="btn-limpar" onclick="limparCarrinho()">Limpar</button>
+        </div>
+
+        <div class="etapas-bar">
+            <div class="etapa-item ativa">1</div>
+            <div class="etapa-item">2</div>
+            <div class="etapa-item">3</div>
+        </div>
+
+        <div class="delivery-body">
+            <h3 class="secao-titulo">Itens adicionados</h3>
+            
+            <div id="carrinho-itens"></div>
+
+            <div style="text-align: center; margin: 10px 0;">
+                <a href="#" onclick="fecharCarrinho()" class="link-acao">+ Adicionar mais itens</a>
+            </div>
+
+            <!-- BLOCO DE CUPONS -->
+            <div class="bloco-cupom">
+                <h3 class="secao-titulo">Cupons Disponíveis</h3>
+                <div class="cupons-container">
+                    <div class="cupom-card">
+                        <div>
+                            <span class="cupom-tag">PRIMEIRACOMPRA</span>
+                            <div class="cupom-desc">R$ 5,00 de desconto</div>
+                        </div>
+                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('PRIMEIRACOMPRA', 5)">Aplicar</button>
+                    </div>
+
+                    <div class="cupom-card">
+                        <div>
+                            <span class="cupom-tag">DOCE10</span>
+                            <div class="cupom-desc">10% de desconto no subtotal</div>
+                        </div>
+                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('DOCE10', '10%')">Aplicar</button>
+                    </div>
+
+                    <div class="cupom-card">
+                        <div>
+                            <span class="cupom-tag">CUPOMVANDI</span>
+                            <div class="cupom-desc">R$ 7,50 de desconto</div>
+                        </div>
+                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('CUPOMVANDI', 7.5)">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+    <div id="modal-carrinho" class="modal-carrinho escondido">
         <div class="conteudo-carrinho">
+            
             <div class="delivery-header">
                 <button type="button" class="btn-voltar-topo" onclick="fecharCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
                 <h2>Minha sacola</h2>
@@ -204,13 +245,53 @@
 
             <div class="delivery-body">
                 <h3 class="secao-titulo">Itens adicionados</h3>
+                
                 <div id="carrinho-itens"></div>
 
+                <!-- CAMPO DE OBSERVAÇÕES -->
                 <div class="bloco-observacao" style="margin-top: 15px; margin-bottom: 15px;">
                     <h3 class="secao-titulo"><i class="fa-regular fa-comment-dots"></i> Observações do Pedido</h3>
-                    <textarea id="observacao-carrinho" placeholder="Ex: Tirar o morango, mandar velas, sem lactose..." style="width: 100%; padding: 12px; border: 2px solid #f8e1e7; border-radius: 12px; font-family: inherit; font-size: 0.88rem; outline: none; box-sizing: border-box; resize: vertical; min-height: 70px; background: #fffbfd;" onchange="salvarObservacao()"></textarea>
+                    <textarea id="observacao-carrinho" placeholder="Ex: Tirar o morango, mandar velas, sem lactose, embalar para presente..." style="width: 100%; padding: 12px; border: 2px solid #f8e1e7; border-radius: 12px; font-family: inherit; font-size: 0.88rem; outline: none; box-sizing: border-box; resize: vertical; min-height: 70px; transition: border-color 0.3s; background: #fffbfd;" onchange="salvarObservacao()"></textarea>
                 </div>
 
+                <!-- BLOCO DE CUPONS -->
+                <div class="bloco-cupom">
+                    <h3 class="secao-titulo">Cupons Disponíveis</h3>
+                    <div class="cupons-container">
+                        <div class="cupom-card">
+                            <div>
+                                <span class="cupom-tag">PRIMEIRACOMPRA</span>
+                                <div class="cupom-desc">R$ 5,00 de desconto</div>
+                            </div>
+                            <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('PRIMEIRACOMPRA', 5)">Aplicar</button>
+                        </div>
+
+                        <div class="cupom-card">
+                            <div>
+                                <span class="cupom-tag">DOCE10</span>
+                                <div class="cupom-desc">10% de desconto no subtotal</div>
+                            </div>
+                            <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('DOCE10', '10%')">Aplicar</button>
+                        </div>
+
+                        <div class="cupom-card">
+                            <div>
+                                <span class="cupom-tag">CUPOMVANDI</span>
+                                <div class="cupom-desc">R$ 7,50 de desconto</div>
+                            </div>
+                            <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('CUPOMVANDI', 7.5)">Aplicar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bloco-cashback">
+                    <h3 class="secao-titulo">Cashback</h3>
+                    <div class="card-cashback">
+                        <i class="fa-solid fa-gift"></i> Gaste R$ 25,00 e ganhe <strong>5% de desconto</strong> na próxima compra!
+                    </div>
+                </div>
+
+                <!-- RESUMO DE VALORES -->
                 <div class="bloco-cupom" style="margin-bottom: 10px;">
                     <h3 class="secao-titulo">Resumo de valores</h3>
                     <div class="resumo-linha">
@@ -224,6 +305,10 @@
                     <div class="resumo-linha">
                         <span>Taxa de Serviço</span>
                         <span id="taxa-servico">R$ 2,50</span>
+                    </div>
+                    <div class="resumo-linha" id="linha-desconto" style="display:none; color:#d81b60; font-weight:bold;">
+                        <span>Desconto (<span id="nome-cupom-txt"></span>)</span>
+                        <span id="desconto-valor">- R$ 0,00</span>
                     </div>
                     <div class="resumo-linha total-destaque">
                         <span>Total</span>
@@ -241,122 +326,119 @@
                     Continuar <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
+
         </div>
     </div>
 
-  <!-- 1. MODAL DE SELEÇÃO INICIAL DO CARRINHO -->
-<div id="modal-carrinho" class="modal-carrinho escondido">
-    <div class="conteudo-carrinho">
-        <h2><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h2>
-
-        <div id="carrinho-itens"></div>
-
-        <div class="total-carrinho">
-            Total: R$ <span id="total-valor">0,00</span>
-        </div>
-
-        <div class="opcao-pagamento-inicial">
-            <label for="select-pagamento-modal">Escolha como deseja pagar:</label>
-            <select id="select-pagamento-modal">
-                <option value="pix">PIX (Gerar QR Code na próxima tela)</option>
-                <option value="cartao">Cartão de Crédito / Débito (Inserir dados na próxima tela)</option>
-            </select>
-        </div>
-
-        <div class="botoes-carrinho">
-            <button type="button" class="btn-fechar" onclick="fecharCarrinho()">Voltar</button>
-            <button type="button" class="btn-finalizar" onclick="irParaCheckout()">
-                Avançar <i class="fa-solid fa-arrow-right"></i>
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- 2. TELA EXCLUSIVA DE CHECKOUT (Oculta por padrão) -->
-<div id="tela-checkout" class="checkout-overlay escondido">
-    <div class="checkout-card">
-        
-        <!-- Cabeçalho -->
-        <div class="checkout-header">
-            <h2><i class="fa-solid fa-shield-halved"></i> Finalizar Pedido</h2>
-            <button class="btn-fechar-checkout" onclick="voltarParaCarrinho()">&times;</button>
-        </div>
-
-        <div class="checkout-body">
+    <!-- 2. CHECKOUT (DADOS E PAGAMENTO) -->
+    <div id="tela-checkout" class="checkout-overlay escondido">
+        <div class="checkout-card">
             
-            <!-- SEÇÃO DE ENDEREÇO (Aparece em ambos os casos) -->
-            <section class="checkout-bloco">
-                <h3><i class="fa-solid fa-location-dot"></i> 1. Endereço de Entrega</h3>
+            <div class="delivery-header">
+                <button type="button" class="btn-voltar-topo" onclick="voltarParaCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2>Finalizar Pedido</h2>
+                <div></div>
+            </div>
+
+            <div class="etapas-bar">
+                <div class="etapa-item">1</div>
+                <div class="etapa-item ativa">2</div>
+                <div class="etapa-item">3</div>
+            </div>
+
+            <div class="delivery-body">
                 
-                <button type="button" class="btn-geo" onclick="obterLocalizacaoAtual()">
-                    <i class="fa-solid fa-location-crosshairs"></i> Usar Minha Localização GPS
-                </button>
-                <p id="status-geo" class="status-geo-texto"></p>
+                <h3 class="secao-titulo"><i class="fa-solid fa-location-dot"></i> Endereço de Entrega</h3>
 
-                <div class="campos-grid">
-                    <input type="text" id="rua-cliente" placeholder="Rua / Avenida e Número" required>
-                    <input type="text" id="bairro-cliente" placeholder="Bairro" required>
-                    <input type="text" id="complemento-cliente" placeholder="Complemento (Apto, Bloco, Ref.)">
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" id="rua-cliente" placeholder="Rua / Avenida e Número" style="padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
+                    <input type="text" id="bairro-cliente" placeholder="Bairro" style="padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
                 </div>
-                <input type="hidden" id="coords-gps" value="">
-            </section>
 
-            <!-- PAGAMENTO OPÇÃO 1: PIX -->
-            <section id="pagina-pix" class="checkout-bloco aba-checkout escondida">
-                <h3><i class="fa-pix fa-brands"></i> 2. Pagamento via PIX</h3>
-                <p class="instrucao-pagamento">Escaneie o QR Code abaixo no app do seu banco. O código expira em <strong>15:00</strong> minutos.</p>
+                <h3 class="secao-titulo" style="margin-top:20px;"><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</h3>
+                <select id="select-pagamento-modal" onchange="trocarFormaPagamento()" style="width:100%; padding:11px 14px; border:1px solid #f8bbd0; border-radius:10px; background:#fff5f8; font-size:0.9rem; font-weight:600; color:#4a2c2a; outline:none; cursor:pointer;">
+                    <option value="pix">📱 PIX (QR Code / Copia e Cola)</option>
+                    <option value="cartao">💳 Cartão de Crédito / Débito</option>
+                </select>
 
-                <div class="qr-code-box">
-                    <img id="img-qr-code" 
-                         src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Pagamento%20Simulado%20Doce%20Encanto" 
-                         alt="QR Code Fictício">
-                    <div class="pix-copia-cola">
-                        <input type="text" readonly value="00020126580014br.gov.bcb.pix0136pix-ficticio@doceencanto.com" id="chave-pix-input">
-                        <button type="button" onclick="copiarPix()">Copiar Código</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAGAMENTO OPÇÃO 2: CARTÃO -->
-            <section id="pagina-cartao" class="checkout-bloco aba-checkout escondida">
-                <h3><i class="fa-solid fa-credit-card"></i> 2. Dados do Cartão</h3>
-                <p class="instrucao-pagamento">Insira as informações do cartão para processar o pagamento fictício.</p>
-
-                <div class="campos-grid">
-                    <div class="campo-full">
-                        <label>Nome no Cartão</label>
-                        <input type="text" id="cartao-nome" placeholder="Como impresso no cartão">
-                    </div>
-                    <div class="campo-full">
-                        <label>Número do Cartão</label>
-                        <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19">
-                    </div>
-                    <div class="campo-metade">
-                        <div>
-                            <label>Validade</label>
-                            <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5">
+                <!-- ABA 1: PIX (QR CODE E CHAVE COPIA E COLA) -->
+                <div id="pagina-pix" class="aba-checkout" style="margin-top: 15px;">
+                    <div style="text-align:center; background:#fff5f8; border:1px dashed #f8bbd0; border-radius:14px; padding:15px;">
+                        <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block; margin-bottom:8px;">
+                            <i class="fa-brands fa-pix"></i> Pagamento via PIX
+                        </span>
+                        <p style="font-size:0.78rem; color:#666; margin-bottom:10px;">Escaneie o QR Code no app do seu banco ou copie a chave abaixo:</p>
+                        <div style="background:#fff; padding:10px; border-radius:12px; display:inline-block; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:12px;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" alt="QR Code PIX" style="width:130px; height:130px; display:block;">
                         </div>
+                        
+                        <div style="display:flex; gap:6px; margin-top:5px;">
+                            <input type="text" id="chave-pix-input" readonly value="00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" style="flex:1; padding:8px 10px; font-size:0.75rem; border:1px solid #f8bbd0; border-radius:8px; background:#fff; color:#555;">
+                            <button type="button" onclick="copiarPix()" style="background:#d81b60; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:4px; white-space:nowrap;">
+                                <i class="fa-regular fa-copy"></i> Copiar
+                            </button>
+                        </div>
+                        <small style="display:block; margin-top:8px; font-size:0.72rem; color:#888;">Código expira em 15 minutos</small>
+                    </div>
+                </div>
+
+                <!-- ABA 2: CARTÃO DE CRÉDITO / DÉBITO -->
+                <div id="pagina-cartao" class="aba-checkout escondida" style="margin-top: 15px;">
+                    <div style="background:#fff5f8; border:1px solid #f8bbd0; border-radius:14px; padding:15px; display:flex; flex-direction:column; gap:10px;">
+                        <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block;">
+                            <i class="fa-solid fa-credit-card"></i> Inserir Dados do Cartão
+                        </span>
+                        
                         <div>
-                            <label>CVV</label>
-                            <input type="password" id="cartao-cvv" placeholder="123" maxlength="4">
+                            <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Nome impresso no Cartão</label>
+                            <input type="text" id="cartao-nome" placeholder="Como impresso no cartão" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                        </div>
+
+                        <div>
+                            <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Número do Cartão</label>
+                            <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19" oninput="mascaraCartao(this)" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                        </div>
+
+                        <div style="display:flex; gap:10px;">
+                            <div style="flex:1;">
+                                <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Validade</label>
+                                <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" oninput="mascaraValidade(this)" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">CVV</label>
+                                <input type="password" id="cartao-cvv" placeholder="123" maxlength="4" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Tipo de Pagamento</label>
+                            <select id="cartao-tipo" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.82rem; box-sizing:border-box; background:#fff; color:#333;">
+                                <option value="debito">Débito (À vista)</option>
+                                <option value="credito_1x">Crédito (1x sem juros)</option>
+                                <option value="credito_2x">Crédito (2x sem juros)</option>
+                                <option value="credito_3x">Crédito (3x sem juros)</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-            </section>
 
-            <!-- Resumo e Botão Final -->
-            <div class="resumo-checkout">
-                <span>Total a Pagar: <strong id="total-checkout-valor">R$ 0,00</strong></span>
-                <button type="button" class="btn-confirmar-pagamento" onclick="processarPedidoSite()">
-                    <i class="fa-solid fa-check-circle"></i> Pagar e Finalizar Pedido
+            </div>
+
+            <div class="delivery-footer">
+                <div class="total-rodape">
+                    <small>Total Final:</small>
+                    <strong id="total-checkout-valor">R$ 0,00</strong>
+                </div>
+                <button type="button" class="btn-continuar-rosa" onclick="processarPedidoSite()">
+                    Fazer Pedido
                 </button>
             </div>
 
         </div>
     </div>
-</div>
 
-    <!-- SCRIPTS -->
+    <!-- CARREGAMENTO DO SCRIPT PRINCIPAL -->
     <script src="inicio.js"></script>
+
 </body>
 </html>
