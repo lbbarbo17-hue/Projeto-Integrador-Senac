@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil | Doce Encanto</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav class="navbar" aria-label="Navegação principal">
+        <a href="inicio.html#inicio" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="inicio.html#sobre-nos" class="nav-link">Sobre Nós</a>
+        <a href="inicio.html#avaliacoes" class="nav-link">Avaliações</a>
+        <a href="inicio.html#contato" class="nav-link">Contato</a>
+        <a href="perfil.html" class="nav-link active" id="user-nav-link"><i class="fa-regular fa-user"></i> Perfil</a>
+    </nav>
+
+    <main class="login-page">
+        <section class="login-card" aria-labelledby="titulo-perfil" style="max-width: 500px;">
+            <a class="brand" href="inicio.html">Doce Encanto</a>
+            <p class="brand-subtitle">CONFEITARIA GOURMET</p>
+
+            <div id="alerta-perfil" class="alerta-box" style="display: none; padding: 12px; border-radius: 6px; text-align: center; margin-bottom: 15px;"></div>
+
+            <div class="login-heading">
+                <span class="heading-icon"><i class="fa-regular fa-id-card"></i></span>
+                <h1 id="titulo-perfil">Minha Conta</h1>
+                <p>Gerencie seus dados de acesso.</p>
+            </div>
+
+            <!-- Formulário de Alteração de Dados -->
+            <form id="form-editar-perfil" style="margin-bottom: 25px;">
+                <div class="input-group">
+                    <label for="perfil-nome">Nome de Exibição</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" id="perfil-nome" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="perfil-email">E-mail (Não alterável)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="perfil-email" disabled style="opacity: 0.7; cursor: not-allowed;">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-entrar" style="margin-top: 10px;">Salvar Alterações do Perfil</button>
+            </form>
+
+            <!-- SEÇÃO DE MEUS PEDIDOS -->
+            <div class="secao-pedidos" style="margin-top: 25px; padding-top: 20px; border-top: 2px dashed #f8e1e7; text-align: left;">
+                <h3 style="color: #6d3828; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-receipt" style="color: #f48fb1;"></i> Meus Pedidos
+                </h3>
+
+                <div id="lista-pedidos-usuario">
+                    <!-- Preenchido dinamicamente via JS -->
+                </div>
+            </div>
+
+            <!-- SEÇÃO EXCLUSIVA DO ADMIN -->
+            <div id="secao-controles-admin" style="display: none; margin-top: 25px; padding-top: 20px; border-top: 2px dashed #f8e1e7;">
+                <h3 style="color: #6d3828; font-family: 'Fredoka', sans-serif; font-size: 1.1rem; margin-bottom: 15px;">Controles Rápidos do Administrador</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <a href="admin.html" class="btn-entrar" style="text-decoration: none; text-align: center; background-color: #6d3828; color: #fff;">
+                        <i class="fa-solid fa-gauge"></i> Abrir Painel Admin Completo
+                    </a>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
+                <button id="btn-logout" class="btn-entrar" style="background-color: transparent; border: 2px solid #e74c3c; color: #e74c3c;">Sair da Conta</button>
+                <a class="back-link" href="inicio.html"><i class="fa-solid fa-arrow-left"></i> Voltar para a loja</a>
+            </div>
+        </section>
+    </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+        const alertaPerfil = document.getElementById('alerta-perfil');
+
+        // Redireciona para o login caso não esteja logado
+        if (!usuarioLogado) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const inputNome = document.getElementById('perfil-nome');
+        const inputEmail = document.getElementById('perfil-email');
+        const secaoAdmin = document.getElementById('secao-controles-admin');
+
+        inputNome.value = usuarioLogado.nome;
+        inputEmail.value = usuarioLogado.email;
+
+        function exibirAlerta(mensagem, tipo = 'sucesso') {
+            alertaPerfil.style.display = 'block';
+            alertaPerfil.style.backgroundColor = tipo === 'sucesso' ? '#2ecc71' : '#e74c3c';
+            alertaPerfil.style.color = '#fff';
+            alertaPerfil.textContent = mensagem;
+
+            setTimeout(() => {
+                alertaPerfil.style.display = 'none';
+            }, 3000);
+        }
+
+        // Alterar Nome
+        document.getElementById('form-editar-perfil').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const novoNome = inputNome.value.trim();
+            if (!novoNome) return;
+
+            usuarioLogado.nome = novoNome;
+            localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(usuarioLogado));
+
+            if (usuarioLogado.email !== 'admin@doceencanto.com') {
+                let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+                const idx = usuariosSalvos.findIndex(u => u.email === usuarioLogado.email);
+                if (idx !== -1) {
+                    usuariosSalvos[idx].nome = novoNome;
+                    localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+                }
+            }
+
+            exibirAlerta('Nome alterado com sucesso!');
+        });
+
+        // 3. CARREGAR E RENDERIZAR PEDIDOS DO USUÁRIO
+        function carregarPedidosUsuario() {
+            const containerPedidos = document.getElementById('lista-pedidos-usuario');
+            const todosPedidos = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+            
+            // Filtra os pedidos do usuário atualmente logado
+            const meusPedidos = todosPedidos.filter(p => p.emailUsuario === usuarioLogado.email);
+
+            if (meusPedidos.length === 0) {
+                containerPedidos.innerHTML = `
+                    <div style="background: #fceef2; padding: 15px; border-radius: 12px; text-align: center; color: #6d3828; font-size: 0.9rem;">
+                        Você ainda não fez nenhum pedido. <br>
+                        <a href="index.html" style="color: #f48fb1; font-weight: bold; text-decoration: none;">Ver cardápio gostoso 🍰</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            meusPedidos.forEach(pedido => {
+                let itensHtml = pedido.itens.map(item => `
+                    <li style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #555; margin-bottom: 4px;">
+                        <span>${item.quantidade}x ${item.nome}</span>
+                        <span>R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
+                    </li>
+                `).join('');
+
+                let obsHtml = pedido.observacao ? `
+                    <div style="font-size: 0.82rem; color: #6d3828; background: #fff8fa; padding: 6px 10px; border-radius: 8px; margin-top: 6px; border: 1px dashed #f8e1e7;">
+                        <strong><i class="fa-regular fa-comment"></i> Obs:</strong> ${pedido.observacao}
+                    </div>
+                ` : '';
+
+                html += `
+                    <div style="background: #ffffff; border: 1px solid #f8e1e7; border-radius: 14px; padding: 15px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #fceef2; padding-bottom: 8px; margin-bottom: 8px;">
+                            <strong style="color: #6d3828; font-size: 0.9rem;">Pedido #${pedido.id}</strong>
+                            <span style="font-size: 0.78rem; color: #888;">${pedido.data}</span>
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin: 0 0 10px 0;">
+                            ${itensHtml}
+                        </ul>
+                        ${obsHtml}
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #f8e1e7; padding-top: 8px; margin-top: 8px; font-weight: bold; color: #6d3828; font-size: 0.95rem;">
+                            <span>Total:</span>
+                            <span style="color: #2ecc71;">R$ ${pedido.total.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            containerPedidos.innerHTML = html;
+        }
+
+        // Se for admin, exibe botão do painel admin
+        if (usuarioLogado.email === 'admin@doceencanto.com') {
+            secaoAdmin.style.display = 'block';
+        }
+
+        carregarPedidosUsuario();
+
+        // Logout
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            localStorage.removeItem('usuarioLogadoDoceEncanto');
+            window.location.href = 'login.html';
+        });
+    });
+</script>
+</body>
+</html>

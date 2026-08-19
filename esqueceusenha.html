@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha | Doce Encanto</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav class="navbar" aria-label="Navegação principal">
+        <a href="inicio.html#inicio" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="inicio.html#sobre-nos" class="nav-link">Sobre Nós</a>
+        <a href="inicio.html#avaliacoes" class="nav-link">Avaliações</a>
+        <a href="inicio.html#contato" class="nav-link">Contato</a>
+        <a href="login.html" class="nav-link"><i class="fa-regular fa-user"></i> Login</a>
+        <a href="index.html" class="nav-link-carrinho"><i class="fa-solid fa-cart-shopping"></i> Carrinho</a>
+    </nav>
+
+    <main class="login-page">
+        <section class="login-card" aria-labelledby="titulo-recuperar">
+            <a class="brand" href="inicio.html" aria-label="Voltar para a página inicial">Doce Encanto</a>
+            <p class="brand-subtitle">CONFEITARIA GOURMET</p>
+
+            <div class="login-heading">
+                <span class="heading-icon"><i class="fa-solid fa-key"></i></span>
+                <h1 id="titulo-recuperar">Recuperar Senha</h1>
+                <p>Digite o e-mail cadastrado na sua conta para enviarmos as instruções de redefinição.</p>
+            </div>
+
+            <!-- Mensagem de Feedback -->
+            <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
+
+            <form id="recovery-form">
+                <div class="input-group">
+                    <label for="email">E-mail Cadastrado</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input id="email" type="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-entrar">Enviar Instruções <i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+
+            <p class="register-link">Lembrou da senha? <a href="login.html">Voltar para o Login</a></p>
+            <a class="back-link" href="inicio.html"><i class="fa-solid fa-arrow-left"></i> Voltar para o início</a>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const recoveryForm = document.getElementById('recovery-form');
+        const alertaBox = document.getElementById('mensagem-alerta');
+
+        function exibirMensagem(texto, tipo = 'erro') {
+            alertaBox.style.display = 'block';
+            alertaBox.style.padding = '12px';
+            alertaBox.style.marginBottom = '15px';
+            alertaBox.style.borderRadius = '8px';
+            alertaBox.style.textAlign = 'center';
+            alertaBox.style.fontSize = '0.9rem';
+
+            if (tipo === 'erro') {
+                alertaBox.style.backgroundColor = '#e74c3c';
+                alertaBox.style.color = '#fff';
+            } else {
+                alertaBox.style.backgroundColor = '#2ecc71';
+                alertaBox.style.color = '#fff';
+            }
+            alertaBox.textContent = texto;
+        }
+
+        if (recoveryForm) {
+            recoveryForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value.trim();
+                const btnSubmit = recoveryForm.querySelector('button[type="submit"]');
+
+                btnSubmit.textContent = 'Enviando...';
+                btnSubmit.disabled = true;
+
+                setTimeout(() => {
+                    exibirMensagem('Se este e-mail estiver cadastrado, enviamos as instruções de redefinição!', 'sucesso');
+                    document.getElementById('email').value = '';
+                    btnSubmit.innerHTML = 'Enviar Instruções <i class="fa-solid fa-paper-plane"></i>';
+                    btnSubmit.disabled = false;
+                }, 1200);
+            });
+        }
+    });
+    </script>
+</body>
+</html>

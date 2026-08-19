@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin | Doce Encanto</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --rosa-doce: #fab3cb;
+            --rosa-hover: #f48fb1;
+            --rosa-suave: #fceef2;
+            --marrom-doce: #6d3828;
+            --marrom-escuro: #473936;
+            --fundo-pagina: #fbf7f8;
+            --sombra-suave: 0 10px 30px rgba(109, 56, 40, 0.06);
+            --sombra-card: 0 12px 35px rgba(250, 179, 203, 0.15);
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 10% 10%, rgba(250, 179, 203, 0.35) 0, transparent 30rem),
+                radial-gradient(circle at 90% 90%, rgba(244, 143, 177, 0.2) 0, transparent 30rem),
+                var(--fundo-pagina);
+            font-family: 'Poppins', sans-serif;
+            color: var(--marrom-escuro);
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            max-width: 1100px;
+            margin: 40px auto 60px;
+            padding: 0 25px;
+        }
+
+        /* BANNER TOPO DO ADMIN */
+        .admin-header-title {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--rosa-suave);
+            padding: 25px 35px;
+            border-radius: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: var(--sombra-card);
+        }
+
+        .admin-header-title h2 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--marrom-doce);
+            font-size: 1.7rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .admin-header-title h2 i {
+            color: var(--rosa-hover);
+            background: var(--rosa-suave);
+            padding: 12px;
+            border-radius: 16px;
+            font-size: 1.4rem;
+        }
+
+        .btn-voltar-loja {
+            background: var(--rosa-suave);
+            color: var(--marrom-doce);
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--rosa-doce);
+        }
+
+        .btn-voltar-loja:hover {
+            background: var(--rosa-hover);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(244, 143, 177, 0.4);
+        }
+
+        /* SEÇÃO DE CONTEÚDO (CARDS) */
+        .admin-section {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: var(--sombra-suave);
+            border: 1px solid rgba(250, 179, 203, 0.3);
+        }
+
+        .admin-section h3 {
+            color: var(--marrom-doce);
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.35rem;
+            margin-bottom: 25px;
+            border-bottom: 2px dashed var(--rosa-suave);
+            padding-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-section h3 i {
+            color: var(--rosa-hover);
+        }
+
+        /* CAMPOS DO FORMULÁRIO */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--marrom-doce);
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 13px 18px;
+            border: 2px solid var(--rosa-suave);
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            background: #fffbfd;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus {
+            border-color: var(--rosa-hover);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(250, 179, 203, 0.25);
+        }
+
+        .btn-salvar-admin {
+            background: linear-gradient(135deg, var(--rosa-doce) 0%, var(--rosa-hover) 100%);
+            color: #ffffff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Fredoka', sans-serif;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(244, 143, 177, 0.35);
+        }
+
+        .btn-salvar-admin:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(244, 143, 177, 0.5);
+        }
+
+        /* TABELAS MODERNAS */
+        .admin-table-container {
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 1px solid var(--rosa-suave);
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+        }
+
+        .admin-table th {
+            background-color: var(--rosa-suave);
+            color: var(--marrom-doce);
+            font-weight: 600;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            padding: 16px 20px;
+            text-align: left;
+        }
+
+        .admin-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f8eaf0;
+            font-size: 0.95rem;
+            color: var(--marrom-escuro);
+            vertical-align: middle;
+        }
+
+        .admin-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-table tbody tr:hover {
+            background-color: #fff9fc;
+        }
+
+        .img-produto-tb {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--rosa-suave);
+        }
+
+        .btn-excluir-item {
+            background: #fff;
+            border: 2px solid #e74c3c;
+            color: #e74c3c;
+            padding: 7px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-excluir-item:hover {
+            background-color: #e74c3c;
+            color: #ffffff;
+            transform: scale(1.06);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        /* MODAL CUSTOMIZADO ELEGANTE */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(71, 57, 54, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-box {
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 35px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+            text-align: center;
+            border: 2px solid var(--rosa-suave);
+        }
+
+        .modal-box h4 {
+            color: var(--marrom-doce);
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .modal-box p {
+            margin: 15px 0 30px;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-modal-cancel {
+            background-color: #f3f3f3;
+            color: #555;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-modal-cancel:hover {
+            background-color: #e2e2e2;
+        }
+
+        .btn-modal-confirm {
+            background-color: #e74c3c;
+            color: #ffffff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.35);
+        }
+
+        .btn-modal-confirm:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" aria-label="Navegação principal">
+        <a href="inicio.html" class="nav-link">Início</a>
+        <a href="index.html" class="nav-link">Cardápio</a>
+        <a href="perfil.html" class="nav-link">Meu Perfil</a>
+        <a href="login.html" class="nav-link active"><i class="fa-regular fa-user"></i> Admin</a>
+    </nav>
+
+    <main class="admin-container">
+        <div class="admin-header-title">
+            <h2><i class="fa-solid fa-crown"></i> Painel de Controle Doce Encanto</h2>
+            <a href="inicio.html" class="btn-voltar-loja"><i class="fa-solid fa-store"></i> Voltar para a Loja</a>
+        </div>
+
+        <!-- 1. GERENCIAR / CADASTRAR USUÁRIOS -->
+        <section class="admin-section">
+            <h3><i class="fa-solid fa-user-plus"></i> Cadastrar Novo Usuário</h3>
+            <div id="alerta-usuario" class="alerta-box" style="display: none; margin-bottom: 20px; padding: 12px; border-radius: 12px; text-align: center;"></div>
+            
+            <form id="form-cadastrar-usuario" style="margin-bottom: 30px;">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="user-nome-input">Nome Completo</label>
+                        <input type="text" id="user-nome-input" placeholder="Ex: Maria Silva" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="user-email-input">E-mail</label>
+                        <input type="email" id="user-email-input" placeholder="usuario@email.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="user-senha-input">Senha</label>
+                        <input type="password" id="user-senha-input" placeholder="******" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-salvar-admin">Cadastrar Usuário <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+
+            <h3 style="margin-top: 35px;"><i class="fa-solid fa-users"></i> Usuários Cadastrados</h3>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th style="width: 130px; text-align: center;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-usuarios">
+                        <!-- Preenchido dinamicamente via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 2. GERENCIAMENTO DE PRODUTOS -->
+        <section class="admin-section">
+            <h3><i class="fa-solid fa-cake-candles"></i> Cadastrar Novo Produto</h3>
+            <div id="alerta-admin" class="alerta-box" style="display: none; margin-bottom: 20px; padding: 12px; border-radius: 12px; text-align: center;"></div>
+            
+            <form id="form-cadastrar-produto">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="prod-nome">Nome do Doce / Bolo</label>
+                        <input type="text" id="prod-nome" placeholder="Ex: Bolo de Morango Gourmet" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="prod-preco">Preço (R$)</label>
+                        <input type="number" id="prod-preco" step="0.01" placeholder="89.90" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="prod-imagem">URL da Imagem</label>
+                        <input type="url" id="prod-imagem" placeholder="https://..." required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-salvar-admin">Adicionar Produto <i class="fa-solid fa-plus"></i></button>
+            </form>
+
+            <h3 style="margin-top: 35px;"><i class="fa-solid fa-box-open"></i> Produtos no Cardápio</h3>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome do Produto</th>
+                            <th>Preço</th>
+                            <th style="width: 130px; text-align: center;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-produtos">
+                        <!-- Preenchido dinamicamente via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Personalizado -->
+    <div id="custom-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h4>Confirmação</h4>
+            <p id="modal-msg">Tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions">
+                <button id="btn-modal-cancel" class="btn-modal-cancel">Cancelar</button>
+                <button id="btn-modal-confirm" class="btn-modal-confirm">OK</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+
+        // Validação de acesso restrito ao Admin
+        if (!usuarioLogado || usuarioLogado.email !== 'admin@doceencanto.com') {
+            alert('Acesso negado. Esta página é restrita ao Administrador.');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const tabelaUsuarios = document.getElementById('lista-usuarios');
+        const formUsuario = document.getElementById('form-cadastrar-usuario');
+        const alertaUsuario = document.getElementById('alerta-usuario');
+
+        // ELEMENTOS DO MODAL PERSONALIZADO
+        const modal = document.getElementById('custom-modal');
+        const modalMsg = document.getElementById('modal-msg');
+        const btnCancel = document.getElementById('btn-modal-cancel');
+        const btnConfirm = document.getElementById('btn-modal-confirm');
+
+        // Função utilitária para abrir o modal customizado
+        function mostrarConfirmacao(mensagem, acaoAoConfirmar) {
+            modalMsg.textContent = mensagem;
+            modal.style.display = 'flex';
+
+            const fecharModal = () => {
+                modal.style.display = 'none';
+                btnConfirm.removeEventListener('click', executarConfirmacao);
+                btnCancel.removeEventListener('click', fecharModal);
+            };
+
+            const executarConfirmacao = () => {
+                acaoAoConfirmar();
+                fecharModal();
+            };
+
+            btnConfirm.addEventListener('click', executarConfirmacao);
+            btnCancel.addEventListener('click', fecharModal);
+        }
+
+        // Função para mostrar alertas na tela
+        function exibirAlerta(elemento, mensagem, tipo = 'sucesso') {
+            elemento.style.display = 'block';
+            elemento.style.backgroundColor = tipo === 'sucesso' ? '#2ecc71' : '#e74c3c';
+            elemento.style.color = '#fff';
+            elemento.textContent = mensagem;
+
+            setTimeout(() => {
+                elemento.style.display = 'none';
+            }, 3000);
+        }
+
+        // --- RENDERIZAR TABELA DE USUÁRIOS ---
+        function carregarUsuarios() {
+            const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+            tabelaUsuarios.innerHTML = '';
+
+            if (usuariosSalvos.length === 0) {
+                tabelaUsuarios.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #888; padding: 25px;">Nenhum usuário cadastrado até o momento.</td></tr>';
+                return;
+            }
+
+            usuariosSalvos.forEach((user, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${user.nome}</strong></td>
+                    <td>${user.email}</td>
+                    <td style="text-align: center;">
+                        <button class="btn-excluir-item btn-excluir-user" data-index="${index}">
+                            <i class="fa-solid fa-trash-can"></i> Excluir
+                        </button>
+                    </td>
+                `;
+                tabelaUsuarios.appendChild(tr);
+            });
+
+            document.querySelectorAll('.btn-excluir-user').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.currentTarget.getAttribute('data-index');
+                    excluirUsuario(idx);
+                });
+            });
+        }
+
+        // --- CADASTRAR NOVO USUÁRIO PELO ADMIN ---
+        formUsuario.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nome = document.getElementById('user-nome-input').value.trim();
+            const email = document.getElementById('user-email-input').value.trim();
+            const senha = document.getElementById('user-senha-input').value;
+
+            if (!nome || !email || !senha) {
+                exibirAlerta(alertaUsuario, 'Preencha todos os campos antes de cadastrar.', 'erro');
+                return;
+            }
+
+            let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+
+            const jaExiste = usuariosSalvos.some(u => u.email === email);
+            if (jaExiste || email === 'admin@doceencanto.com') {
+                exibirAlerta(alertaUsuario, 'Este e-mail já está em uso por outro usuário.', 'erro');
+                return;
+            }
+
+            usuariosSalvos.push({ nome, email, senha });
+            localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+
+            exibirAlerta(alertaUsuario, 'Usuário cadastrado com sucesso!');
+            formUsuario.reset();
+            carregarUsuarios();
+        });
+
+        // --- EXCLUIR USUÁRIO COM MODAL ---
+        function excluirUsuario(index) {
+            let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+            
+            if (usuariosSalvos[index]) {
+                const nomeUsuario = usuariosSalvos[index].nome;
+                
+                mostrarConfirmacao(`Tem certeza que deseja remover o usuário "${nomeUsuario}"?`, () => {
+                    usuariosSalvos.splice(index, 1);
+                    localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+                    exibirAlerta(alertaUsuario, 'Usuário removido com sucesso!', 'sucesso');
+                    carregarUsuarios();
+                });
+            }
+        }
+
+        // --- CADASTRAR PRODUTO ---
+        const formProduto = document.getElementById('form-cadastrar-produto');
+        const alertaAdmin = document.getElementById('alerta-admin');
+        const tabelaProdutos = document.getElementById('lista-produtos');
+
+        function carregarProdutos() {
+            const produtosCadastrados = JSON.parse(localStorage.getItem('produtosDoceEncanto')) || [];
+            tabelaProdutos.innerHTML = '';
+
+            if (produtosCadastrados.length === 0) {
+                tabelaProdutos.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888; padding: 25px;">Nenhum produto cadastrado até o momento.</td></tr>';
+                return;
+            }
+
+            produtosCadastrados.forEach((produto, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="${produto.imagem}" alt="${produto.nome}" class="img-produto-tb"></td>
+                    <td><strong>${produto.nome}</strong></td>
+                    <td style="color: var(--marrom-doce); font-weight: 600;">R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}</td>
+                    <td style="text-align: center;">
+                        <button class="btn-excluir-item btn-excluir-produto" data-index="${index}">
+                            <i class="fa-solid fa-trash-can"></i> Excluir
+                        </button>
+                    </td>
+                `;
+                tabelaProdutos.appendChild(tr);
+            });
+
+            document.querySelectorAll('.btn-excluir-produto').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.currentTarget.getAttribute('data-index');
+                    excluirProduto(idx);
+                });
+            });
+        }
+
+        formProduto.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nomeProduto = document.getElementById('prod-nome').value.trim();
+            const precoProduto = parseFloat(document.getElementById('prod-preco').value);
+            const imagemProduto = document.getElementById('prod-imagem').value.trim();
+
+            if (!nomeProduto || !imagemProduto || isNaN(precoProduto) || precoProduto <= 0) {
+                exibirAlerta(alertaAdmin, 'Preencha todos os campos corretamente antes de cadastrar.', 'erro');
+                return;
+            }
+
+            const novoProduto = {
+                id: Date.now(),
+                nome: nomeProduto,
+                preco: precoProduto,
+                imagem: imagemProduto
+            };
+
+            const produtosCadastrados = JSON.parse(localStorage.getItem('produtosDoceEncanto')) || [];
+            produtosCadastrados.push(novoProduto);
+            localStorage.setItem('produtosDoceEncanto', JSON.stringify(produtosCadastrados));
+
+            exibirAlerta(alertaAdmin, 'Produto cadastrado com sucesso!');
+            formProduto.reset();
+            carregarProdutos();
+        });
+
+        function excluirProduto(index) {
+            const produtosCadastrados = JSON.parse(localStorage.getItem('produtosDoceEncanto')) || [];
+
+            if (produtosCadastrados[index]) {
+                mostrarConfirmacao(`Tem certeza que deseja remover o produto "${produtosCadastrados[index].nome}"?`, () => {
+                    produtosCadastrados.splice(index, 1);
+                    localStorage.setItem('produtosDoceEncanto', JSON.stringify(produtosCadastrados));
+                    exibirAlerta(alertaAdmin, 'Produto removido com sucesso!', 'sucesso');
+                    carregarProdutos();
+                });
+            }
+        }
+
+        // Carrega os dados na inicialização
+        carregarUsuarios();
+        carregarProdutos();
+    });
+</script>
+</body>
+</html>

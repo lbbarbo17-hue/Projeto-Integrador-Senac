@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="login.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <nav class="navbar" aria-label="Navegação principal">
@@ -15,7 +16,7 @@
         <a href="inicio.html#sobre-nos" class="nav-link">Sobre Nós</a>
         <a href="inicio.html#avaliacoes" class="nav-link">Avaliações</a>
         <a href="inicio.html#contato" class="nav-link">Contato</a>
-        <a href="login.html" class="nav-link active"><i class="fa-regular fa-user"></i> Login</a>
+        <a href="login.html" class="nav-link active" id="user-nav-link"><i class="fa-regular fa-user"></i> Login</a>
         <a href="index.html" class="nav-link-carrinho"><i class="fa-solid fa-cart-shopping"></i> Carrinho</a>
     </nav>
 
@@ -47,6 +48,9 @@
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock"></i>
                         <input id="senha" type="password" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+                    </div>
+                    <div style="text-align: right; margin-top: 6px;">
+                        <a href="esqueceusenha.html" style="color: #888; font-size: 0.85rem; text-decoration: none;">Esqueceu a senha?</a>
                     </div>
                 </div>
 
@@ -106,9 +110,13 @@
                     };
                     localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(dadosSessao));
 
-                    // Redireciona após o login
+                    // Redireciona após o login (se for admin, vai para o painel admin)
                     setTimeout(() => {
-                        window.location.href = 'inicio.html';
+                        if (eAdmin) {
+                            window.location.href = 'admin.html';
+                        } else {
+                            window.location.href = 'inicio.html';
+                        }
                     }, 1200);
                 } else {
                     exibirMensagem('E-mail ou senha incorretos.');

@@ -110,6 +110,21 @@ function finalizarPedidoWhatsApp() {
 
     mensagem += `\n*Valor Total: R$ ${totalGeral.toFixed(2).replace('.', ',')}*`;
 
+    // Salva o pedido no histórico local atrelado ao e-mail do usuário logado (se houver usuário logado)
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    if (usuarioLogado) {
+        const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+        const novoPedido = {
+            id: Math.floor(1000 + Math.random() * 9000),
+            emailUsuario: usuarioLogado.email,
+            data: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+            itens: [...carrinho],
+            total: totalGeral
+        };
+        pedidosAnteriores.unshift(novoPedido);
+        localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+    }
+
     const fone = '5511949010900';
     window.open(`https://wa.me/${fone}?text=${encodeURIComponent(mensagem)}`, '_blank');
 } 
@@ -131,5 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.classList.remove('active');
             }
         };
+    }
+
+    // Atualiza o link do ícone de Usuário/Login conforme o estado da sessão
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const userNavLink = document.getElementById('user-nav-link');
+
+    if (userNavLink && usuarioLogado) {
+        userNavLink.href = usuarioLogado.email === 'admin@doceencanto.com' ? 'admin.html' : 'perfil.html';
+        userNavLink.innerHTML = `<i class="fa-regular fa-user"></i> ${usuarioLogado.nome.split(' ')[0]}`;
     }
 });

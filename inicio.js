@@ -341,6 +341,9 @@ function processarPedidoSite() {
     let totalGeral = (subtotal + TAXA_ENTREGA + TAXA_SERVICO) - valorDescontoCupom;
     if (totalGeral < 0) totalGeral = 0;
 
+    const obsInput = document.getElementById('observacao-carrinho');
+    const observacaoTxt = obsInput ? obsInput.value.trim() : '';
+
     let msg = "*🧁 PEDIDO REALIZADO - DOCE ENCANTO 🧁*\n\n";
     carrinho.forEach(i => msg += `• ${i.quantidade}x ${i.nome}\n`);
     msg += `\n*Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}`;
@@ -353,7 +356,80 @@ function processarPedidoSite() {
     msg += `\n*Forma de Pagamento:* ${detalhePagamento}`;
     msg += `\n\n*Endereço:* ${rua}, ${bairro}`;
 
-    window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+    if (observacaoTxt) {
+        msg += `\n\n*Observação:* ${observacaoTxt}`;
+    }
+
+    // 1. Salvar o pedido no histórico local (para constar nos "Meus Pedidos" do Perfil)
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const numeroPedido = Math.floor(1000 + Math.random() * 9000);
+    const dataFormatada = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+    const novoPedido = {
+        id: numeroPedido,
+        emailUsuario: emailDono,
+        data: dataFormatada,
+        itens: [...carrinho],
+        observacao: observacaoTxt,
+        total: totalGeral
+    };
+    pedidosAnteriores.unshift(novoPedido);
+    localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+
+    // 2. Fechar tela de checkout e limpar carrinho
+    const telaCheckout = document.getElementById('tela-checkout');
+    if (telaCheckout) telaCheckout.classList.add('escondido');
+    carrinho = [];
+    salvarCarrinho();
+    atualizarCarrinho();
+
+    // 3. Exibir Modal "Pedido Realizado!" com resumo e botão do WhatsApp
+    exibirModalPedidoSucesso(numeroPedido, totalGeral, msg);
+}
+
+function exibirModalPedidoSucesso(numPedido, total, msgWhatsApp) {
+    let modal = document.getElementById('modal-pedido-sucesso');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-pedido-sucesso';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.65); display:flex; align-items:center; justify-content:center; z-index:99999; padding:20px; box-sizing:border-box; backdrop-filter:blur(4px);';
+        document.body.appendChild(modal);
+    }
+
+    const linkWhats = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(msgWhatsApp)}`;
+
+    modal.innerHTML = `
+        <div style="background:#ffffff; width:100%; max-width:440px; border-radius:24px; padding:32px 25px; text-align:center; box-shadow:0 15px 35px rgba(0,0,0,0.2); border:2px solid #fce4ec; font-family:'Poppins', sans-serif;">
+            <div style="width:70px; height:70px; background:#e8f5e9; color:#2ecc71; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.2rem; margin:0 auto 15px auto;">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            
+            <h3 style="font-family:'Fredoka', sans-serif; color:#6d3828; font-size:1.6rem; margin:0 0 8px 0;">Pedido #${numPedido} Realizado!</h3>
+            <p style="color:#2ecc71; font-weight:bold; font-size:0.95rem; margin-bottom:15px;">✓ Salvo com sucesso no seu perfil!</p>
+            <p style="color:#666; font-size:0.9rem; line-height:1.5; margin-bottom:20px;">Seu pedido já foi cadastrado na sua conta! Clique no botão abaixo para nos enviar pelo WhatsApp e acompanhar o preparo.</p>
+
+            <div style="background:#fff8fa; border:1px dashed #f8e1e7; border-radius:14px; padding:12px 18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; color:#6d3828;">
+                <span>Total a Pagar:</span>
+                <span style="color:#d81b60; font-size:1.1rem;">R$ ${total.toFixed(2).replace('.', ',')}</span>
+            </div>
+
+            <a href="${linkWhats}" target="_blank" onclick="fecharModalSucesso()" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#25d366; color:#ffffff; text-decoration:none; padding:14px; border-radius:30px; font-weight:bold; font-size:1rem; font-family:'Fredoka', sans-serif; box-shadow:0 6px 20px rgba(37,211,102,0.35); margin-bottom:12px;">
+                <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i> Mandar pedido por WhatsApp
+            </a>
+
+            <button onclick="fecharModalSucesso()" style="background:transparent; border:none; color:#888; font-size:0.9rem; cursor:pointer; font-weight:600;">
+                Fechar e continuar navegando
+            </button>
+        </div>
+    `;
+    modal.style.display = 'flex';
+}
+
+function fecharModalSucesso() {
+    const modal = document.getElementById('modal-pedido-sucesso');
+    if (modal) modal.style.display = 'none';
 }
 
 // =========================================================

@@ -1548,8 +1548,10 @@ div#tela-checkout .checkout-card {
             
             <div id="carrinho-itens"></div>
 
-            <div style="text-align: center; margin: 10px 0;">
-                <a href="#" onclick="fecharCarrinho()" class="link-acao">+ Adicionar mais itens</a>
+            <!-- CAMPO DE OBSERVAÇÕES -->
+            <div class="bloco-observacao" style="margin-top: 15px; margin-bottom: 15px;">
+                <h3 class="secao-titulo"><i class="fa-regular fa-comment-dots"></i> Observações do Pedido</h3>
+                <textarea id="observacao-carrinho" placeholder="Ex: Tirar o morango, mandar velas, sem lactose, embalar para presente..." style="width: 100%; padding: 12px; border: 2px solid #f8e1e7; border-radius: 12px; font-family: inherit; font-size: 0.88rem; outline: none; box-sizing: border-box; resize: vertical; min-height: 70px; transition: border-color 0.3s; background: #fffbfd;" onchange="salvarObservacao()"></textarea>
             </div>
 
             <!-- BLOCO DE CUPONS -->
