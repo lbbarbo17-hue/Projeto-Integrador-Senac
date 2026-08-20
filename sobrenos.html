@@ -124,11 +124,11 @@
             <ul class="footer-units">
                 <li>
                     <i class="fa-solid fa-location-dot pin-icon"></i>
-                    <div><strong>Butantã:</strong> Rua Dr. Ulpiano da Costa Manso, 98, Jardim Peri Peri</div>
+                    <div><strong>Curitiba:</strong> Rua André de Barros, 750</div>
                 </li>
                 <li>
                     <i class="fa-solid fa-location-dot pin-icon"></i>
-                    <div><strong>Osasco:</strong> Av. Flora, 399, Jaguaribe</div>
+                    <div><strong>Colombo:</strong> Rua Antônio Chemin, 52</div>
                 </li>
             </ul>
         </div>
@@ -174,60 +174,7 @@
     <!-- NOTIFICAÇÃO DISCRETA -->
     <div id="notificacao-item">✓ Item adicionado à sacola!</div>
 
-    <!-- 1. MODAL DO CARRINHO -->
-<div id="modal-carrinho" class="modal-carrinho escondido">
-    <div class="conteudo-carrinho">
-        
-        <div class="delivery-header">
-            <button type="button" class="btn-voltar-topo" onclick="fecharCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
-            <h2>Minha sacola</h2>
-            <button type="button" class="btn-limpar" onclick="limparCarrinho()">Limpar</button>
-        </div>
-
-        <div class="etapas-bar">
-            <div class="etapa-item ativa">1</div>
-            <div class="etapa-item">2</div>
-            <div class="etapa-item">3</div>
-        </div>
-
-        <div class="delivery-body">
-            <h3 class="secao-titulo">Itens adicionados</h3>
-            
-            <div id="carrinho-itens"></div>
-
-            <div style="text-align: center; margin: 10px 0;">
-                <a href="#" onclick="fecharCarrinho()" class="link-acao">+ Adicionar mais itens</a>
-            </div>
-
-            <!-- BLOCO DE CUPONS -->
-            <div class="bloco-cupom">
-                <h3 class="secao-titulo">Cupons Disponíveis</h3>
-                <div class="cupons-container">
-                    <div class="cupom-card">
-                        <div>
-                            <span class="cupom-tag">PRIMEIRACOMPRA</span>
-                            <div class="cupom-desc">R$ 5,00 de desconto</div>
-                        </div>
-                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('PRIMEIRACOMPRA', 5)">Aplicar</button>
-                    </div>
-
-                    <div class="cupom-card">
-                        <div>
-                            <span class="cupom-tag">DOCE10</span>
-                            <div class="cupom-desc">10% de desconto no subtotal</div>
-                        </div>
-                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('DOCE10', '10%')">Aplicar</button>
-                    </div>
-
-                    <div class="cupom-card">
-                        <div>
-                            <span class="cupom-tag">CUPOMVANDI</span>
-                            <div class="cupom-desc">R$ 7,50 de desconto</div>
-                        </div>
-                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('CUPOMVANDI', 7.5)">Aplicar</button>
-                    </div>
-                </div>
-            </div>
+    <!-- 1. MODAL DO CARRINHO (ESTRUTURA UNIFICADA) -->
     <div id="modal-carrinho" class="modal-carrinho escondido">
         <div class="conteudo-carrinho">
             

@@ -254,6 +254,61 @@ function irParaCheckout() {
     }
 }
 
+function finalizarPedidoDireto() {
+    if (!carrinho || carrinho.length === 0) {
+        alert("Sua sacola está vazia!");
+        return;
+    }
+
+    const subtotal = calcularSubtotal();
+    let totalGeral = (subtotal + TAXA_ENTREGA + TAXA_SERVICO) - valorDescontoCupom;
+    if (totalGeral < 0) totalGeral = 0;
+
+    const obsInput = document.getElementById('observacao-carrinho');
+    const observacaoTxt = obsInput ? obsInput.value.trim() : '';
+
+    let msg = "*🧁 PEDIDO REALIZADO - DOCE ENCANTO 🧁*\n\n";
+    carrinho.forEach(i => msg += `• ${i.quantidade}x ${i.nome}\n`);
+    msg += `\n*Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+    msg += `\n*Taxa Entrega:* R$ ${TAXA_ENTREGA.toFixed(2).replace('.', ',')}`;
+    msg += `\n*Taxa Serviço:* R$ ${TAXA_SERVICO.toFixed(2).replace('.', ',')}`;
+    if (valorDescontoCupom > 0) {
+        msg += `\n*Cupom (${cupomAtivo}):* - R$ ${valorDescontoCupom.toFixed(2).replace('.', ',')}`;
+    }
+    msg += `\n*TOTAL FINAL:* R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+
+    if (observacaoTxt) {
+        msg += `\n\n*Observação:* ${observacaoTxt}`;
+    }
+
+    // 1. Salva o pedido no histórico local (Meus Pedidos)
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const numeroPedido = Math.floor(1000 + Math.random() * 9000);
+    const dataFormatada = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+    const novoPedido = {
+        id: numeroPedido,
+        emailUsuario: emailDono,
+        data: dataFormatada,
+        itens: [...carrinho],
+        observacao: observacaoTxt,
+        total: totalGeral
+    };
+    pedidosAnteriores.unshift(novoPedido);
+    localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+
+    // 2. Fechar sacola e limpar carrinho
+    fecharCarrinho();
+    carrinho = [];
+    salvarCarrinho();
+    atualizarCarrinho();
+
+    // 3. Exibe a tela de Pedido Realizado diretamente!
+    exibirModalPedidoSucesso(numeroPedido, totalGeral, msg);
+}
+
 function voltarParaCarrinho() {
     const telaCheckout = document.getElementById('tela-checkout');
     if (telaCheckout) {
@@ -417,7 +472,10 @@ function processarPedidoSite() {
 
     // 2. Fechar tela de checkout e limpar carrinho
     const telaCheckout = document.getElementById('tela-checkout');
-    if (telaCheckout) telaCheckout.classList.add('escondido');
+    if (telaCheckout) {
+        telaCheckout.classList.add('escondido', 'escondida');
+        telaCheckout.style.setProperty('display', 'none', 'important');
+    }
     carrinho = [];
     salvarCarrinho();
     atualizarCarrinho();
@@ -654,6 +712,16 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (e) { carrinho = []; }
 
     atualizarCarrinho();
+
+    // Sincroniza sessão do usuário na Navbar
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const userNavLink = document.getElementById('user-nav-link');
+
+    if (userNavLink && usuarioLogado) {
+        const primeiroNome = usuarioLogado.nome ? usuarioLogado.nome.split(' ')[0] : 'Perfil';
+        userNavLink.href = usuarioLogado.email === 'admin@doceencanto.com' ? 'admin.html' : 'perfil.html';
+        userNavLink.innerHTML = `<i class="fa-regular fa-user"></i> ${primeiroNome}`;
+    }
 
     // Evento de troca de pagamento
     const selectsPagamento = document.querySelectorAll('#select-pagamento-modal');
