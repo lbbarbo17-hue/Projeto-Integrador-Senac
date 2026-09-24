@@ -897,10 +897,43 @@ body {
         height: 220px !important;
     }
 
+    /* MAIS VENDIDOS: ARRASTAR PRO LADO NO CELULAR */
     .cards-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-        padding: 0 5px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        gap: 16px !important;
+        margin-left: -15px !important;
+        margin-right: -15px !important;
+        padding: 6px 30px 18px 15px !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: #f48fb1 transparent !important;
+    }
+
+    .cards-grid::-webkit-scrollbar {
+        height: 5px !important;
+    }
+
+    .cards-grid::-webkit-scrollbar-thumb {
+        background-color: rgba(244, 143, 177, 0.55) !important;
+        border-radius: 10px !important;
+    }
+
+    .card-produto {
+        flex: 0 0 245px !important;
+        width: 245px !important;
+        min-width: 245px !important;
+        max-width: 245px !important;
+        scroll-snap-align: start !important;
+        scroll-margin-left: 15px !important;
+    }
+
+    .card-img-wrapper {
+        height: 175px !important;
     }
 
     .reviews-grid {
@@ -919,18 +952,19 @@ body {
         font-size: 2.6rem !important;
     }
 
-    .cards-grid {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-        padding: 0 !important;
+    .card-produto {
+        flex: 0 0 225px !important;
+        width: 225px !important;
+        min-width: 225px !important;
+        max-width: 225px !important;
     }
 
     .card-img-wrapper {
-        height: 190px !important;
+        height: 160px !important;
     }
 
     .card-body {
-        padding: 16px !important;
+        padding: 14px 12px !important;
     }
 
     .card-footer-info {

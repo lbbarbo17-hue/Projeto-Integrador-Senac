@@ -344,13 +344,6 @@ body {
 
 @media (max-width: 600px) {
     .brand-title { font-size: 2.2rem; }
-    .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 15px;
-    }
-    .product-image-container { height: 150px; }
-    .product-name { font-size: 1rem; min-height: 2.4rem; }
-    .product-price { font-size: 1.05rem; }
 } 
 /* ==========================================
    CARRINHO DE COMPRAS - CORREÇÃO DE VISIBILIDADE
@@ -3037,52 +3030,119 @@ html, body {
     }
 }
 
-/* --- 3. CATÁLOGO / GRADE DE PRODUTOS MOBILE --- */
-@media (max-width: 850px) {
+/* --- 3. CATÁLOGO MOBILE: ARRASTAR PRO LADO EM CADA CATEGORIA --- */
+@media (max-width: 768px) {
     .menu-container {
         margin: 20px auto !important;
-        padding: 0 14px !important;
+        padding: 0 16px !important;
+        overflow: hidden !important;
     }
 
     .menu-section {
-        margin-bottom: 35px !important;
+        margin-bottom: 36px !important;
+        position: relative !important;
     }
 
     .section-title {
         font-size: 1.5rem !important;
-        margin-bottom: 18px !important;
+        margin-bottom: 14px !important;
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
     }
-}
 
-@media (max-width: 600px) {
+    /* CARROSSEL / ARRASTAR PRO LADO EM CADA CATEGORIA (SOMENTE NO CELULAR) */
     .products-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        gap: 16px !important;
+        margin-left: -16px !important;
+        margin-right: -16px !important;
+        padding: 6px 30px 18px 16px !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: #f48fb1 transparent !important;
     }
 
+    .products-grid::-webkit-scrollbar {
+        height: 5px !important;
+    }
+
+    .products-grid::-webkit-scrollbar-track {
+        background: transparent !important;
+    }
+
+    .products-grid::-webkit-scrollbar-thumb {
+        background-color: rgba(244, 143, 177, 0.55) !important;
+        border-radius: 10px !important;
+    }
+
+    /* CARD MAIOR E BEM LEGÍVEL AO ARRASTAR PRO LADO */
     .product-card {
-        border-radius: 14px !important;
+        flex: 0 0 245px !important;
+        width: 245px !important;
+        min-width: 245px !important;
+        max-width: 245px !important;
+        scroll-snap-align: start !important;
+        scroll-margin-left: 16px !important;
+        background-color: #ffffff !important;
+        border-radius: 20px !important;
+        overflow: hidden !important;
+        box-shadow: 0 8px 24px rgba(109, 56, 40, 0.08) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        transition: transform 0.2s ease !important;
+        border: 1px solid rgba(244, 143, 177, 0.15) !important;
     }
 
     .product-image-container {
-        height: 135px !important;
+        width: 100% !important;
+        height: 175px !important;
+        background-color: #fff8fa !important;
+        overflow: hidden !important;
+        border-top-left-radius: 20px !important;
+        border-top-right-radius: 20px !important;
+    }
+
+    .product-image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
     }
 
     .product-info {
-        padding: 10px 8px !important;
+        padding: 16px 14px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex-grow: 1 !important;
+        justify-content: space-between !important;
     }
 
     .product-name {
-        font-size: 0.88rem !important;
-        line-height: 1.25 !important;
-        min-height: 2.2rem !important;
-        margin-bottom: 4px !important;
+        font-family: 'Fredoka', sans-serif !important;
+        font-size: 1.12rem !important;
+        color: #473936 !important;
+        font-weight: 600 !important;
+        line-height: 1.3 !important;
+        margin-bottom: 6px !important;
+        min-height: 2.8rem !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
     }
 
     .product-description {
-        font-size: 0.76rem !important;
-        line-height: 1.3 !important;
-        margin-bottom: 6px !important;
+        font-size: 0.85rem !important;
+        color: #666666 !important;
+        line-height: 1.45 !important;
+        margin-bottom: 8px !important;
         display: -webkit-box !important;
         -webkit-line-clamp: 2 !important;
         -webkit-box-orient: vertical !important;
@@ -3090,48 +3150,75 @@ html, body {
     }
 
     .btn-ver-mais {
-        font-size: 0.76rem !important;
-        padding: 2px 0 !important;
-        margin-bottom: 6px !important;
+        font-size: 0.82rem !important;
+        color: #f48fb1 !important;
+        text-decoration: underline !important;
+        font-weight: 600 !important;
+        margin-bottom: 12px !important;
+        padding: 0 !important;
+        background: none !important;
+        border: none !important;
+        cursor: pointer !important;
+        text-align: left !important;
     }
 
     .product-footer {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 6px !important;
-        margin-top: 4px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-top: auto !important;
+        padding-top: 10px !important;
+        border-top: 1px dashed #fce4ec !important;
     }
 
     .product-price {
-        font-size: 0.98rem !important;
+        font-family: 'Fredoka', sans-serif !important;
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
+        color: #e07a93 !important;
     }
 
     .btn-order {
-        width: 100% !important;
-        text-align: center !important;
-        padding: 7px 10px !important;
-        font-size: 0.82rem !important;
-        border-radius: 14px !important;
+        background-color: #fab3cb !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 8px 18px !important;
+        border-radius: 20px !important;
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 0.88rem !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 12px rgba(250, 179, 203, 0.4) !important;
+        transition: background-color 0.2s, transform 0.2s !important;
+        width: auto !important;
+    }
+
+    .btn-order:active {
+        transform: scale(0.96) !important;
+        background-color: #d81b60 !important;
     }
 }
 
-@media (max-width: 360px) {
-    .products-grid {
-        grid-template-columns: 1fr !important;
-        gap: 14px !important;
+@media (max-width: 480px) {
+    .product-card {
+        flex: 0 0 225px !important;
+        width: 225px !important;
+        min-width: 225px !important;
+        max-width: 225px !important;
     }
 
     .product-image-container {
-        height: 170px !important;
+        height: 160px !important;
     }
 
-    .product-footer {
-        flex-direction: row !important;
-        align-items: center !important;
+    .product-name {
+        font-size: 1.05rem !important;
+        min-height: 2.6rem !important;
     }
 
-    .btn-order {
-        width: auto !important;
+    .product-info {
+        padding: 14px 12px !important;
     }
 }
 
