@@ -52,6 +52,14 @@
                 </div>
 
                 <div class="input-group">
+                    <label for="telefone">WhatsApp / Celular</label>
+                    <div class="input-wrapper">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <input id="telefone" type="tel" name="telefone" placeholder="(41) 99999-9999" autocomplete="tel" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
                     <label for="senha">Senha</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock"></i>
@@ -106,6 +114,7 @@
 
                 const nome = document.getElementById('nome').value.trim();
                 const email = document.getElementById('email').value.trim();
+                const telefone = document.getElementById('telefone')?.value.trim() || '';
                 const senha = document.getElementById('senha').value;
                 const confirmarSenha = document.getElementById('confirmar-senha').value;
 
@@ -115,22 +124,43 @@
                     return;
                 }
 
-                // 2. Buscar usuários cadastrados anteriormente no localStorage
-                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+                // 2. Buscar usuários cadastrados anteriormente no localStorage ou DoceEncantoDB
+                const usuariosSalvos = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarios() : (JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || []);
 
                 // 3. Verificar se o e-mail já existe
-                const usuarioExiste = usuariosSalvos.some(u => u.email === email);
-                if (usuarioExiste) {
+                const usuarioExiste = usuariosSalvos.some(u => u.email.toLowerCase() === email.toLowerCase());
+                if (usuarioExiste || email.toLowerCase() === 'admin@doceencanto.com') {
                     exibirMensagem('Este e-mail já está cadastrado!');
                     return;
                 }
 
-                // 4. Salvar o novo usuário no localStorage
-                usuariosSalvos.push({ nome, email, senha });
-                localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+                // 4. Salvar o novo usuário com estrutura completa e bônus de boas-vindas
+                const novoUsuario = {
+                    id: Date.now(),
+                    nome,
+                    email,
+                    telefone,
+                    senha,
+                    role: 'cliente',
+                    saldoCashback: 5.00,
+                    cep: '',
+                    endereco: '',
+                    numero: '',
+                    complemento: '',
+                    bairro: '',
+                    cidade: 'Curitiba',
+                    criadoEm: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                };
+
+                if (window.DoceEncantoDB) {
+                    window.DoceEncantoDB.salvarUsuario(novoUsuario);
+                } else {
+                    usuariosSalvos.push(novoUsuario);
+                    localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+                }
 
                 // 5. Exibir mensagem de sucesso e redirecionar para o login
-                exibirMensagem('Conta criada com sucesso! Redirecionando para o login...', 'sucesso');
+                exibirMensagem('Conta criada com sucesso! Você ganhou R$ 5,00 de boas-vindas! Redirecionando...', 'sucesso');
 
                 setTimeout(() => {
                     window.location.href = 'login.html';

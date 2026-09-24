@@ -304,6 +304,26 @@ function irParaCheckout() {
         telaCheckout.classList.remove('escondido', 'escondida');
         telaCheckout.style.setProperty('display', 'flex', 'important');
         trocarFormaPagamento();
+
+        // Preenche automaticamente o endereço cadastrado do usuário se existir
+        try {
+            const usuario = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+            if (usuario) {
+                const ruaInput = document.getElementById('rua-cliente');
+                const bairroInput = document.getElementById('bairro-cliente');
+                if (ruaInput && !ruaInput.value.trim() && usuario.endereco) {
+                    let endComp = usuario.endereco;
+                    if (usuario.numero) endComp += `, ${usuario.numero}`;
+                    if (usuario.complemento) endComp += ` (${usuario.complemento})`;
+                    ruaInput.value = endComp;
+                }
+                if (bairroInput && !bairroInput.value.trim() && usuario.bairro) {
+                    bairroInput.value = usuario.bairro + (usuario.cidade ? ` - ${usuario.cidade}` : '');
+                }
+            }
+        } catch (e) {
+            console.warn('Erro ao preencher endereço do usuário:', e);
+        }
     }
 }
 
@@ -335,22 +355,34 @@ function finalizarPedidoDireto() {
     }
 
     // 1. Salva o pedido no histórico local (Meus Pedidos)
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
     const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const nomeCliente = usuarioLogado ? (usuarioLogado.nome || 'Cliente') : 'Cliente';
+    const telCliente = usuarioLogado ? (usuarioLogado.telefone || '') : '';
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
     const dataFormatada = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-    const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
     const novoPedido = {
         id: numeroPedido,
         emailUsuario: emailDono,
+        nomeCliente: nomeCliente,
+        telefone: telCliente,
+        endereco: usuarioLogado && usuarioLogado.endereco ? `${usuarioLogado.endereco}, ${usuarioLogado.bairro || ''}` : 'Balcão / Retirada',
+        formaPagamento: 'PIX Direto',
+        status: 'Em Produção 👩‍🍳',
         data: dataFormatada,
         itens: [...carrinho],
         observacao: observacaoTxt,
         total: totalGeral
     };
-    pedidosAnteriores.unshift(novoPedido);
-    localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+
+    if (window.DoceEncantoDB) {
+        window.DoceEncantoDB.salvarNovoPedido(novoPedido);
+    } else {
+        const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+        pedidosAnteriores.unshift(novoPedido);
+        localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+    }
 
     // 2. Fechar sacola e limpar carrinho
     fecharCarrinho();
@@ -512,22 +544,34 @@ function processarPedidoSite() {
     }
 
     // 1. Salvar o pedido no histórico local (para constar nos "Meus Pedidos" do Perfil)
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
     const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const nomeCliente = usuarioLogado ? (usuarioLogado.nome || 'Cliente') : 'Cliente';
+    const telCliente = usuarioLogado ? (usuarioLogado.telefone || '') : '';
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
     const dataFormatada = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-    const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
     const novoPedido = {
         id: numeroPedido,
         emailUsuario: emailDono,
+        nomeCliente: nomeCliente,
+        telefone: telCliente,
+        endereco: `${rua}, ${bairro}`,
+        formaPagamento: detalhePagamento,
         data: dataFormatada,
+        status: 'Em Produção 👩‍🍳',
         itens: [...carrinho],
         observacao: observacaoTxt,
         total: totalGeral
     };
-    pedidosAnteriores.unshift(novoPedido);
-    localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+
+    if (window.DoceEncantoDB) {
+        window.DoceEncantoDB.salvarNovoPedido(novoPedido);
+    } else {
+        const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+        pedidosAnteriores.unshift(novoPedido);
+        localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+    }
 
     // 2. Fechar tela de checkout e limpar carrinho
     const telaCheckout = document.getElementById('tela-checkout');
