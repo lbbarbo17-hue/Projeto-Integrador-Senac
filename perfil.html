@@ -13,9 +13,12 @@
 
     <style>
         .perfil-container {
-            max-width: 900px;
-            margin: 30px auto 60px;
-            padding: 0 16px;
+            max-width: 96% !important;
+            width: 96% !important;
+            margin: 20px auto 60px !important;
+            padding: 0 12px !important;
+            box-sizing: border-box !important;
+            display: block !important;
         }
 
         /* HEADER DO PERFIL */
@@ -85,12 +88,18 @@
             color: #283593;
         }
 
-        /* STATS CARDS */
+        /* STATS CARDS ESPALHADOS */
         .perfil-stats-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
             margin-bottom: 25px;
+        }
+
+        @media (max-width: 1024px) {
+            .perfil-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .stat-box {
@@ -177,6 +186,9 @@
         /* CONTEÚDO DAS ABAS */
         .tab-content {
             display: none;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
             background: #ffffff;
             border: 1px solid #fce4ec;
             border-radius: 22px;
@@ -185,7 +197,7 @@
             animation: fadeIn 0.3s ease;
         }
 
-        .tab-content.active { display: block; }
+        .tab-content.active { display: block !important; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
@@ -442,6 +454,162 @@
             margin-top: 8px;
         }
 
+        /* LINHA DO TEMPO DA ENTREGA (TIMELINE EM TEMPO REAL) */
+        .timeline-container {
+            background: #fffcfd;
+            border: 1.5px solid #fce4ec;
+            border-radius: 18px;
+            padding: 20px;
+            margin: 16px 0;
+            box-shadow: 0 4px 15px rgba(250, 179, 203, 0.12);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .timeline-titulo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.05rem;
+            color: #6d3828;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-aviso {
+            font-size: 0.82rem;
+            color: #d81b60;
+            font-weight: 700;
+            background: #fce4ec;
+            padding: 5px 14px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-track {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            margin: 22px 10px 14px;
+        }
+
+        /* Linha horizontal cinza conectando os pontos */
+        .timeline-track::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 5%;
+            width: 90%;
+            height: 5px;
+            background: #f3e5eb;
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        /* Barra de progresso ativo com gradiente */
+        .timeline-progress-bar {
+            position: absolute;
+            top: 20px;
+            left: 5%;
+            height: 5px;
+            background: linear-gradient(90deg, #2ecc71 0%, #f48fb1 50%, #d81b60 100%);
+            border-radius: 4px;
+            z-index: 2;
+            transition: width 0.4s ease;
+        }
+
+        .timeline-step {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 25%;
+        }
+
+        .timeline-icon-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #e2d4dc;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        /* Etapa Concluída */
+        .timeline-step.concluido .timeline-icon-circle {
+            background: #2ecc71;
+            border-color: #27ae60;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.35);
+        }
+
+        /* Etapa Ativa com Pulso Animado */
+        .timeline-step.ativo .timeline-icon-circle {
+            background: linear-gradient(135deg, #f48fb1, #d81b60);
+            border-color: #fce4ec;
+            color: #ffffff;
+            transform: scale(1.15);
+            animation: pulsoTimeline 1.8s infinite;
+        }
+
+        @keyframes pulsoTimeline {
+            0% { box-shadow: 0 0 0 0 rgba(216, 27, 96, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(216, 27, 96, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(216, 27, 96, 0); }
+        }
+
+        .timeline-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #888;
+        }
+
+        .timeline-step.concluido .timeline-label {
+            color: #27ae60;
+        }
+
+        .timeline-step.ativo .timeline-label {
+            color: #d81b60;
+            font-weight: 700;
+        }
+
+        .timeline-sublabel {
+            font-size: 0.72rem;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .timeline-msg-banner {
+            background: #fff7fa;
+            border: 1px dashed #f48fb1;
+            border-radius: 12px;
+            padding: 11px 16px;
+            margin-top: 16px;
+            font-size: 0.86rem;
+            color: #6d3828;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         @media (max-width: 600px) {
             .perfil-container { padding: 0 10px; margin: 15px auto 40px; }
             .perfil-header-card { padding: 20px 16px; }
@@ -450,6 +618,10 @@
             .perfil-detalhes h2 { font-size: 1.25rem; }
             .pedido-acoes { flex-direction: column; align-items: stretch; text-align: center; }
             .pedido-botoes-row { justify-content: center; }
+            .timeline-track { margin: 16px 0 8px; }
+            .timeline-icon-circle { width: 34px; height: 34px; font-size: 0.9rem; }
+            .timeline-label { font-size: 0.7rem; }
+            .timeline-sublabel { display: none; }
         }
     </style>
 </head>
@@ -496,7 +668,7 @@
             </div>
         </header>
 
-        <!-- 2. RESUMO DE MÉTRICAS (CASHBACK & PEDIDOS) -->
+        <!-- 2. RESUMO DE MÉTRICAS (CASHBACK, PEDIDOS & RASTREAMENTO) -->
         <div class="perfil-stats-row">
             <div class="stat-box cashback">
                 <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
@@ -509,15 +681,23 @@
             <div class="stat-box pedidos">
                 <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
                 <div class="stat-content">
-                    <h4>Pedidos Feitos</h4>
+                    <h4>Pedidos Totais</h4>
                     <span id="stat-total-pedidos">0</span>
+                </div>
+            </div>
+
+            <div class="stat-box" style="border-color:#bbf7d0;">
+                <div class="stat-icon" style="background:#f0fdf4; color:#16a34a;"><i class="fa-solid fa-route"></i></div>
+                <div class="stat-content">
+                    <h4>Status da Entrega</h4>
+                    <span id="stat-status-entrega" style="font-size:1.05rem; color:#16a34a;">Em Dia</span>
                 </div>
             </div>
 
             <div class="stat-box favoritos">
                 <div class="stat-icon"><i class="fa-solid fa-heart"></i></div>
                 <div class="stat-content">
-                    <h4>Favoritos</h4>
+                    <h4>Doces Favoritos</h4>
                     <span id="stat-total-favoritos">0</span>
                 </div>
             </div>
@@ -869,11 +1049,132 @@
             exibirAlertaPerfil('Senha alterada com sucesso!', 'sucesso');
         });
 
-        // 4. Renderizar Pedidos
+        // 4. Renderizar Linha do Tempo e Pedidos
+        function gerarLinhaDoTempoHTML(p) {
+            const status = p.status || 'Em Produção 👩‍🍳';
+            const s = status.toLowerCase();
+
+            let etapaAtual = 2;
+            let isCancelado = s.includes('cancel');
+
+            if (isCancelado) {
+                etapaAtual = -1;
+            } else if (s.includes('entregue') || s.includes('conclu')) {
+                etapaAtual = 4;
+            } else if (s.includes('saiu') || s.includes('caminho') || s.includes('rota') || s.includes('entrega')) {
+                etapaAtual = 3;
+            } else if (s.includes('produ') || s.includes('preparo') || s.includes('cozinha')) {
+                etapaAtual = 2;
+            } else if (s.includes('recebido') || s.includes('confirmado')) {
+                etapaAtual = 1;
+            }
+
+            if (isCancelado) {
+                return `
+                    <div class="timeline-container" style="border-color:#ffcdd2; background:#fffbfb;">
+                        <div style="display:flex; align-items:center; gap:10px; color:#c62828; font-weight:600; font-size:0.9rem;">
+                            <i class="fa-solid fa-circle-xmark" style="font-size:1.3rem;"></i>
+                            <span>Este pedido foi cancelado. Caso tenha dúvidas, fale com a nossa equipe no WhatsApp.</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let progressoPercent = '10%';
+            if (etapaAtual === 2) progressoPercent = '38%';
+            else if (etapaAtual === 3) progressoPercent = '70%';
+            else if (etapaAtual === 4) progressoPercent = '100%';
+
+            let mensagemStatus = '';
+            let iconeEtapa = 'fa-clock';
+            if (etapaAtual === 1) {
+                mensagemStatus = 'Pedido confirmado e registrado! Aguardando início do preparo na confeitaria.';
+                iconeEtapa = 'fa-clipboard-check';
+            } else if (etapaAtual === 2) {
+                mensagemStatus = 'Seus doces estão sendo preparados e decorados artesanalmente com todo amor!';
+                iconeEtapa = 'fa-kitchen-set';
+            } else if (etapaAtual === 3) {
+                mensagemStatus = 'Oba! O motoboy retirou seu pacote e está em rota de entrega até você!';
+                iconeEtapa = 'fa-motorcycle';
+            } else if (etapaAtual === 4) {
+                mensagemStatus = 'Pedido entregue com sucesso! Bom apetite e aproveite seu cashback!';
+                iconeEtapa = 'fa-circle-check';
+            }
+
+            return `
+                <div class="timeline-container">
+                    <div class="timeline-header">
+                        <span class="timeline-titulo">
+                            <i class="fa-solid fa-route" style="color:#d81b60;"></i> Posição da Entrega (Tempo Real)
+                        </span>
+                        <span class="timeline-aviso">
+                            <i class="fa-solid ${iconeEtapa}"></i> Etapa ${etapaAtual} de 4
+                        </span>
+                    </div>
+
+                    <div class="timeline-track">
+                        <div class="timeline-progress-bar" style="width: ${progressoPercent};"></div>
+
+                        <!-- ETAPA 1 -->
+                        <div class="timeline-step ${etapaAtual > 1 ? 'concluido' : (etapaAtual === 1 ? 'ativo' : '')}">
+                            <div class="timeline-icon-circle">
+                                <i class="fa-solid ${etapaAtual > 1 ? 'fa-check' : 'fa-clipboard-check'}"></i>
+                            </div>
+                            <span class="timeline-label">1. Recebido</span>
+                            <span class="timeline-sublabel">${p.data ? p.data.split(' ')[1] || 'Hoje' : 'Confirmado'}</span>
+                        </div>
+
+                        <!-- ETAPA 2 -->
+                        <div class="timeline-step ${etapaAtual > 2 ? 'concluido' : (etapaAtual === 2 ? 'ativo' : '')}">
+                            <div class="timeline-icon-circle">
+                                <i class="fa-solid ${etapaAtual > 2 ? 'fa-check' : 'fa-kitchen-set'}"></i>
+                            </div>
+                            <span class="timeline-label">2. Na Cozinha</span>
+                            <span class="timeline-sublabel">Em Produção</span>
+                        </div>
+
+                        <!-- ETAPA 3 -->
+                        <div class="timeline-step ${etapaAtual > 3 ? 'concluido' : (etapaAtual === 3 ? 'ativo' : '')}">
+                            <div class="timeline-icon-circle">
+                                <i class="fa-solid ${etapaAtual > 3 ? 'fa-check' : 'fa-motorcycle'}"></i>
+                            </div>
+                            <span class="timeline-label">3. A Caminho</span>
+                            <span class="timeline-sublabel">Com Entregador</span>
+                        </div>
+
+                        <!-- ETAPA 4 -->
+                        <div class="timeline-step ${etapaAtual === 4 ? 'concluido' : ''}">
+                            <div class="timeline-icon-circle">
+                                <i class="fa-solid fa-house-chimney-check"></i>
+                            </div>
+                            <span class="timeline-label">4. Entregue</span>
+                            <span class="timeline-sublabel">Destino Final</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-msg-banner">
+                        <i class="fa-solid fa-circle-dot" style="color:${etapaAtual === 4 ? '#2ecc71' : '#d81b60'}; font-size:0.9rem;"></i>
+                        <span><strong>Status Atual:</strong> ${mensagemStatus}</span>
+                    </div>
+                </div>
+            `;
+        }
+
         function renderizarPedidos() {
             const container = document.getElementById('lista-pedidos-usuario');
             const pedidos = db.obterPedidosUsuario(usuarioLogado.email);
             document.getElementById('stat-total-pedidos').textContent = pedidos.length;
+
+            if (pedidos.length > 0) {
+                const ultimo = pedidos[0];
+                const statEntrega = document.getElementById('stat-status-entrega');
+                if (statEntrega) {
+                    if (ultimo.status.includes('Entregue')) statEntrega.textContent = 'Entregue ✅';
+                    else if (ultimo.status.includes('Caminho') || ultimo.status.includes('Saiu')) statEntrega.textContent = 'A Caminho 🛵';
+                    else if (ultimo.status.includes('Produ')) statEntrega.textContent = 'Na Cozinha 👩‍🍳';
+                    else statEntrega.textContent = 'Ativo 📦';
+                }
+            }
 
             if (pedidos.length === 0) {
                 container.innerHTML = `
@@ -890,7 +1191,7 @@
             let html = '';
             pedidos.forEach(p => {
                 let statusClass = 'status-producao';
-                if (p.status.includes('Caminho') || p.status.includes('Rota')) statusClass = 'status-caminho';
+                if (p.status.includes('Caminho') || p.status.includes('Rota') || p.status.includes('Saiu')) statusClass = 'status-caminho';
                 else if (p.status.includes('Entregue')) statusClass = 'status-entregue';
                 else if (p.status.includes('Cancelado')) statusClass = 'status-cancelado';
 
@@ -901,7 +1202,6 @@
                     </li>
                 `).join('');
 
-                let itensStr = encodeURIComponent((p.itens || []).map(i => `${i.quantidade}x ${i.nome}`).join(', '));
                 let whatsLink = `https://wa.me/5511949010900?text=${encodeURIComponent(`Olá! Gostaria de informações sobre meu pedido #${p.id} da Doce Encanto.`)}`;
 
                 html += `
@@ -911,9 +1211,14 @@
                             <span style="font-size:0.8rem; color:#888;">${p.data || ''}</span>
                             <span class="pedido-status-badge ${statusClass}">${p.status || 'Em Produção'}</span>
                         </div>
+
+                        <!-- LINHA DO TEMPO DA POSIÇÃO DA ENTREGA -->
+                        ${gerarLinhaDoTempoHTML(p)}
+
                         <ul class="pedido-itens-list">
                             ${itensList}
                         </ul>
+                        ${p.endereco ? `<div style="font-size:0.82rem; color:#666; margin-bottom:8px;"><i class="fa-solid fa-location-dot" style="color:#f48fb1;"></i> <strong>Entregar em:</strong> ${p.endereco}</div>` : ''}
                         ${p.observacao ? `<div style="font-size:0.8rem; color:#88412c; background:#fff7f9; padding:6px 10px; border-radius:8px; margin-bottom:8px; border:1px dashed #fce4ec;"><strong>Obs:</strong> ${p.observacao}</div>` : ''}
                         <div class="pedido-acoes">
                             <span class="pedido-total-val">Total: <strong style="color:#d81b60;">R$ ${parseFloat(p.total).toFixed(2).replace('.', ',')}</strong></span>
@@ -922,7 +1227,7 @@
                                     <i class="fa-solid fa-rotate-right"></i> Repetir Pedido
                                 </button>
                                 <a href="${whatsLink}" target="_blank" class="btn-whats-pedido">
-                                    <i class="fa-brands fa-whatsapp"></i> Rastrear
+                                    <i class="fa-brands fa-whatsapp"></i> Rastrear WhatsApp
                                 </a>
                             </div>
                         </div>
@@ -1007,6 +1312,19 @@
 
         renderizarPedidos();
         renderizarFavoritos();
+
+        // Atualização reativa em tempo real quando o admin atualiza status em outra aba
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'pedidosDoceEncanto' || e.key === 'usuariosDoceEncanto') {
+                renderizarPedidos();
+                renderizarFavoritos();
+            }
+        });
+
+        window.addEventListener('focus', () => {
+            renderizarPedidos();
+            renderizarFavoritos();
+        });
     });
 </script>
 

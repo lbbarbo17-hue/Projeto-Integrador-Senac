@@ -2464,9 +2464,9 @@ button.btn-checkout,
     align-items: center !important;
     width: 100% !important;
 } 
-/* FORÇA O ALINHAMENTO CENTRAL EM TODOS OS NÍVEIS */
-main, 
-section, 
+/* FORÇA O ALINHAMENTO CENTRAL EM TODOS OS NÍVEIS DO CARDÁPIO */
+main:not(.admin-container):not(.perfil-container), 
+section:not(.admin-section):not(.tab-content), 
 .menu-section, 
 .menu-container, 
 #destaques {
@@ -2524,8 +2524,8 @@ section[id*="bolo"] .products-grid {
 /* 1. Força todas as seções e o container principal a irem pro centro */
 .menu-section,
 .container,
-main,
-section {
+main:not(.admin-container):not(.perfil-container),
+section:not(.admin-section):not(.tab-content) {
     width: 100% !important;
     max-width: 1200px !important;
     margin-left: auto !important;
