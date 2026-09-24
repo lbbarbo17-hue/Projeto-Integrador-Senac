@@ -27,6 +27,49 @@ try {
 } catch (e) { carrinho = []; }
 
 // =========================================================
+// SINCRONIZAÇÃO DE CUPOM E OBSERVAÇÕES
+// =========================================================
+function carregarCupomSalvo() {
+    try {
+        const salvo = JSON.parse(localStorage.getItem('cupom_ativo_doce_encanto'));
+        if (salvo && salvo.codigo) {
+            cupomAtivo = salvo.codigo;
+            const subtotal = calcularSubtotal();
+            if (salvo.regra === '10%') {
+                valorDescontoCupom = subtotal * 0.10;
+            } else {
+                valorDescontoCupom = Number(salvo.regra);
+            }
+            if (valorDescontoCupom > subtotal) valorDescontoCupom = subtotal;
+        } else {
+            valorDescontoCupom = 0;
+            cupomAtivo = '';
+        }
+    } catch (e) {
+        valorDescontoCupom = 0;
+        cupomAtivo = '';
+    }
+}
+carregarCupomSalvo();
+
+function salvarObservacao() {
+    const obsInput = document.getElementById('observacao-carrinho');
+    if (obsInput) {
+        localStorage.setItem('observacao_carrinho_doce_encanto', obsInput.value);
+    }
+}
+
+function carregarObservacao() {
+    const obsInput = document.getElementById('observacao-carrinho');
+    if (obsInput) {
+        const salvo = localStorage.getItem('observacao_carrinho_doce_encanto');
+        if (salvo !== null) {
+            obsInput.value = salvo;
+        }
+    }
+}
+
+// =========================================================
 // 1. ADICIONAR AO CARRINHO (SEM ABRIR MODAL)
 // =========================================================
 function adicionarAoCarrinho(nome, preco) {
@@ -70,6 +113,9 @@ function mostrarNotificacao(texto) {
 // 3. ATUALIZA O NÚMERO DO CARRINHO E OS VALORES
 // =========================================================
 function atualizarCarrinho() {
+    carregarCupomSalvo();
+    carregarObservacao();
+
     const listaItens = document.getElementById('carrinho-itens');
     const subtotalEl = document.getElementById('subtotal-valor');
     const taxaEntregaEl = document.getElementById('taxa-entrega');
@@ -126,6 +172,7 @@ function atualizarCarrinho() {
     } else {
         valorDescontoCupom = 0;
         cupomAtivo = '';
+        try { localStorage.removeItem('cupom_ativo_doce_encanto'); } catch(e) {}
     }
 
     // Exibição dos valores
@@ -163,6 +210,9 @@ function aplicarCupom(codigo, regra) {
     }
 
     cupomAtivo = codigo;
+    try {
+        localStorage.setItem('cupom_ativo_doce_encanto', JSON.stringify({ codigo: codigo, regra: regra }));
+    } catch (e) {}
 
     if (regra === '10%') {
         valorDescontoCupom = subtotal * 0.10;
@@ -174,19 +224,17 @@ function aplicarCupom(codigo, regra) {
         valorDescontoCupom = subtotal;
     }
 
-    alert(`Cupom "${codigo}" aplicado!\nDesconto: R$ ${valorDescontoCupom.toFixed(2).replace('.', ',')}`);
+    mostrarNotificacao(`✓ Cupom "${codigo}" aplicado! Desconto: R$ ${valorDescontoCupom.toFixed(2).replace('.', ',')}`);
     atualizarCarrinho();
 }
 
 function alterarQtd(index, delta) {
+    if (!carrinho[index]) return;
     carrinho[index].quantidade += delta;
     if (carrinho[index].quantidade <= 0) carrinho.splice(index, 1);
     
-    if (cupomAtivo === 'DOCE10') {
-        valorDescontoCupom = calcularSubtotal() * 0.10;
-    }
-
     salvarCarrinho();
+    carregarCupomSalvo();
     atualizarCarrinho();
 }
 
@@ -194,6 +242,11 @@ function limparCarrinho() {
     carrinho = [];
     valorDescontoCupom = 0;
     cupomAtivo = '';
+    localStorage.removeItem('carrinho_doce_encanto');
+    localStorage.removeItem('cupom_ativo_doce_encanto');
+    localStorage.removeItem('observacao_carrinho_doce_encanto');
+    const obsInput = document.getElementById('observacao-carrinho');
+    if (obsInput) obsInput.value = '';
     salvarCarrinho();
     atualizarCarrinho();
 }
@@ -302,6 +355,12 @@ function finalizarPedidoDireto() {
     // 2. Fechar sacola e limpar carrinho
     fecharCarrinho();
     carrinho = [];
+    valorDescontoCupom = 0;
+    cupomAtivo = '';
+    localStorage.removeItem('cupom_ativo_doce_encanto');
+    localStorage.removeItem('observacao_carrinho_doce_encanto');
+    const obsInputLimpar = document.getElementById('observacao-carrinho');
+    if (obsInputLimpar) obsInputLimpar.value = '';
     salvarCarrinho();
     atualizarCarrinho();
 
@@ -477,6 +536,12 @@ function processarPedidoSite() {
         telaCheckout.style.setProperty('display', 'none', 'important');
     }
     carrinho = [];
+    valorDescontoCupom = 0;
+    cupomAtivo = '';
+    localStorage.removeItem('cupom_ativo_doce_encanto');
+    localStorage.removeItem('observacao_carrinho_doce_encanto');
+    const obsInputFinal = document.getElementById('observacao-carrinho');
+    if (obsInputFinal) obsInputFinal.value = '';
     salvarCarrinho();
     atualizarCarrinho();
 
@@ -581,18 +646,18 @@ function abrirModal(nome, precoTexto, precoNumero, imagem, descricao) {
         modal = document.createElement('div');
         modal.id = 'modal-produto';
         modal.className = 'modal-produto-overlay';
-        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:99999; padding:15px; box-sizing:border-box;';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:99999; padding:12px; box-sizing:border-box;';
         
         modal.innerHTML = `
-            <div style="background:#fff; width:100%; max-width:420px; border-radius:20px; overflow:hidden; position:relative; box-shadow:0 10px 25px rgba(0,0,0,0.2); animation: popIn 0.3s ease; font-family:'Poppins', sans-serif;">
-                <button onclick="fecharModalProduto()" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.4); color:#fff; border:none; width:32px; height:32px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center;">&times;</button>
-                <img id="modal-img-produto" src="" alt="Produto" style="width:100%; height:220px; object-fit:cover; display:block;">
-                <div style="padding:20px;">
-                    <h3 id="modal-nome-produto" style="margin:0 0 8px 0; font-size:1.25rem; color:#4a2c2a; font-weight:700;"></h3>
-                    <p id="modal-desc-produto" style="font-size:0.88rem; color:#666; line-height:1.5; margin-bottom:15px; max-height:150px; overflow-y:auto; word-break:break-word;"></p>
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #fce4ec; padding-top:14px;">
-                        <span id="modal-preco-produto" style="font-size:1.25rem; font-weight:bold; color:#e07a93;"></span>
-                        <button id="modal-btn-pedir" style="background:#e07a93; color:#fff; border:none; padding:10px 22px; border-radius:20px; font-weight:bold; font-size:0.9rem; cursor:pointer; box-shadow:0 4px 12px rgba(224,122,147,0.3);">Pedir Agora</button>
+            <div style="background:#fff; width:100%; max-width:420px; max-height:90vh; overflow-y:auto; border-radius:20px; position:relative; box-shadow:0 10px 25px rgba(0,0,0,0.2); animation: popIn 0.3s ease; font-family:'Poppins', sans-serif;">
+                <button onclick="fecharModalProduto()" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.5); color:#fff; border:none; width:32px; height:32px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center;">&times;</button>
+                <img id="modal-img-produto" src="" alt="Produto" style="width:100%; height:190px; object-fit:cover; display:block;">
+                <div style="padding:16px;">
+                    <h3 id="modal-nome-produto" style="margin:0 0 6px 0; font-size:1.2rem; color:#4a2c2a; font-weight:700;"></h3>
+                    <p id="modal-desc-produto" style="font-size:0.85rem; color:#666; line-height:1.5; margin-bottom:12px; max-height:130px; overflow-y:auto; word-break:break-word;"></p>
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #fce4ec; padding-top:12px;">
+                        <span id="modal-preco-produto" style="font-size:1.2rem; font-weight:bold; color:#e07a93;"></span>
+                        <button id="modal-btn-pedir" style="background:#e07a93; color:#fff; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; font-size:0.88rem; cursor:pointer; box-shadow:0 4px 12px rgba(224,122,147,0.3);">Pedir Agora</button>
                     </div>
                 </div>
             </div>
@@ -740,12 +805,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Sincronização em tempo real entre abas e navegação
 window.addEventListener('storage', function(e) {
-    if (e.key === 'carrinho_doce_encanto') {
+    if (e.key === 'carrinho_doce_encanto' || e.key === 'cupom_ativo_doce_encanto' || e.key === 'observacao_carrinho_doce_encanto') {
         try {
-            carrinho = JSON.parse(e.newValue) || [];
+            carrinho = JSON.parse(localStorage.getItem('carrinho_doce_encanto')) || [];
         } catch (err) {
             carrinho = [];
         }
+        carregarCupomSalvo();
+        carregarObservacao();
         atualizarCarrinho();
     }
 });
@@ -756,7 +823,35 @@ window.addEventListener('focus', function() {
     } catch (err) {
         carrinho = [];
     }
+    carregarCupomSalvo();
+    carregarObservacao();
     atualizarCarrinho();
+});
+
+// Fechar modais ao clicar no fundo ou pressionar a tecla ESC
+document.addEventListener('click', function(e) {
+    const modalCarrinho = document.getElementById('modal-carrinho');
+    const telaCheckout = document.getElementById('tela-checkout');
+    if (modalCarrinho && e.target === modalCarrinho) {
+        fecharCarrinho();
+    }
+    if (telaCheckout && e.target === telaCheckout) {
+        telaCheckout.classList.add('escondido', 'escondida');
+        telaCheckout.style.setProperty('display', 'none', 'important');
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        fecharCarrinho();
+        const telaCheckout = document.getElementById('tela-checkout');
+        if (telaCheckout) {
+            telaCheckout.classList.add('escondido', 'escondida');
+            telaCheckout.style.setProperty('display', 'none', 'important');
+        }
+        if (typeof fecharModalAviso === 'function') fecharModalAviso();
+        if (typeof fecharModalProduto === 'function') fecharModalProduto();
+    }
 }); 
 let avisoTituloAtual = "";
 

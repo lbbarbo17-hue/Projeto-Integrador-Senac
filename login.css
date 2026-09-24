@@ -111,14 +111,62 @@ body {
 .back-link i { margin-right: 6px; }
 
 @media (max-width: 800px) {
-    .navbar { gap: 4px; flex-wrap: wrap; }
-    .navbar a { padding: 7px 11px; font-size: .82rem; }
+    .navbar {
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        padding: 8px 12px 8px 14px !important;
+        padding-right: 28px !important;
+        gap: 6px !important;
+    }
+
+    .navbar::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .navbar a {
+        flex-shrink: 0 !important;
+        padding: 7px 13px !important;
+        font-size: 0.85rem !important;
+        border-radius: 20px !important;
+    }
+
+    .input-wrapper input {
+        font-size: 16px !important; /* Previne zoom automático do iOS Safari */
+    }
 }
 
 @media (max-width: 480px) {
-    .login-page { padding: 28px 14px; }
-    .login-card { padding: 36px 24px 30px; border-radius: 22px; }
-    .brand { font-size: 2.9rem; }
-    .navbar { padding: 10px 8px; }
-    .navbar a { padding: 6px 8px; font-size: .76rem; }
+    .login-page {
+        padding: 24px 12px;
+        min-height: calc(100vh - 60px);
+    }
+
+    .login-card {
+        padding: 30px 18px 24px;
+        border-radius: 20px;
+        width: 100%;
+        box-shadow: 0 10px 30px rgba(109, 56, 40, .10);
+    }
+
+    .brand {
+        font-size: 2.7rem;
+    }
+
+    .login-heading h1 {
+        font-size: 1.4rem;
+    }
+
+    .login-heading p {
+        font-size: 0.82rem;
+    }
+
+    .btn-entrar {
+        padding: 13px 18px;
+        font-size: 0.92rem;
+    }
 }

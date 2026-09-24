@@ -158,14 +158,55 @@ body {
     opacity: 0.95;
 }
 
-/* RESPONSIVO */
+/* RESPONSIVO CONTATO */
 @media (max-width: 768px) {
+    .contact-hero {
+        height: 320px !important;
+        padding-top: 40px !important;
+    }
+
     .contact-hero-content h1 {
-        font-size: 1.5rem;
+        font-size: 1.55rem !important;
+        margin-bottom: 12px !important;
+    }
+
+    .email-badge-hero {
+        font-size: 0.84rem !important;
+        padding: 6px 14px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+
+    .contact-main {
+        margin: 30px auto 50px auto !important;
+        padding: 0 16px !important;
+    }
+
+    .contact-actions {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 40px !important;
+    }
+
+    .btn-contact-brown {
+        font-size: 0.95rem !important;
+        padding: 13px 16px !important;
+    }
+
+    .schedules-section h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 20px !important;
     }
 
     .schedules-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .schedule-card {
+        padding: 22px 16px !important;
+        border-radius: 16px !important;
     }
 }
 /* CORREÇÃO DO ESPAÇO BRANCO NO TOPO */

@@ -323,6 +323,62 @@
             background-color: #c0392b;
             transform: translateY(-2px);
         }
+
+        /* RESPONSIVIDADE ADMIN MOBILE */
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 0 12px;
+                margin: 20px auto 40px;
+            }
+
+            .admin-header-title {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                align-items: stretch;
+                padding: 20px 16px;
+            }
+
+            .admin-header-title h2 {
+                font-size: 1.35rem;
+                justify-content: center;
+            }
+
+            .btn-voltar-loja {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .admin-section {
+                padding: 22px 14px;
+                border-radius: 18px;
+            }
+
+            .admin-section h3 {
+                font-size: 1.2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .input-group input,
+            .input-group select {
+                font-size: 16px;
+            }
+
+            .btn-salvar-admin {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .admin-table th, 
+            .admin-table td {
+                padding: 12px 14px;
+                font-size: 0.88rem;
+            }
+        }
     </style>
 </head>
 <body>
