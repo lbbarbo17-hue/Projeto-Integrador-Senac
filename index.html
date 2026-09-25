@@ -8,10 +8,1730 @@
         window.location.replace("inicio.html");
     </script>
 </head>
-<body style="margin: 0; background: #fbf7f8; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif;">
-    <p style="color: #6d3828; font-weight: 500;">Carregando <a href="inicio.html" style="color: #f48fb1; text-decoration: none; font-weight: 700;">Doce Encanto</a>...</p>
-    <script>
-        window.location.replace("inicio.html");
-    </script>
+<body>
+   <header class="main-header">
+    <div class="header-container">
+      <h1 class="brand-title-cursiva">Doce Encanto</h1>
+    </div>
+</header>
+    <!-- SUA BARRA DE PESQUISA ORIGINAL -->
+<div style="max-width: 500px; margin: 20px auto; padding: 0 15px;">
+    <div style="position: relative;">
+        <input 
+            type="text" 
+            id="input-pesquisa" 
+            placeholder="Buscar produto no cardápio..." 
+            onfocus="abrirPesquisaNovaPagina()"
+            onkeyup="pesquisarNaNovaPagina()"
+            style="width: 100%; padding: 12px 16px; border: 2px solid #f8e1e7; border-radius: 25px; font-size: 0.95rem; outline: none; box-sizing: border-box; font-family: inherit; transition: border-color 0.3s;"
+        >
+        <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #f8a5c2; font-weight: bold;">🔍</span>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- NOVA TELA / MODAL EXCLUSIVO DE PESQUISA -->
+<!-- ========================================== -->
+<div id="modal-pagina-pesquisa" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff; z-index: 9999; overflow-y: auto; padding: 20px; box-sizing: border-box;">
+    
+    <!-- Cabeçalho do Modal de Busca -->
+    <div style="max-width: 600px; margin: 0 auto; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+<button onclick="fecharPesquisaNovaPagina()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #f8a5c2; display: flex; align-items: center; justify-content: center;">
+    <i class="fa-solid fa-arrow-left"></i>
+</button>       
+ <input 
+            type="text" 
+            id="input-pesquisa-modal" 
+            placeholder="O que você procura hoje?" 
+            onkeyup="pesquisarNaNovaPagina()"
+            style="flex: 1; padding: 12px 16px; border: 2px solid #f8e1e7; border-radius: 25px; font-size: 1rem; outline: none;"
+        >
+        <button onclick="fecharPesquisaNovaPagina()" style="background: none; border: none; font-weight: bold; color: #888; cursor: pointer;">Cancelar</button>
+    </div>
+
+    <!-- Onde os resultados vão aparecer -->
+    <div id="resultados-busca-nova-pagina" style="max-width: 1200px; margin: 0 auto;">
+        <p style="text-align: center; color: #888; margin-top: 40px;">Digite algo para pesquisar no cardápio...</p>
+    </div>
+</div>
+   <nav class="navbar"> 
+    <a href="inicio.html" class="nav-link">Início</a> 
+    <a href="#destaques" class="nav-link">Promoções</a> 
+    <a href="#bolodepote" class="nav-link">Bolos de Pote</a> 
+    <a href="#bologelado" class="nav-link">Bolo Gelado</a> 
+    <a href="#tortasdepote" class="nav-link">Tortas de Pote</a> 
+    <a href="#brigadeirao" class="nav-link">Brigadeirão</a> 
+    <a href="#docesbrownie" class="nav-link">Doces Brownie</a> 
+    <a href="#naked" class="nav-link">Naked Cake</a>
+    <a href="#kit-festas" class="nav-link">Kit Festas</a>  
+
+    <a href="#" class="nav-link-carrinho" onclick="abrirCarrinho(event)">
+        <i class="fa-solid fa-cart-shopping"></i> Carrinho <span class="carrinho-qtd-badge" id="contador-carrinho">0</span>
+    </a>
+</nav>
+
+
+    <main class="menu-container">
+        
+        <!-- SEÇÃO: PROMOÇÕES -->
+        <section id="destaques" class="menu-section">
+            <h2 class="section-title">Promoções</h2>
+            <div class="products-grid">
+               <div class="product-card">
+    <!-- IMAGEM COM O TEXTO LONGO NO ONCLICK -->
+    <div class="product-image-container" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 21,90', 21.90, 'imagens/Fondue Brownie Supreme.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite.')">
+        <img src="imagens/Fondue Brownie Supreme.jpeg" alt="Fondue Brownie Supreme" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fondue Brownie Supreme</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Feito com pedaços de Brownie 50% cacau e brigadeiro cremoso...</p>
+        
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 21,90', 21.90, 'imagens/Fondue Brownie Supreme.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite. Acompanhado de morangos fatiados selecionados e uvas sem caroço. Rendimento: serve até 2 pessoas. Peso aproximado de 500g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 21,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fondue Brownie Supreme', 21.90)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+                <div class="product-card">
+                    <div class="product-image-container" onclick="abrirModal('Combo 3 Brigadeirão Gourmet', 'R$ 25,00', 25.00, 'imagens/Combo 3 Brigadeirão Gourmet.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite.')">
+        <img src="imagens/Combo com 3 Brigaderão Gourmet.jpeg" alt="Combo 3 Brigadeirão Gourmet" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Combo 3 Brigadeirão Gourmet</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">São 3 opções deliciosas a sua escolha! Com preço mega especial...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Combo 3 Brigadeirão Gourmet', 'R$ 25,00', 25.00, 'imagens/Combo com 3 Brigaderão Gourmet.jpeg ', 'São 3 opções deliciosas a sua escolha! São vários sabores deliciosos, compre com um preço mega especial para dividir com os amigos ou porque nao comer sozinho? Rs ')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 25,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Combo 3 Brigadeirão Gourmet', 25.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+                <div class="product-card">
+                     <div class="product-image-container" onclick="abrirModal('Combo Queridinho', 'R$ 26,90', 26.90, 'imagens/combo queridinho.jpeg', 'Aquele combo perfeito no pós almoço com uma coca geladinha! Escolha o sabor do bolo de pote. ')">
+        <img src="imagens/combo queridinho.jpeg" alt="Combo queridinho" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Combo Queridinho</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Aquele combo perfeito no pós almoço com uma coca geladinha! Escolha o sabor do bolo de pote...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Combo Queridinho', 'R$ 26,90', 26.90, 'imagens/combo queridinho.jpeg', 'Aquele combo perfeito no pós almoço com uma coca geladinha! Escolha o sabor do bolo de pote. acompanha 1 bolo de pote a sua escolha, coca-cola 200ml e 1 brigadeiro belga 15g.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 26,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Combo Queridinho', 26.90)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+                <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 17,00', 17.00, 'imagens/Fatia de Brownie Duo.jpeg', 'Delicioso brownie 50% cacau.')">
+        <img src="imagens/Fatia de Brownie Duo.jpeg" alt="Fatia de Brownie Duo" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Duo</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau, recheado em camadas de brigadeiro.</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 17,00', 17.00, 'imagens/Fatia de Brownie Duo.jpeg', 'Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho. Finalizado com brigadeiro gourmet.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Duo', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+
+            </div> 
+        </section> 
+         <!-- SEÇÃO: BOLO DE POTE-->
+        <section id="bolodepote" class="menu-section">
+            <h2 class="section-title">Bolos de Pote</h2>
+            <div class="products-grid">
+                
+                <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga.jpeg', 'Um bolo delicioso e cremoso com sabor intenso de chocolate belga!')">
+        <img src="imagens/Bolo de pote Chocolate Belga.jpeg" alt="Bolo de pote Chocolate Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Chocolate Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 50% cacau, recheada com creme de chocolate belga ao leite 70% cacau.</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga.jpeg', 'Deliciosa massa 50% cacau, recheada com creme de chocolate belga ao leite 70% cacau. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Chocolate Belga', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga.jpeg', 'Um bolo delicioso e cremoso com sabor intenso de chocolate belga!')">
+        <img src="imagens/Bolo de pote Prestígio.jpeg" alt="Bolo de pote Prestígio" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Prestígio</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa fofinha 50% cacau, recheada com um delicioso creme de chocolate belga...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Prestígio', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Prestígio.jpeg', 'Deliciosa massa fofinha 50% cacau, recheada com um delicioso creme de chocolate belga ao leite e o nosso irresistível brigadeiro cremoso de coco fresco. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Prestígio', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+
+                 <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Duo Ninho com Chocolate Belga.jpeg" alt="Bolo de pote Duo Ninho com Chocolate Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Duo Ninho com Chocolate Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa caseira 50% cacau, recheada com os melhores brigadeiros...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Duo Ninho com Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Duo Ninho com Chocolate Belga.jpeg', 'Deliciosa massa caseira 50% cacau, recheada com os melhores brigadeiros e mais vendidos da loja! Ninho e chocolate belga ao leite. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Duo Ninho com Chocolate Belga', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div> 
+
+             <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Ninho com Morango.jpeg" alt="Bolo de pote Ninho com Morango" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Ninho com Morango</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa branca amanteigada, recheada com creme de leite Ninho e pedaços selecionados...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Ninho com Morango', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Ninho com Morango.jpeg', 'Deliciosa massa branca amanteigada, recheada com creme de leite Ninho e pedaços selecionados de morangos. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Ninho com Morango', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div> 
+          <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Abacaxi com Coco Fresco.jpeg" alt="Bolo de pote Abacaxi com Coco Fresco" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Abacaxi com Coco Fresco</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de ló bem fofinha molhadinha, recheada...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Abacaxi com Coco Fresco', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Abacaxi com Coco Fresco.jpeg', 'Deliciosa massa pão de ló bem fofinha molhadinha, recheada em camadas de brigadeiro de coco fresco e creme de abacaxi artesanal, sensacional. Peso aproximado: 270g')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Abacaxi com Coco Fresco', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>    
+                <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de pote Chocolate Belga com Maracujá.jpeg" alt="Bolo de pote Chocolate Belga com Maracujá" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Chocolate Belga com Maracujá</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 50% cacau artesanal, recheada com duas camadas de brigadeiro cremoso ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Chocolate Belga com Maracujá', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Chocolate Belga com Maracujá.jpeg', 'Deliciosa massa 50% cacau artesanal, recheada com duas camadas de brigadeiro cremoso de chocolate belga e nosso delicioso brigadeiro de maracujá. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Chocolate Belga com Maracujá', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Chocolate Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pot', 'Um bolo delicioso e cre')">
+        <img src="imagens/Bolo de Pote Ninho com Maracujá.jpeg" alt="Bolo de pote Ninho com Maracujá" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Ninho com Maracujá</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa branca artesanal, recheada com brigadeiro cremoso de leite ninho e uma ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Ninho com Maracujá', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Ninho com Maracujá.jpeg', 'Deliciosa massa branca artesanal, recheada com brigadeiro cremoso de leite ninho e uma camada deliciosa e geladinha de brigadeiro de maracujá. A combinação perfeita existe. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Ninho com Maracujá', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+         
+
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo de pote Cenoura com Brigadeiro Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Cenoura com Brigadeiro Belga.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/Bolo de pote Cenoura com Brigadeiro Belga.jpeg" alt="Bolo de pote Cenoura com Brigadeiro Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo de pote Cenoura com Brigadeiro Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa artesanal feita com cenouras selecionadas e fresquinhas, recheada com um ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo de pote Cenoura com Brigadeiro Belga', 'R$ 14,00', 14.00, 'imagens/Bolo de pote Cenoura com Brigadeiro Belga.jpeg', 'Deliciosa massa artesanal feita com cenouras selecionadas e fresquinhas, recheada com um delicioso brigadeiro belga ao leite. Peso aproximado de 270g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 14,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo de pote Cenoura com Brigadeiro Belga', 14.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+              
+                 
+            </div> 
+        </section>  
+        <!-- SEÇÃO: BOLOS GELADOS -->
+        <section id="bologelado" class="menu-section">
+            <h2 class="section-title">Bolos Gelados</h2>
+            <div class="products-grid"> 
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado de Cacau', 'R$ 12,00', 12.00, 'imagens/bologeladocacau.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/bologeladocacau.jpeg" alt="Bolo Gelado de Cacau" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado de Cacau</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa caseira artesanal feita com cacau 100%, recheado com brigadeiro cremoso ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado de Cacau', 'R$ 12,00', 12.00, 'imagens/bologeladocacau.jpeg', 'Deliciosa massa caseira artesanal feita com cacau 100%, recheado com brigadeiro cremoso de cacau 100% e chocolate nobre meio amargo belga. Geladinho e cremoso. Peso aproximado de 100g. Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado de Cacau', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                   
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado de Prestígio', 'R$ 12,00', 12.00, 'imagens/bologeladoprestigio.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/bologeladoprestigio.jpeg" alt="Bolo Gelado de Prestígio" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado de Prestígio</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 100% cacau artesanal, molhadinha no ponto certo. Recheado com um...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado de Prestígio', 'R$ 12,00', 12.00, 'imagens/bologeladoprestigio.jpeg', 'Deliciosa massa 100% cacau artesanal, molhadinha no ponto certo. Recheado com um delicioso brigadeiro cremoso de prestigio. Impossível comer só um. Peso aproximado de 100g. Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado de Prestígio', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+             
+    
+               
+
+ <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado Coco Fresco', 'R$ 12,00', 12.00, 'imagens/BOLOGALADOCOCFRESCO.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/BOLOGALADOCOCFRESCO.jpeg" alt="Bolo Gelado Coco Fresco" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado Coco Fresco</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa de pão de ló, recheado com cremoso recheio de coco *Fresco*, molhadinho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado Coco Fresco', 'R$ 12,00', 12.00, 'imagens/BOLOGALADOCOCFRESCO.jpeg', 'Deliciosa massa de pão de ló, recheado com cremoso recheio de coco *Fresco*, molhadinho e bem gelado. Peso aproximado de 100G Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado Coco Fresco', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+        <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Bolo Gelado Coco Fresco', 'R$ 12,00', 12.00, 'imagens/bologeladodocedeleite.jpeg', 'Um bolo de pote cenoura com brigadeiro Belga')">
+        <img src="imagens/bologeladodocedeleite.jpeg" alt="Bolo Gelado Doce de Leite com Coco Fresco" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Bolo Gelado Doce de Leite com Coco Fresco</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Feito com massa pão de ló caseira, recheada com delicioso doce de leite cremoso...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Bolo Gelado Doce de Leite com Coco Fresco', 'R$ 12,00', 12.00, 'imagens/bologeladodocedeleite.jpeg', 'Feito com massa pão de ló caseira, recheada com delicioso doce de leite cremoso. Peso aproximado de 100g. Instruções: manter o produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 12,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Bolo Gelado Doce de Leite com Coco Fresco', 12.00)">Pedir</button>
+        </div>
+    </div>
+</div>  
+             
+            </div> 
+        </section> 
+        <!-- SEÇÃO: TORTAS DE POTE -->
+        <section id="tortasdepote" class="menu-section">
+            <h2 class="section-title">Tortas de Pote</h2>
+            <div class="products-grid">
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Morangoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Morangoffe no Pote.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Morangoffe no Pote.jpeg" alt="Morangoffe no Pote" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Morangoffe no Pote</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Morangoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Morangoffe no Pote.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Morangoffe no Pote', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+          
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Banoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Banoffe no Pote.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Banoffe no Pote.jpeg" alt="Banoffe no Pote" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Banoffe no Pote</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa amanteigada, 1 camada de doce de leite e 1 de mousse de doce leite cremoso, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Banoffe no Pote', 'R$ 17,00', 17.00, 'imagens/Banoffe no Pote.jpeg', 'Deliciosa massa amanteigada, 1 camada de doce de leite e 1 de mousse de doce leite cremoso, pedaços de banana nanica fatiadas, finalizado com chantilly e canela. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Banoffe no Pote', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                
+               
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Torta de Limão', 'R$ 17,00', 17.00, 'imagens/Torta de Limão.jpeg', 'Deliciosa massa amanteigada, recheado com 2 camadas de creme branco, morangos fatiados ao meio, finalizado com um delicioso chantilly e morango . Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Torta de Limão.jpeg" alt="Torta de Limão" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Torta de Limão</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa crocante amanteigada, 2 camadas de recheio sendo, uma camada de creme branco...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Torta de Limão', 'R$ 17,00', 17.00, 'imagens/Torta de Limão.jpeg', 'Deliciosa massa crocante amanteigada, 2 camadas de recheio sendo, uma camada de creme branco e uma de mousse de limão irresistível, essas camadas tem a harmonia perfeita. Finalizada com chantilly e raspas de limão. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Torta de Limão', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Supreme de Maracujá', 'R$ 17,00', 17.00, 'imagens/Supreme de Maracujá.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Supreme de Maracujá.jpeg" alt="Supreme de Maracujá" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Supreme de Maracujá</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso mousse de maracujá artesanal,feito com a fruta selecionada, brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Supreme de Maracujá', 'R$ 17,00', 17.00, 'imagens/Supreme de Maracujá.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 17,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Supreme de Maracujá', 17.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+            </div> 
+        </section> 
+<!-- SEÇÃO: brigadeirão -->
+        <section id="brigadeirao" class="menu-section">
+            <h2 class="section-title">Brigadeirão</h2>
+            <div class="products-grid">
+                
+               
+
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Chocolate Belga com Morangos.jpeg" alt="Brigadeirão Chocolate Belga com Morangos" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Chocolate Belga com Morangos</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brigadeirão artesanal de chocolate belga ao leite, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Chocolate Belga com Morangos.jpeg', 'Delicioso brigadeirão artesanal de chocolate belga ao leite, recheado com morango graudo e fresquinho, finalizado com granule ao leite Monalisa. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Chocolate Belga com Morangos', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
+                
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Chocolate Belga.jpeg" alt="Brigadeirão Chocolate Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Chocolate Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciso brigadeirão de chocolate belga, feito com chocolate 50% cacau e chocolate belga ao leite, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Chocolate Belga', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Chocolate Belga.jpeg', 'Deliciso brigadeirão de chocolate belga, feito com chocolate 50% cacau e chocolate belga ao leite, finalizado com granule ao leite Monalisa. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Chocolate Belga', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>    
+                 
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Ninho Com Morangos.jpeg" alt="Brigadeirão Ninho Com Morangos" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Ninho Com Morangos</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciso brigadeirão ninho com morangos, feito com chocolate ninho e morangos, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Ninho Com Morangos', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Ninho Com Morangos.jpeg', 'Deliciso brigadeirão ninho com morangos, feito com chocolate ninho e morangos, com ingredientes de qualidade. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Ninho Com Morangos', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
+           
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brigadeirão Chocolate Belga com Morangos', 'R$ 10,00', 10.00, 'imagens/brigadeirao.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brigadeirão Ninho com Uva.jpeg" alt="Brigadeirão Ninho Com Uva" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brigadeirão Ninho Com Uva</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciso brigadeirão ninho com uvas, feito com chocolate ninho e uvas, ...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brigadeirão Ninho Com Uva', 'R$ 10,00', 10.00, 'imagens/Brigadeirão Ninho Com Uva.jpeg', 'Deliciso brigadeirão ninho com uvas, feito com chocolate ninho e uvas, com ingredientes de qualidade. Peso aproximado de 100g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 10,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brigadeirão Ninho Com Uva', 10.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
+
+               
+
+
+            </div> 
+        </section>
+
+        
+
+        <!-- SEÇÃO: DOCES BROWNIE -->
+        <section id="docesbrownie" class="menu-section">
+            <h2 class="section-title">Doces Brownie</h2>
+            <div class="products-grid">
+                
+               
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 25,00', 25.00, 'imagens/Fondue Brownie Supreme.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Fondue Brownie Supreme.jpeg" alt="Fondue Brownie Supreme" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fondue Brownie Supreme</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fondue Brownie Supreme', 'R$ 25,00', 25.00, 'imagens/Fondue Brownie Supreme.jpeg', 'Feito com pedaços de Brownie 50% cacau, recheado com brigadeiro cremoso de Ninho e nosso brigadeiro de chocolate belga ao leite. Acompanhado de morangos fatiados selecionados e uvas sem caroço. Rendimento: serve até 2 pessoas. Peso aproximado de 500g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 25,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fondue Brownie Supreme', 25.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               
+
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Ninho Trufado com Nutella', 'R$ 25,00', 25.00, 'imagens/Fatia de Brownie Ninho Trufado com Nutella.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Fatia de Brownie Ninho Trufado com Nutella.jpeg" alt="Fatia de Brownie Ninho Trufado com Nutella" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Ninho Trufado com Nutella</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella..</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Ninho Trufado com Nutella', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Ninho Trufado com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 22,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Ninho Trufado com Nutella', 22.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+<div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Brigadeiro Belga', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Brigadeiro Belga.jpeg', 'Delicioso mousse de maracujá artesanal, feito com a fruta selecionada, brigadeiro. Peso aproximado de 200g. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Fatia de Brownie Brigadeiro Belga.jpeg" alt="Fatia de Brownie Brigadeiro Belga" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Brigadeiro Belga</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Brigadeiro Belga', 'R$ 25,00', 22.90, 'imagens/Fatia de Brownie Brigadeiro Belga.jpeg', 'Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho. Finalizado com brigadeiro gourmet. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 22,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Brigadeiro Belga', 22.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+
+    <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Duo.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Fatia de Brownie Duo.jpeg" alt="Fatia de Brownie Duo" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Fatia de Brownie Duo</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Fatia de Brownie Duo', 'R$ 22,90', 22.90, 'imagens/Fatia de Brownie Duo.jpeg', 'Delicioso brownie 50% cacau, recheado em camadas de brigadeiro belga ao leite e brigadeiro de ninho. Finalizado com brigadeiro gourmet. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 22,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Fatia de Brownie Duo', 22.90)">Pedir</button>
+        </div>
+    </div>
+</div>    
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Brownie Belga com Nutella.jpeg" alt="Brownie Belga com Nutella" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brownie Belga com Nutella</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau artesanal coberto com Nutella e finalizado com granule ao leite Monalisa...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Delicioso brownie 50% cacau artesanal coberto com Nutella e finalizado com granule ao leite Monalisa. Peso aproximado de 100g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 15,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brownie Belga com Nutella', 15.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+      
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/brownietradicional.jpeg" alt="Brownie tradicional" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Brownie tradicional</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Delicioso brownie 50% cacau artesanal. Peso aproximado de 50g. Instruções: esquentar no microondas para uma melhor experiencia...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Brownie tradicional', 'R$ 15,00', 15.00, 'imagens/brownietradicional.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 15,00</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Brownie tradicional', 15.00)">Pedir</button>
+        </div>
+    </div>
+</div>   
+      
+        
+        
+        
+              
+  
+
+                
+
+
+            </div> 
+        </section>
+        
+        <!-- SEÇÃO: Naked Cake -->
+        <section id="naked" class="menu-section">
+            <h2 class="section-title">Naked Cake</h2>
+            <div class="products-grid">
+                
+                
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'Deliciosa fatia de brownie 50% cacau artesanal, recheado com brigadeiro de leite Ninho e Nutella. Peso aproximado de 220g. Instruções: esquentar no microondas para uma melhor experiencia. Após um dia de consumo, manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Casadinho 1KG.jpeg" alt="Naked Cake Casadinho 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Casadinho 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Produzido com massa artesanal de chocolate 50% cacau, deliciosas camadas de brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Casadinho 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Casadinho 1KG.jpeg', 'Produzido com massa artesanal de chocolate 50% cacau, deliciosas camadas de brigadeiro cremoso de leite Ninho e brigadeiro belga ao leite. Finalizado com morangos selecionados fresquinhos.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Casadinho 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+      
+                
+               
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Chocolate Belga 1KG.jpeg" alt="Naked Cake Chocolate Belga 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Chocolate Belga 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Chocolate Belga 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Chocolate Belga 1KG.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Chocolate Belga 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                 
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Prestígio 1KG.jpeg" alt="Naked Cake Prestígio 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Prestígio 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de ló 50% cacau, recheada em camadas de brigadeiro belga ao leite e coco fresco,...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Prestígio 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Prestígio 1KG.jpeg', 'Deliciosa massa pão de ló 50% cacau, recheada em camadas de brigadeiro belga ao leite e coco fresco, finalizado com coco ralado. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Prestígio 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>    
+  
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked cake Duo 1KG.jpeg" alt="Naked Cake Duo 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Duo 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa 50% cacau, feita artesanalmente. Recheado com brigadeiro cremoso de Ninho e brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Duo 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Duo 1KG.jpeg', 'Deliciosa massa 50% cacau, feita artesanalmente. Recheado com brigadeiro cremoso de Ninho e brigadeiro belga ao leite. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Duo 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+                
+ <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Ninho com Maracujá 1KG.jpeg" alt="Naked Cake Ninho com Maracujá 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Ninho com Maracujá 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Produzido com massa pão de ló artesanal bem fofinha e molhada, recheado em camadas de mousse...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Ninho com Maracujá 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Ninho com Maracujá 1KG.jpeg', 'Produzido com massa pão de ló artesanal bem fofinha e molhada, recheado em camadas de mousse de maracujá bem azedinho e delicioso e brigadeiro cremoso de leite Ninho. Finalizado com confeito belga branco.Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Ninho com Maracujá 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+        <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Ninho com Morangos 1KG.jpeg" alt="Naked Cake Ninho com Morangos 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Ninho com Morangos 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa artesanal branca, recheada em camadas de brigadeiro cremoso de leite ninho...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Ninho com Morangos 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Ninho com Morangos 1KG.jpeg', 'Deliciosa massa artesanal branca, recheada em camadas de brigadeiro cremoso de leite ninho. Finalizado com brigadeiros de ninho e morangos frescos. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Ninho com Morangos 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>   
+               <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/Naked Cake Doce de Leite com Coco 1KG.jpeg" alt="Naked Cake Doce de Leite com Coco 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Doce de Leite com Coco 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa branca artesanal bem molhadinha, recheada com doce de leite artesanal...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Doce de Leite com Coco 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Doce de Leite com Coco 1KG.jpeg', 'Deliciosa massa branca artesanal bem molhadinha, recheada com doce de leite artesanal e brigadeiro cremoso de coco fresco. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Doce de Leite com Coco 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>     
+ <div class="product-card">
+                       <div class="product-image-container" onclick="abrirModal('Brownie Belga com Nutella', 'R$ 15,00', 15.00, 'imagens/Brownie Belga com Nutella.jpeg', 'eliciosa massa pão de ló 50% cacau, recheado com brigadeiro cremoso de chocolate belga ao leite e finalizado com granule callebaut na decoração. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">
+        <img src="imagens/NAKEDABACAXI.jpeg" alt="Naked Cake Doce de Leite com Coco 1KG" class="product-image">
+    </div>
+    
+    <div class="product-info">
+        <h3 class="product-name">Naked Cake Abacaxi com Coco Fresco 1KG</h3>
+        
+        <!-- DESCRIÇÃO CURTA (Apenas 1 ou 2 linhas para o card não quebrar) -->
+        <p class="product-description">Deliciosa massa pão de lo artesanal bem molhadinha, recheado em camadas de brigadeiro...</p>
+        <!-- BOTÃO VER MAIS COM A BIO LONGA DENTRO DO ONCLICK -->
+        <button class="btn-ver-mais" onclick="abrirModal('Naked Cake Abacaxi com Coco Fresco 1KG', 'R$ 89,90', 89.90, 'imagens/Naked Cake Abacaxi com Coco Fresco 1KG.jpeg', 'Deliciosa massa pão de lo artesanal bem molhadinha, recheado em camadas de brigadeiro de abacaxi cremoso com pedaços e brigadeiro de coco fresco. Finalizado com lascas de coco. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.')">Ver mais</button>
+        <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>                       
+            <button class="btn-order" onclick="adicionarAoCarrinho('Naked Cake Abacaxi com Coco Fresco 1KG', 89.90)">Pedir</button>
+        </div>
+    </div>
+</div>     
+
+                 </div> 
+        </section>
+        
+                
+<!-- SEÇÃO: Kit Festas -->
+<section id="kit-festas" class="menu-section">
+    <h2 class="section-title">Kit Festas</h2>
+    <div class="products-grid">
+
+        <!-- ==================== 1. KIT FESTAS PEQUENO ==================== -->
+        <div class="product-card">
+            <div class="product-image-container" onclick="abrirModalKitPequeno()">
+                <img src="imagens/kitfestaP.jpeg" alt="Kit Festas - Pequeno" class="product-image">
+            </div>
+
+            <div class="product-info">
+                <h3 class="product-name">Kit Festas - Pequeno</h3>
+                <p class="product-description">O kit festa P acompanha nosso bolo Mini naked sabor a escolha, 6 brigadeiros belga ao leite e uma coca 600ml...</p>
+                
+                <button class="btn-ver-mais" onclick="abrirModalKitPequeno()">Ver mais</button>
+
+                <div class="product-footer">
+                    <span class="product-price">R$ 89,90</span>                       
+                    <button class="btn-order" onclick="abrirModalKitPequeno()">Pedir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL PEQUENO -->
+        <div id="modal-kit-pequeno" class="modal-delivery-overlay" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 9999;" onclick="if(event.target === this) fecharModalKitPequeno()">
+            <div class="modal-delivery-container" style="background: #fff; width: 90%; max-width: 440px; border-radius: 20px; overflow: hidden; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-family: inherit;">
+                
+                <button onclick="fecharModalKitPequeno()" style="position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.8); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-weight: bold;">✕</button>
+
+                <div style="width: 100%; height: 220px; overflow: hidden;">
+                    <img src="imagens/kitfestaP.jpeg" alt="Kit Festas - Pequeno" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+
+                <div style="padding: 20px; max-height: 60vh; overflow-y: auto;">
+                    <h2 style="font-size: 1.25rem; font-weight: bold; margin: 0 0 10px 0; color: #222;">Kit Festas - Pequeno</h2>
+                    <p style="font-size: 0.85rem; color: #666; line-height: 1.5; margin-bottom: 20px;">
+                        O kit festa P acompanha nosso bolo Mini naked sabor a escolha, 6 brigadeiros belga ao leite e uma coca 600ml. Rendimento: serve de 8 - 10 pessoas. Instruções: manter produto refrigerado. Não alteramos nenhum item ou retiramos/adicionamos ingredientes.
+                    </p>
+
+                    <!-- OPÇÃO: SABOR DO BOLO -->
+                    <div style="background: #fdf5f7; border-radius: 12px; padding: 12px 15px; margin-bottom: 15px; border: 1px solid #f8e1e7;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="font-size: 0.85rem; color: #333;">ESCOLHA O SABOR DO BOLO</strong>
+                            <span style="background: #e91e63; color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: bold;">OBRIGATÓRIO</span>
+                        </div>
+                        <label style="display: flex; justify-content: space-between; padding: 6px 0; cursor: pointer; font-size: 0.85rem; color: #555;">
+                            <span>Chocolate Belga</span>
+                            <input type="radio" name="sabor_bolo_p" value="Chocolate Belga" checked style="accent-color: #f293a9;">
+                        </label>
+                        <label style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px dashed #eee; cursor: pointer; font-size: 0.85rem; color: #555;">
+                            <span>Duo (Chocolate Belga + Ninho)</span>
+                            <input type="radio" name="sabor_bolo_p" value="Duo" style="accent-color: #f293a9;">
+                        </label>
+                    </div>
+
+                    <!-- OBSERVAÇÃO -->
+                    <div>
+                        <strong style="font-size: 0.85rem; color: #333; display: block; margin-bottom: 6px;">Observação</strong>
+                        <textarea id="obs-kit-p" placeholder="Alguma observação para o seu pedido?" style="width: 100%; height: 55px; border: 1px solid #ddd; border-radius: 8px; padding: 8px; font-size: 0.8rem; resize: none; box-sizing: border-box;"></textarea>
+                    </div>
+                </div>
+
+                <div style="padding: 15px 20px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; background: #fff;">
+                    <span style="font-size: 1.2rem; font-weight: bold; color: #f293a9;">R$ 89,90</span>
+                    <button onclick="confirmarKitPequeno()" style="background: #f8a5c2; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 10px rgba(248,165,194,0.4);">
+                        Adicionar ao Pedido
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ==================== 2. KIT FESTAS MÉDIO ==================== -->
+        <div class="product-card">
+            <div class="product-image-container" onclick="abrirModalKitMedio()">
+                <img src="imagens/kitfestaM.jpeg" alt="Kit Festas - Médio" class="product-image">
+            </div>
+
+            <div class="product-info">
+                <h3 class="product-name">Kit Festas - Médio</h3>
+                <p class="product-description">Uma festa de ultima hora? Deixa conosco! O nosso Kit M acompanha: - 1 Bolo Naked Cake 1kg...</p>
+                
+                <button class="btn-ver-mais" onclick="abrirModalKitMedio()">Ver mais</button>
+
+                <div class="product-footer">
+                    <span class="product-price">R$ 139,90</span>                       
+                    <button class="btn-order" onclick="abrirModalKitMedio()">Pedir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL MÉDIO -->
+        <div id="modal-kit-medio" class="modal-delivery-overlay" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 9999;" onclick="if(event.target === this) fecharModalKitMedio()">
+            <div class="modal-delivery-container" style="background: #fff; width: 90%; max-width: 440px; border-radius: 20px; overflow: hidden; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-family: inherit;">
+                
+                <button onclick="fecharModalKitMedio()" style="position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.8); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-weight: bold;">✕</button>
+
+                <div style="width: 100%; height: 220px; overflow: hidden;">
+                    <img src="imagens/kitfestaM.jpeg" alt="Kit Festas - Médio" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+
+                <div style="padding: 20px; max-height: 60vh; overflow-y: auto;">
+                    <h2 style="font-size: 1.25rem; font-weight: bold; margin: 0 0 10px 0; color: #222;">Kit Festas - Médio</h2>
+                    <p style="font-size: 0.85rem; color: #666; line-height: 1.5; margin-bottom: 20px;">
+                        Uma festa de ultima hora? Deixa conosco! O nosso Kit M acompanha: - 1 Bolo Naked Cake 1kg ( sabor a escolha ) serve 10 pessoas - 1 Coca Cola 2lts Gelada - 20 brigadeiros gourmets ( 15g )
+                    </p>
+
+                    <!-- OPÇÃO: SABOR DO BOLO -->
+                    <div style="background: #fdf5f7; border-radius: 12px; padding: 12px 15px; margin-bottom: 15px; border: 1px solid #f8e1e7;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="font-size: 0.85rem; color: #333;">ESCOLHA O SABOR DO BOLO</strong>
+                            <span style="background: #e91e63; color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: bold;">OBRIGATÓRIO</span>
+                        </div>
+                        <label style="display: flex; justify-content: space-between; padding: 6px 0; cursor: pointer; font-size: 0.85rem; color: #555;">
+                            <span>Chocolate Belga</span>
+                            <input type="radio" name="sabor_bolo_m" value="Chocolate Belga" checked style="accent-color: #f293a9;">
+                        </label>
+                        <label style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px dashed #eee; cursor: pointer; font-size: 0.85rem; color: #555;">
+                            <span>Duo (Chocolate Belga + Ninho)</span>
+                            <input type="radio" name="sabor_bolo_m" value="Duo" style="accent-color: #f293a9;">
+                        </label>
+                    </div>
+
+                    <!-- OBSERVAÇÃO -->
+                    <div>
+                        <strong style="font-size: 0.85rem; color: #333; display: block; margin-bottom: 6px;">Observação</strong>
+                        <textarea id="obs-kit-m" placeholder="Alguma observação para o seu pedido?" style="width: 100%; height: 55px; border: 1px solid #ddd; border-radius: 8px; padding: 8px; font-size: 0.8rem; resize: none; box-sizing: border-box;"></textarea>
+                    </div>
+                </div>
+
+                <div style="padding: 15px 20px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; background: #fff;">
+                    <span style="font-size: 1.2rem; font-weight: bold; color: #f293a9;">R$ 139,90</span>
+                    <button onclick="confirmarKitMedio()" style="background: #f8a5c2; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 10px rgba(248,165,194,0.4);">
+                        Adicionar ao Pedido
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ==================== 3. KIT FESTAS GRANDE ==================== -->
+        <div class="product-card">
+            <div class="product-image-container" onclick="abrirModalKitGrande()">
+                <img src="imagens/kitgestag.jpeg" alt="Kit Festas - Grande" class="product-image">
+            </div>
+
+            <div class="product-info">
+                <h3 class="product-name">Kit Festas - Grande</h3>
+                <p class="product-description">Precisando de Um kit Festa de Ultima Hora? Nos temos! E entregamos em 40 minutos...</p>
+                
+                <button class="btn-ver-mais" onclick="abrirModalKitGrande()">Ver mais</button>
+
+                <div class="product-footer">
+                    <span class="product-price">R$ 189,90</span>                       
+                    <button class="btn-order" onclick="abrirModalKitGrande()">Pedir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL GRANDE -->
+        <div id="modal-kit-grande" class="modal-delivery-overlay" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 9999;" onclick="if(event.target === this) fecharModalKitGrande()">
+            <div class="modal-delivery-container" style="background: #fff; width: 90%; max-width: 440px; border-radius: 20px; overflow: hidden; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-family: inherit;">
+                
+                <button onclick="fecharModalKitGrande()" style="position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.8); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-weight: bold;">✕</button>
+
+                <div style="width: 100%; height: 220px; overflow: hidden;">
+                    <img src="imagens/kitgestag.jpeg" alt="Kit Festas - Grande" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+
+                <div style="padding: 20px; max-height: 60vh; overflow-y: auto;">
+                    <h2 style="font-size: 1.25rem; font-weight: bold; margin: 0 0 10px 0; color: #222;">Kit Festas - Grande</h2>
+                    <p style="font-size: 0.85rem; color: #666; line-height: 1.5; margin-bottom: 20px;">
+                        Precisando de Um kit Festa de Ultima Hora? Nos temos! E entregamos em 40 minutos. Nosso kit festa ( g ) acompanha: Bolo Naked Cake 2kg - Serve 20 Pessoas - ( Sabor A Escolha ) 2 Coca Cola 2lts Gelada 40 Brigadeiros Gourmets ( 15g )
+                    </p>
+
+                    <!-- OPÇÃO: SABOR DO BOLO -->
+                    <div style="background: #fdf5f7; border-radius: 12px; padding: 12px 15px; margin-bottom: 15px; border: 1px solid #f8e1e7;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="font-size: 0.85rem; color: #333;">ESCOLHA O SABOR DO BOLO</strong>
+                            <span style="background: #e91e63; color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: bold;">OBRIGATÓRIO</span>
+                        </div>
+                        <label style="display: flex; justify-content: space-between; padding: 6px 0; cursor: pointer; font-size: 0.85rem; color: #555;">
+                            <span>Chocolate Belga</span>
+                            <input type="radio" name="sabor_bolo_g" value="Chocolate Belga" checked style="accent-color: #f293a9;">
+                        </label>
+                        <label style="display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px dashed #eee; cursor: pointer; font-size: 0.85rem; color: #555;">
+                            <span>Duo (Chocolate Belga + Ninho)</span>
+                            <input type="radio" name="sabor_bolo_g" value="Duo" style="accent-color: #f293a9;">
+                        </label>
+                    </div>
+
+                    <!-- OBSERVAÇÃO -->
+                    <div>
+                        <strong style="font-size: 0.85rem; color: #333; display: block; margin-bottom: 6px;">Observação</strong>
+                        <textarea id="obs-kit-g" placeholder="Alguma observação para o seu pedido?" style="width: 100%; height: 55px; border: 1px solid #ddd; border-radius: 8px; padding: 8px; font-size: 0.8rem; resize: none; box-sizing: border-box;"></textarea>
+                    </div>
+                </div>
+
+                <div style="padding: 15px 20px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; background: #fff;">
+                    <span style="font-size: 1.2rem; font-weight: bold; color: #f293a9;">R$ 189,90</span>
+                    <button onclick="confirmarKitGrande()" style="background: #f8a5c2; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 10px rgba(248,165,194,0.4);">
+                        Adicionar ao Pedido
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ==================== JAVASCRIPT DOS MODAIS ==================== -->
+<script>
+function abrirModalKitPequeno() { document.getElementById('modal-kit-pequeno').style.display = 'block'; }
+function fecharModalKitPequeno() { document.getElementById('modal-kit-pequeno').style.display = 'none'; }
+function confirmarKitPequeno() {
+    const bolo = document.querySelector('input[name="sabor_bolo_p"]:checked').value;
+    const obs = document.getElementById('obs-kit-p').value;
+    let item = `Kit Festas - Pequeno (${bolo})`;
+    if(obs.trim() !== '') item += ` [Obs: ${obs}]`;
+    if (typeof adicionarAoCarrinho === 'function') { adicionarAoCarrinho(item, 89.90); } else { alert('Adicionado: ' + item); }
+    fecharModalKitPequeno();
+}
+
+function abrirModalKitMedio() { document.getElementById('modal-kit-medio').style.display = 'block'; }
+function fecharModalKitMedio() { document.getElementById('modal-kit-medio').style.display = 'none'; }
+function confirmarKitMedio() {
+    const bolo = document.querySelector('input[name="sabor_bolo_m"]:checked').value;
+    const obs = document.getElementById('obs-kit-m').value;
+    let item = `Kit Festas - Médio (${bolo})`;
+    if(obs.trim() !== '') item += ` [Obs: ${obs}]`;
+    if (typeof adicionarAoCarrinho === 'function') { adicionarAoCarrinho(item, 139.90); } else { alert('Adicionado: ' + item); }
+    fecharModalKitMedio();
+}
+
+function abrirModalKitGrande() { document.getElementById('modal-kit-grande').style.display = 'block'; }
+function fecharModalKitGrande() { document.getElementById('modal-kit-grande').style.display = 'none'; }
+function confirmarKitGrande() {
+    const bolo = document.querySelector('input[name="sabor_bolo_g"]:checked').value;
+    const obs = document.getElementById('obs-kit-g').value;
+    let item = `Kit Festas - Grande (${bolo})`;
+    if(obs.trim() !== '') item += ` [Obs: ${obs}]`;
+    if (typeof adicionarAoCarrinho === 'function') { adicionarAoCarrinho(item, 189.90); } else { alert('Adicionado: ' + item); }
+    fecharModalKitGrande();
+}
+</script>
+        
+        
+    </main>
+  <!-- BANNER CTA FOOTER -->
+<section class="footer-cta-banner">
+    <div class="footer-cta-container">
+        <h2>Adoce seu dia e suas celebrações<br>com o sabor da Doce Encanto</h2>
+        <div class="footer-cta-buttons">
+            <a href="index.html" class="btn-cta-pink">Peça pelo Delivery</a>
+            <a href="https://wa.me/5541999999999?text=Olá!%20Gostaria%20de%20solicitar%20uma%20encomenda." target="_blank" class="btn-cta-pink">Solicite sua Encomenda</a>
+        </div>
+    </div>
+</section>
+
+<!-- RODAPÉ PRINCIPAL -->
+<footer class="site-footer">
+    <div class="footer-container">
+        
+        <!-- Coluna 1: Logo e Subtítulo -->
+        <div class="footer-col footer-brand">
+            <h2 class="footer-logo-cursiva">Doce<br>Encanto</h2>
+            <span class="footer-subtitle">CONFEITARIA GOURMET</span>
+        </div>
+
+        <!-- Coluna 2: Unidades -->
+        <div class="footer-col">
+            <h3>Unidades</h3>
+            <ul class="footer-units">
+                <li>
+                    <i class="fa-solid fa-location-dot pin-icon"></i>
+                    <div><strong>Curitiba:</strong> Rua André de Barros, 750</div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-location-dot pin-icon"></i>
+                    <div><strong>Colombo:</strong> Rua Antônio Chemin, 52</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Coluna 3: Links Úteis -->
+        <div class="footer-col">
+            <h3>Links Úteis</h3>
+            <ul class="footer-links">
+                <li><a href="inicio.html">Início</a></li>
+                <li><a href="index.html">Cardápio</a></li>
+                <li><a href="encomendas.html">Encomendas</a></li>
+                <li><a href="sobrenos.html">Sobre nós</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="bio.html">Bio</a></li>
+            </ul>
+        </div>
+
+        <!-- Coluna 4: Redes Sociais -->
+        <div class="footer-col">
+            <h3>Siga nossas redes</h3>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/" class="social-box" title="Instagram" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://pt-br.facebook.com/" class="social-box" title="Facebook" target="_blank">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="https://www.ifood.com.br/" class="social-box" title="iFood / Delivery" target="_blank">
+                    <i class="fa-solid fa-burger"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Linha Divisória e Copyright -->
+    <div class="footer-bottom">
+        <p>© 2026 Doce Encanto. Todos os Direitos Reservados.</p>
+        <p class="footer-credits">Desenvolvido por Louder Performance Digital</p>
+    </div>
+</footer>
+    <!-- =======================================================
+     ESTILOS ISOLADOS - PALETA ROSA (DOCE ENCANTO)
+     ======================================================= -->
+<style>
+div#modal-carrinho.escondido,
+div#tela-checkout.escondido,
+div#pagina-pix.escondida,
+div#pagina-cartao.escondida,
+section#pagina-pix.escondida,
+section#pagina-cartao.escondida,
+.aba-checkout.escondida {
+    display: none !important;
+}
+
+div#modal-carrinho, div#tela-checkout {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(0, 0, 0, 0.45) !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10px !important;
+    box-sizing: border-box !important;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+div#modal-carrinho .conteudo-carrinho, 
+div#tela-checkout .checkout-card {
+    background: #ffffff !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    max-height: 92vh !important;
+    border-radius: 20px !important;
+    padding: 0 !important;
+    box-shadow: 0 10px 30px rgba(216, 27, 96, 0.15) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.delivery-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 16px 20px !important;
+    border-bottom: 1px solid #fce4ec !important;
+}
+
+.btn-voltar-topo {
+    background: #fce4ec !important;
+    color: #d81b60 !important;
+    border: none !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.9rem !important;
+}
+
+.delivery-header h2 {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: #4a2c2a !important;
+    margin: 0 !important;
+}
+
+.btn-limpar {
+    color: #d81b60 !important;
+    background: none !important;
+    border: none !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    cursor: pointer !important;
+}
+
+.etapas-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    padding: 12px 0 !important;
+    background: #fff5f8 !important;
+    border-bottom: 1px solid #fce4ec !important;
+}
+
+.etapa-item {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    border: 1px solid #f8bbd0 !important;
+    color: #c2185b !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.75rem !important;
+    font-weight: bold !important;
+    background: #fff !important;
+}
+
+.etapa-item.ativa {
+    border-color: #d81b60 !important;
+    background: #d81b60 !important;
+    color: #fff !important;
+}
+
+.delivery-body {
+    padding: 16px 20px !important;
+    overflow-y: auto !important;
+    flex: 1 !important;
+}
+
+.secao-titulo {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    color: #4a2c2a !important;
+    margin: 0 0 12px 0 !important;
+}
+
+.item-carrinho-linha {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 1px dashed #fce4ec !important;
+}
+
+.item-detalhes strong {
+    display: block !important;
+    font-size: 0.9rem !important;
+    color: #333 !important;
+}
+
+.item-detalhes span {
+    font-size: 0.85rem !important;
+    color: #d81b60 !important;
+    font-weight: 700 !important;
+}
+
+.item-carrinho-qtd {
+    display: flex !important;
+    align-items: center !important;
+    border: 1px solid #f8bbd0 !important;
+    background: #fff5f8 !important;
+    border-radius: 20px !important;
+    padding: 2px 10px !important;
+    gap: 10px !important;
+}
+
+.item-carrinho-qtd button {
+    background: transparent !important;
+    border: none !important;
+    color: #d81b60 !important;
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+}
+
+.bloco-cupom, .bloco-cashback {
+    margin-top: 15px !important;
+    padding-top: 15px !important;
+    border-top: 1px solid #fce4ec !important;
+}
+
+.cupons-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+}
+
+.cupom-card {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #fff5f8 !important;
+    border: 1px dashed #f8bbd0 !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+}
+
+.cupom-tag {
+    font-weight: bold !important;
+    color: #d81b60 !important;
+    font-size: 0.85rem !important;
+}
+
+.cupom-desc {
+    font-size: 0.75rem !important;
+    color: #666 !important;
+}
+
+.btn-aplicar-cupom {
+    background: #d81b60 !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    font-size: 0.75rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+}
+
+.link-acao {
+    color: #d81b60 !important;
+    text-decoration: none !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    display: block !important;
+    text-align: center !important;
+}
+
+.card-cashback {
+    background: #fff0f5 !important;
+    color: #ad1457 !important;
+    border: 1px solid #f8bbd0 !important;
+    padding: 10px 14px !important;
+    border-radius: 10px !important;
+    font-size: 0.8rem !important;
+    margin-top: 8px !important;
+}
+
+.resumo-linha {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 0.85rem !important;
+    color: #666 !important;
+    margin-bottom: 6px !important;
+}
+
+.resumo-linha.total-destaque {
+    font-weight: bold !important;
+    color: #4a2c2a !important;
+    font-size: 1rem !important;
+    margin-top: 8px !important;
+}
+
+.delivery-footer {
+    padding: 15px 20px !important;
+    background: #fff !important;
+    border-top: 1px solid #fce4ec !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.total-rodape {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.total-rodape small {
+    font-size: 0.75rem !important;
+    color: #777 !important;
+}
+
+.total-rodape strong {
+    font-size: 1.15rem !important;
+    color: #d81b60 !important;
+}
+
+.btn-continuar-rosa {
+    background: #f8a5c2 !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 12px 28px !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    font-size: 0.95rem !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 12px rgba(248, 165, 194, 0.4) !important;
+    transition: background 0.2s !important;
+}
+
+.btn-continuar-rosa:hover {
+    background: #f687b3 !important;
+}
+
+/* Notificação discreta ao adicionar item */
+#notificacao-item {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #d81b60;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);
+    z-index: 1000000;
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<!-- NOTIFICAÇÃO DISCRETA -->
+<div id="notificacao-item">✓ Item adicionado à sacola!</div>
+
+<!-- =======================================================
+     ESTRUTURA HTML DO CARRINHO
+     ======================================================= -->
+
+<!-- 1. MODAL DO CARRINHO -->
+<div id="modal-carrinho" class="modal-carrinho escondido">
+    <div class="conteudo-carrinho">
+        
+        <div class="delivery-header">
+            <button type="button" class="btn-voltar-topo" onclick="fecharCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>Minha sacola</h2>
+            <button type="button" class="btn-limpar" onclick="limparCarrinho()">Limpar</button>
+        </div>
+
+        <div class="etapas-bar">
+            <div class="etapa-item ativa">1</div>
+            <div class="etapa-item">2</div>
+            <div class="etapa-item">3</div>
+        </div>
+
+        <div class="delivery-body">
+            <h3 class="secao-titulo">Itens adicionados</h3>
+            
+            <div id="carrinho-itens"></div>
+
+            <!-- CAMPO DE OBSERVAÇÕES -->
+            <div class="bloco-observacao" style="margin-top: 15px; margin-bottom: 15px;">
+                <h3 class="secao-titulo"><i class="fa-regular fa-comment-dots"></i> Observações do Pedido</h3>
+                <textarea id="observacao-carrinho" placeholder="Ex: Tirar o morango, mandar velas, sem lactose, embalar para presente..." style="width: 100%; padding: 12px; border: 2px solid #f8e1e7; border-radius: 12px; font-family: inherit; font-size: 0.88rem; outline: none; box-sizing: border-box; resize: vertical; min-height: 70px; transition: border-color 0.3s; background: #fffbfd;" onchange="salvarObservacao()"></textarea>
+            </div>
+
+            <!-- BLOCO DE CUPONS -->
+            <div class="bloco-cupom">
+                <h3 class="secao-titulo">Cupons Disponíveis</h3>
+                <div class="cupons-container">
+                    <div class="cupom-card">
+                        <div>
+                            <span class="cupom-tag">PRIMEIRACOMPRA</span>
+                            <div class="cupom-desc">R$ 5,00 de desconto</div>
+                        </div>
+                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('PRIMEIRACOMPRA', 5)">Aplicar</button>
+                    </div>
+
+                    <div class="cupom-card">
+                        <div>
+                            <span class="cupom-tag">DOCE10</span>
+                            <div class="cupom-desc">10% de desconto no subtotal</div>
+                        </div>
+                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('DOCE10', '10%')">Aplicar</button>
+                    </div>
+
+                    <div class="cupom-card">
+                        <div>
+                            <span class="cupom-tag">CUPOMVANDI</span>
+                            <div class="cupom-desc">R$ 7,50 de desconto</div>
+                        </div>
+                        <button type="button" class="btn-aplicar-cupom" onclick="aplicarCupom('CUPOMVANDI', 7.5)">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bloco-cashback">
+                <h3 class="secao-titulo">Cashback</h3>
+                <div class="card-cashback">
+                    <i class="fa-solid fa-gift"></i> Gaste R$ 25,00 e ganhe <strong>5% de desconto</strong> na próxima compra!
+                </div>
+            </div>
+
+            <!-- RESUMO DE VALORES -->
+            <div class="bloco-cupom" style="margin-bottom: 10px;">
+                <h3 class="secao-titulo">Resumo de valores</h3>
+                <div class="resumo-linha">
+                    <span>Subtotal</span>
+                    <span id="subtotal-valor">R$ 0,00</span>
+                </div>
+                <div class="resumo-linha">
+                    <span>Taxa de entrega</span>
+                    <span id="taxa-entrega">R$ 5,00</span>
+                </div>
+                <div class="resumo-linha">
+                    <span>Taxa de Serviço</span>
+                    <span id="taxa-servico">R$ 2,50</span>
+                </div>
+                <div class="resumo-linha" id="linha-desconto" style="display:none; color:#d81b60; font-weight:bold;">
+                    <span>Desconto (<span id="nome-cupom-txt"></span>)</span>
+                    <span id="desconto-valor">- R$ 0,00</span>
+                </div>
+                <div class="resumo-linha total-destaque">
+                    <span>Total</span>
+                    <span id="total-valor">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="delivery-footer">
+            <div class="total-rodape">
+                <small>Total a pagar:</small>
+                <strong id="total-rodape-txt">R$ 0,00</strong>
+            </div>
+            <button type="button" class="btn-continuar-rosa" onclick="irParaCheckout()">
+                Continuar <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- 2. CHECKOUT (DADOS E PAGAMENTO) -->
+<div id="tela-checkout" class="checkout-overlay escondido">
+    <div class="checkout-card">
+        
+        <div class="delivery-header">
+            <button type="button" class="btn-voltar-topo" onclick="voltarParaCarrinho()"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>Finalizar Pedido</h2>
+            <div></div>
+        </div>
+
+        <div class="etapas-bar">
+            <div class="etapa-item">1</div>
+            <div class="etapa-item ativa">2</div>
+            <div class="etapa-item">3</div>
+        </div>
+
+        <div class="delivery-body">
+            
+            <h3 class="secao-titulo"><i class="fa-solid fa-location-dot"></i> Endereço de Entrega</h3>
+
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <input type="text" id="rua-cliente" placeholder="Rua / Avenida e Número" style="padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
+                <input type="text" id="bairro-cliente" placeholder="Bairro" style="padding:10px; border:1px solid #e0e0e0; border-radius:8px;">
+            </div>
+
+            <h3 class="secao-titulo" style="margin-top:20px;"><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</h3>
+            <select id="select-pagamento-modal" onchange="trocarFormaPagamento()" style="width:100%; padding:11px 14px; border:1px solid #f8bbd0; border-radius:10px; background:#fff5f8; font-size:0.9rem; font-weight:600; color:#4a2c2a; outline:none; cursor:pointer;">
+                <option value="pix">📱 PIX (QR Code / Copia e Cola)</option>
+                <option value="cartao">💳 Cartão de Crédito / Débito</option>
+            </select>
+
+            <!-- ABA 1: PIX (QR CODE E CHAVE COPIA E COLA) -->
+            <div id="pagina-pix" class="aba-checkout" style="margin-top: 15px;">
+                <div style="text-align:center; background:#fff5f8; border:1px dashed #f8bbd0; border-radius:14px; padding:15px;">
+                    <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block; margin-bottom:8px;">
+                        <i class="fa-brands fa-pix"></i> Pagamento via PIX
+                    </span>
+                    <p style="font-size:0.78rem; color:#666; margin-bottom:10px;">Escaneie o QR Code no app do seu banco ou copie a chave abaixo:</p>
+                    <div style="background:#fff; padding:10px; border-radius:12px; display:inline-block; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:12px;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" alt="QR Code PIX" style="width:130px; height:130px; display:block;">
+                    </div>
+                    
+                    <div style="display:flex; gap:6px; margin-top:5px;">
+                        <input type="text" id="chave-pix-input" readonly value="00020126580014br.gov.bcb.pix0136pix-doceencanto@gmail.com" style="flex:1; padding:8px 10px; font-size:0.75rem; border:1px solid #f8bbd0; border-radius:8px; background:#fff; color:#555;">
+                        <button type="button" onclick="copiarPix()" style="background:#d81b60; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:4px; white-space:nowrap;">
+                            <i class="fa-regular fa-copy"></i> Copiar
+                        </button>
+                    </div>
+                    <small style="display:block; margin-top:8px; font-size:0.72rem; color:#888;">Código expira em 15 minutos</small>
+                </div>
+            </div>
+
+            <!-- ABA 2: CARTÃO DE CRÉDITO / DÉBITO -->
+            <div id="pagina-cartao" class="aba-checkout escondida" style="margin-top: 15px;">
+                <div style="background:#fff5f8; border:1px solid #f8bbd0; border-radius:14px; padding:15px; display:flex; flex-direction:column; gap:10px;">
+                    <span style="font-size:0.85rem; font-weight:bold; color:#d81b60; display:block;">
+                        <i class="fa-solid fa-credit-card"></i> Inserir Dados do Cartão
+                    </span>
+                    
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Nome impresso no Cartão</label>
+                        <input type="text" id="cartao-nome" placeholder="Como impresso no cartão" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                    </div>
+
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Número do Cartão</label>
+                        <input type="text" id="cartao-numero" placeholder="0000 0000 0000 0000" maxlength="19" oninput="mascaraCartao(this)" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                    </div>
+
+                    <div style="display:flex; gap:10px;">
+                        <div style="flex:1;">
+                            <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Validade</label>
+                            <input type="text" id="cartao-validade" placeholder="MM/AA" maxlength="5" oninput="mascaraValidade(this)" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">CVV</label>
+                            <input type="password" id="cartao-cvv" placeholder="123" maxlength="4" style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.85rem; box-sizing:border-box;">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="display:block; font-size:0.75rem; font-weight:600; color:#555; margin-bottom:4px;">Tipo de Pagamento</label>
+                        <select id="cartao-tipo" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:0.82rem; box-sizing:border-box; background:#fff; color:#333;">
+                            <option value="debito">Débito (À vista)</option>
+                            <option value="credito_1x">Crédito (1x sem juros)</option>
+                            <option value="credito_2x">Crédito (2x sem juros)</option>
+                            <option value="credito_3x">Crédito (3x sem juros)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="delivery-footer">
+            <div class="total-rodape">
+                <small>Total Final:</small>
+                <strong id="total-checkout-valor">R$ 0,00</strong>
+            </div>
+            <button type="button" class="btn-continuar-rosa" onclick="processarPedidoSite()">
+                Fazer Pedido
+            </button>
+        </div>
+
+    </div>
+</div>
+
+    <!-- CARREGAMENTO DO SCRIPT CENTRAL E CONTAS -->
+    <script src="script.js"></script>
+    <script src="inicio.js"></script>
+
 </body>
 </html>
