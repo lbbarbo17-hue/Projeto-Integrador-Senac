@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="login.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- CARREGAMENTO DO GERENCIADOR DE BANCO DE DADOS -->
+    <script src="script.js"></script>
     <style>
         :root {
             --rosa-doce: #fab3cb;
             --rosa-hover: #f48fb1;
             --rosa-suave: #fceef2;
+            --rosa-escuro: #d81b60;
             --marrom-doce: #6d3828;
             --marrom-escuro: #473936;
             --fundo-pagina: #fbf7f8;
@@ -30,114 +33,256 @@
             min-height: 100vh;
         }
 
-        .admin-container {
-            max-width: 1100px;
-            margin: 40px auto 60px;
-            padding: 0 25px;
+        main.admin-container {
+            max-width: 96% !important;
+            width: 96% !important;
+            margin: 20px auto 60px !important;
+            padding: 0 10px !important;
+            box-sizing: border-box !important;
+            display: block !important;
         }
 
-        /* BANNER TOPO DO ADMIN */
+        /* HEADER DO ADMIN */
         .admin-header-title {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border: 2px solid var(--rosa-suave);
-            padding: 25px 35px;
+            padding: 22px 30px;
             border-radius: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             box-shadow: var(--sombra-card);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .admin-header-title h2 {
             font-family: 'Fredoka', sans-serif;
             color: var(--marrom-doce);
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
         .admin-header-title h2 i {
             color: var(--rosa-hover);
             background: var(--rosa-suave);
-            padding: 12px;
-            border-radius: 16px;
-            font-size: 1.4rem;
+            padding: 10px;
+            border-radius: 14px;
+            font-size: 1.3rem;
         }
 
-        .btn-voltar-loja {
+        .admin-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-acao-header {
             background: var(--rosa-suave);
             color: var(--marrom-doce);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
-            display: flex;
+            font-size: 0.9rem;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
             border: 1px solid var(--rosa-doce);
+            cursor: pointer;
         }
 
-        .btn-voltar-loja:hover {
+        .btn-acao-header:hover {
             background: var(--rosa-hover);
             color: #ffffff;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(244, 143, 177, 0.4);
         }
 
+        /* CARDS DE ESTATÍSTICAS (KPIs) ESPALHADOS */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1100px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .kpi-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            border: 1px solid rgba(250, 179, 203, 0.4);
+            box-shadow: var(--sombra-suave);
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--sombra-card);
+        }
+
+        .kpi-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .kpi-info h4 {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-info .kpi-valor {
+            margin: 4px 0 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--marrom-doce);
+            font-family: 'Fredoka', sans-serif;
+        }
+
         /* SEÇÃO DE CONTEÚDO (CARDS) */
         .admin-section {
             background: #ffffff;
             border-radius: 24px;
-            padding: 35px;
+            padding: 30px;
             margin-bottom: 35px;
             box-shadow: var(--sombra-suave);
             border: 1px solid rgba(250, 179, 203, 0.3);
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            display: block !important;
+        }
+
+        .section-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 22px;
+            border-bottom: 2px dashed var(--rosa-suave);
+            padding-bottom: 14px;
         }
 
         .admin-section h3 {
             color: var(--marrom-doce);
             font-family: 'Fredoka', sans-serif;
             font-size: 1.35rem;
-            margin-bottom: 25px;
-            border-bottom: 2px dashed var(--rosa-suave);
-            padding-bottom: 14px;
+            margin: 0;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .admin-section h3 i {
             color: var(--rosa-hover);
         }
 
-        /* CAMPOS DO FORMULÁRIO */
+        /* BARRA DE FILTROS E BUSCA */
+        .filtros-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #fffbfd;
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 1px solid var(--rosa-suave);
+        }
+
+        .busca-input-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .busca-input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .busca-input-wrapper input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            border: 2px solid var(--rosa-suave);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            outline: none;
+            background: #fff;
+            box-sizing: border-box;
+            transition: all 0.25s;
+        }
+
+        .busca-input-wrapper input:focus {
+            border-color: var(--rosa-hover);
+            box-shadow: 0 0 0 3px rgba(250, 179, 203, 0.25);
+        }
+
+        .select-filtro {
+            padding: 10px 16px;
+            border: 2px solid var(--rosa-suave);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #fff;
+            color: var(--marrom-escuro);
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* FORMULÁRIO DE CADASTRO */
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 22px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 20px;
         }
 
         .input-group label {
             display: block;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--marrom-doce);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
-            padding: 13px 18px;
+            padding: 11px 16px;
             border: 2px solid var(--rosa-suave);
-            border-radius: 14px;
-            font-size: 0.95rem;
+            border-radius: 12px;
+            font-size: 0.92rem;
             font-family: inherit;
             outline: none;
             background: #fffbfd;
@@ -145,47 +290,47 @@
             box-sizing: border-box;
         }
 
-        .input-group input:focus {
+        .input-group input:focus, .input-group select:focus {
             border-color: var(--rosa-hover);
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(250, 179, 203, 0.25);
+            box-shadow: 0 0 0 3px rgba(250, 179, 203, 0.25);
         }
 
         .btn-salvar-admin {
             background: linear-gradient(135deg, var(--rosa-doce) 0%, var(--rosa-hover) 100%);
             color: #ffffff;
             border: none;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 30px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             font-family: 'Fredoka', sans-serif;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(244, 143, 177, 0.35);
+            box-shadow: 0 4px 15px rgba(244, 143, 177, 0.35);
         }
 
         .btn-salvar-admin:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(244, 143, 177, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 143, 177, 0.5);
         }
 
         /* TABELAS MODERNAS */
         .admin-table-container {
             overflow-x: auto;
-            border-radius: 18px;
+            border-radius: 16px;
             border: 1px solid var(--rosa-suave);
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            margin-top: 15px;
+            background: #ffffff;
         }
 
         .admin-table {
             width: 100%;
             border-collapse: collapse;
-            background: #ffffff;
+            font-size: 0.9rem;
         }
 
         .admin-table th {
@@ -193,138 +338,215 @@
             color: var(--marrom-doce);
             font-weight: 600;
             font-family: 'Fredoka', sans-serif;
-            font-size: 1rem;
-            padding: 16px 20px;
+            font-size: 0.95rem;
+            padding: 14px 18px;
             text-align: left;
+            white-space: nowrap;
         }
 
         .admin-table td {
-            padding: 16px 20px;
-            border-bottom: 1px solid #f8eaf0;
-            font-size: 0.95rem;
+            padding: 14px 18px;
+            border-bottom: 1px solid #f9ebf1;
             color: var(--marrom-escuro);
             vertical-align: middle;
         }
 
-        .admin-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
         .admin-table tbody tr:hover {
-            background-color: #fff9fc;
+            background-color: #fff9fb;
         }
 
-        .img-produto-tb {
-            width: 55px;
-            height: 55px;
-            object-fit: cover;
+        /* ELEMENTOS DAS CÉLULAS */
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rosa-doce), var(--rosa-hover));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(244, 143, 177, 0.35);
+        }
+
+        .badge-role {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-role.admin {
+            background-color: #fce4ec;
+            color: #c2185b;
+            border: 1px solid #f48fb1;
+        }
+
+        .badge-role.cliente {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        .badge-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-select {
+            padding: 6px 10px;
             border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            border: 2px solid var(--rosa-suave);
+            border: 1px solid var(--rosa-doce);
+            font-size: 0.82rem;
+            font-weight: 600;
+            background: #fff;
+            color: var(--marrom-doce);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .whatsapp-link {
+            color: #25d366;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s;
+        }
+
+        .whatsapp-link:hover {
+            transform: scale(1.05);
+            color: #128c7e;
+        }
+
+        .btn-table-action {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ver-detalhes {
+            background: var(--rosa-suave);
+            color: var(--marrom-doce);
+            border: 1px solid var(--rosa-doce);
+        }
+
+        .btn-ver-detalhes:hover {
+            background: var(--rosa-hover);
+            color: #fff;
+        }
+
+        .btn-toggle-cargo {
+            background: #f0f4f8;
+            color: #2c3e50;
+            border: 1px solid #cfd8dc;
+        }
+
+        .btn-toggle-cargo:hover {
+            background: #cfd8dc;
         }
 
         .btn-excluir-item {
             background: #fff;
-            border: 2px solid #e74c3c;
+            border: 1px solid #e74c3c;
             color: #e74c3c;
-            padding: 7px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .btn-excluir-item:hover {
-            background-color: #e74c3c;
-            color: #ffffff;
-            transform: scale(1.06);
-            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+            background: #e74c3c;
+            color: #fff;
         }
 
-        /* MODAL CUSTOMIZADO ELEGANTE */
+        .img-produto-tb {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--rosa-suave);
+        }
+
+        /* MODAL CUSTOMIZADO */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(71, 57, 54, 0.55);
+            background-color: rgba(71, 57, 54, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .modal-box {
             background-color: #ffffff;
             border-radius: 24px;
-            padding: 35px;
-            width: 90%;
-            max-width: 420px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+            padding: 30px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
             text-align: center;
             border: 2px solid var(--rosa-suave);
+            position: relative;
+        }
+
+        .modal-box.modal-large {
+            max-width: 650px;
+            text-align: left;
+            max-height: 88vh;
+            overflow-y: auto;
         }
 
         .modal-box h4 {
             color: var(--marrom-doce);
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        .modal-box p {
-            margin: 15px 0 30px;
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .btn-modal-cancel {
-            background-color: #f3f3f3;
-            color: #555;
+        .btn-close-modal {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            background: none;
             border: none;
-            padding: 12px 26px;
-            border-radius: 25px;
+            font-size: 1.3rem;
+            color: #999;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
         }
 
-        .btn-modal-cancel:hover {
-            background-color: #e2e2e2;
+        .btn-close-modal:hover {
+            color: #e74c3c;
         }
 
-        .btn-modal-confirm {
-            background-color: #e74c3c;
-            color: #ffffff;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.35);
-        }
-
-        .btn-modal-confirm:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-        }
-
-        /* RESPONSIVIDADE ADMIN MOBILE */
+        /* RESPONSIVIDADE MOBILE */
         @media (max-width: 768px) {
             .admin-container {
                 padding: 0 12px;
@@ -333,50 +555,68 @@
 
             .admin-header-title {
                 flex-direction: column;
-                gap: 16px;
                 text-align: center;
-                align-items: stretch;
-                padding: 20px 16px;
+                padding: 18px;
             }
 
-            .admin-header-title h2 {
-                font-size: 1.35rem;
-                justify-content: center;
-            }
-
-            .btn-voltar-loja {
-                justify-content: center;
+            .admin-header-actions {
                 width: 100%;
+                justify-content: center;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .kpi-card {
+                padding: 16px;
+                gap: 12px;
+            }
+
+            .kpi-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+
+            .kpi-info .kpi-valor {
+                font-size: 1.3rem;
             }
 
             .admin-section {
-                padding: 22px 14px;
+                padding: 20px 14px;
                 border-radius: 18px;
             }
 
-            .admin-section h3 {
-                font-size: 1.2rem;
+            .section-header-flex {
+                flex-direction: column;
+                align-items: stretch;
             }
 
-            .form-grid {
+            .admin-table th, .admin-table td {
+                padding: 10px 12px;
+                font-size: 0.82rem;
+            }
+        }
+
+        /* LAYOUT ESPALHADO / GRID PRODUTOS */
+        .produtos-grid-layout {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .produtos-grid-layout {
                 grid-template-columns: 1fr;
-                gap: 14px;
             }
+        }
 
-            .input-group input,
-            .input-group select {
-                font-size: 16px;
-            }
-
-            .btn-salvar-admin {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .admin-table th, 
-            .admin-table td {
-                padding: 12px 14px;
-                font-size: 0.88rem;
+        @media (max-width: 480px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -387,46 +627,133 @@
         <a href="inicio.html" class="nav-link">Início</a>
         <a href="index.html" class="nav-link">Cardápio</a>
         <a href="perfil.html" class="nav-link">Meu Perfil</a>
-        <a href="login.html" class="nav-link active"><i class="fa-regular fa-user"></i> Admin</a>
+        <a href="admin.html" class="nav-link active"><i class="fa-solid fa-crown"></i> Painel Admin</a>
     </nav>
 
     <main class="admin-container">
+        <!-- BANNER TOPO -->
         <div class="admin-header-title">
-            <h2><i class="fa-solid fa-crown"></i> Painel de Controle Doce Encanto</h2>
-            <a href="inicio.html" class="btn-voltar-loja"><i class="fa-solid fa-store"></i> Voltar para a Loja</a>
+            <h2><i class="fa-solid fa-crown"></i> Painel do Administrador Geral</h2>
+            <div class="admin-header-actions">
+                <button type="button" id="btn-exportar-dados" class="btn-acao-header">
+                    <i class="fa-solid fa-download"></i> Backup do Sistema (JSON)
+                </button>
+                <a href="inicio.html" class="btn-acao-header">
+                    <i class="fa-solid fa-store"></i> Voltar para a Loja
+                </a>
+            </div>
         </div>
 
-        <!-- 1. GERENCIAR / CADASTRAR USUÁRIOS -->
+        <!-- 4 CARDS DE MÉTRICAS (KPIs) -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #f48fb1, #d81b60);">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="kpi-info">
+                    <h4>Total de Contas</h4>
+                    <p class="kpi-valor" id="kpi-total-usuarios">0</p>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #42a5f5, #1976d2);">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="kpi-info">
+                    <h4>Pedidos Totais</h4>
+                    <p class="kpi-valor" id="kpi-total-pedidos">0</p>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #66bb6a, #2e7d32);">
+                    <i class="fa-solid fa-money-bill-trend-up"></i>
+                </div>
+                <div class="kpi-info">
+                    <h4>Faturamento Total</h4>
+                    <p class="kpi-valor" id="kpi-faturamento">R$ 0,00</p>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #ffa726, #f57c00);">
+                    <i class="fa-solid fa-cake-candles"></i>
+                </div>
+                <div class="kpi-info">
+                    <h4>Produtos Ativos</h4>
+                    <p class="kpi-valor" id="kpi-total-produtos">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. GERENCIAMENTO DE TODAS AS CONTAS E USUÁRIOS -->
         <section class="admin-section">
-            <h3><i class="fa-solid fa-user-plus"></i> Cadastrar Novo Usuário</h3>
-            <div id="alerta-usuario" class="alerta-box" style="display: none; margin-bottom: 20px; padding: 12px; border-radius: 12px; text-align: center;"></div>
-            
-            <form id="form-cadastrar-usuario" style="margin-bottom: 30px;">
+            <div class="section-header-flex">
+                <h3><i class="fa-solid fa-address-book"></i> Contas e Usuários Cadastrados</h3>
+                <button type="button" id="btn-toggle-novo-usuario" class="btn-acao-header" style="background:#fff; border-color:var(--rosa-hover); color:var(--rosa-escuro);">
+                    <i class="fa-solid fa-user-plus"></i> Novo Usuário
+                </button>
+            </div>
+
+            <div id="alerta-usuario" class="alerta-box" style="display: none; margin-bottom: 18px; padding: 12px; border-radius: 12px; text-align: center;"></div>
+
+            <!-- FORMULÁRIO DE NOVO USUÁRIO (EXPANSÍVEL) -->
+            <form id="form-cadastrar-usuario" style="display: none; background: #fffcfd; padding: 20px; border-radius: 18px; border: 1px dashed var(--rosa-hover); margin-bottom: 25px;">
+                <h4 style="margin-top: 0; color: var(--marrom-doce); font-family: 'Fredoka', sans-serif;"><i class="fa-solid fa-sparkles"></i> Cadastrar Nova Conta</h4>
                 <div class="form-grid">
                     <div class="input-group">
                         <label for="user-nome-input">Nome Completo</label>
-                        <input type="text" id="user-nome-input" placeholder="Ex: Maria Silva" required>
+                        <input type="text" id="user-nome-input" placeholder="Ex: Ana Paula Ribeiro" required>
                     </div>
                     <div class="input-group">
                         <label for="user-email-input">E-mail</label>
-                        <input type="email" id="user-email-input" placeholder="usuario@email.com" required>
+                        <input type="email" id="user-email-input" placeholder="ana@email.com" required>
                     </div>
                     <div class="input-group">
-                        <label for="user-senha-input">Senha</label>
-                        <input type="password" id="user-senha-input" placeholder="******" required>
+                        <label for="user-tel-input">WhatsApp / Celular</label>
+                        <input type="tel" id="user-tel-input" placeholder="(41) 98888-0000">
+                    </div>
+                    <div class="input-group">
+                        <label for="user-senha-input">Senha Provisória</label>
+                        <input type="password" id="user-senha-input" placeholder="Mínimo 6 caracteres" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="user-role-input">Tipo de Permissão</label>
+                        <select id="user-role-input">
+                            <option value="cliente">🛍️ Cliente</option>
+                            <option value="admin">👑 Administrador</option>
+                        </select>
                     </div>
                 </div>
-                <button type="submit" class="btn-salvar-admin">Cadastrar Usuário <i class="fa-solid fa-arrow-right"></i></button>
+                <button type="submit" class="btn-salvar-admin">Salvar Usuário <i class="fa-solid fa-check"></i></button>
             </form>
 
-            <h3 style="margin-top: 35px;"><i class="fa-solid fa-users"></i> Usuários Cadastrados</h3>
+            <!-- BARRA DE BUSCA E FILTROS -->
+            <div class="filtros-container">
+                <div class="busca-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="input-busca-usuarios" placeholder="Buscar por nome, e-mail ou cidade...">
+                </div>
+                <select id="filtro-role-usuario" class="select-filtro">
+                    <option value="todos">Todos os Cargos</option>
+                    <option value="cliente">🛍️ Somente Clientes</option>
+                    <option value="admin">👑 Somente Administradores</option>
+                </select>
+            </div>
+
+            <!-- TABELA COMPLETA DE USUÁRIOS -->
             <div class="admin-table-container">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th style="width: 130px; text-align: center;">Ações</th>
+                            <th>Usuário</th>
+                            <th>WhatsApp</th>
+                            <th>Endereço / Cidade</th>
+                            <th>Cashback</th>
+                            <th style="text-align: center;">Pedidos</th>
+                            <th>Cargo</th>
+                            <th style="text-align: center;">Ações</th>
                         </tr>
                     </thead>
                     <tbody id="lista-usuarios">
@@ -436,82 +763,178 @@
             </div>
         </section>
 
-        <!-- 2. GERENCIAMENTO DE PRODUTOS -->
+        <!-- 2. GERENCIAMENTO DE PEDIDOS DOS CLIENTES -->
         <section class="admin-section">
-            <h3><i class="fa-solid fa-cake-candles"></i> Cadastrar Novo Produto</h3>
-            <div id="alerta-admin" class="alerta-box" style="display: none; margin-bottom: 20px; padding: 12px; border-radius: 12px; text-align: center;"></div>
-            
-            <form id="form-cadastrar-produto">
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label for="prod-nome">Nome do Doce / Bolo</label>
-                        <input type="text" id="prod-nome" placeholder="Ex: Bolo de Morango Gourmet" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="prod-preco">Preço (R$)</label>
-                        <input type="number" id="prod-preco" step="0.01" placeholder="89.90" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="prod-imagem">URL da Imagem</label>
-                        <input type="url" id="prod-imagem" placeholder="https://..." required>
-                    </div>
-                </div>
-                <button type="submit" class="btn-salvar-admin">Adicionar Produto <i class="fa-solid fa-plus"></i></button>
-            </form>
+            <div class="section-header-flex">
+                <h3><i class="fa-solid fa-receipt"></i> Pedidos Recentes dos Clientes</h3>
+                <span style="font-size: 0.85rem; color: #777;">Atualize status e notifique os clientes via WhatsApp</span>
+            </div>
 
-            <h3 style="margin-top: 35px;"><i class="fa-solid fa-box-open"></i> Produtos no Cardápio</h3>
             <div class="admin-table-container">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Imagem</th>
-                            <th>Nome do Produto</th>
-                            <th>Preço</th>
-                            <th style="width: 130px; text-align: center;">Ações</th>
+                            <th>#ID / Data</th>
+                            <th>Cliente</th>
+                            <th>Itens do Pedido</th>
+                            <th>Total & Pagamento</th>
+                            <th>Endereço</th>
+                            <th>Status do Pedido</th>
+                            <th style="text-align: center;">Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="lista-produtos">
+                    <tbody id="lista-pedidos-admin">
                         <!-- Preenchido dinamicamente via JS -->
                     </tbody>
                 </table>
             </div>
         </section>
+
+        <!-- 3. GERENCIAMENTO DE PRODUTOS -->
+        <section class="admin-section">
+            <div class="section-header-flex">
+                <h3><i class="fa-solid fa-cake-candles"></i> Gerenciamento de Produtos do Cardápio</h3>
+            </div>
+            
+            <div id="alerta-admin" class="alerta-box" style="display: none; margin-bottom: 20px; padding: 12px; border-radius: 12px; text-align: center;"></div>
+            
+            <div class="produtos-grid-layout">
+                <!-- FORMULÁRIO DE ADIÇÃO (LADO ESQUERDO) -->
+                <div style="background: #fffcfd; padding: 24px; border-radius: 20px; border: 1px solid var(--rosa-suave); box-shadow: 0 4px 15px rgba(250, 179, 203, 0.1);">
+                    <h4 style="margin: 0 0 16px; color: var(--marrom-doce); font-family: 'Fredoka', sans-serif;"><i class="fa-solid fa-plus-circle" style="color:var(--rosa-hover);"></i> Novo Doce / Bolo</h4>
+                    <form id="form-cadastrar-produto">
+                        <div class="input-group" style="margin-bottom: 14px;">
+                            <label for="prod-nome">Nome do Doce / Bolo</label>
+                            <input type="text" id="prod-nome" placeholder="Ex: Bolo de Morango Gourmet" required>
+                        </div>
+                        <div class="input-group" style="margin-bottom: 14px;">
+                            <label for="prod-preco">Preço (R$)</label>
+                            <input type="number" id="prod-preco" step="0.01" placeholder="89.90" required>
+                        </div>
+                        <div class="input-group" style="margin-bottom: 20px;">
+                            <label for="prod-imagem">URL da Imagem</label>
+                            <input type="url" id="prod-imagem" placeholder="https://..." required>
+                        </div>
+                        <button type="submit" class="btn-salvar-admin" style="width: 100%; justify-content: center;">Adicionar ao Cardápio <i class="fa-solid fa-plus"></i></button>
+                    </form>
+                </div>
+
+                <!-- TABELA DE PRODUTOS (LADO DIREITO ESPALHADO) -->
+                <div>
+                    <h4 style="margin: 0 0 14px; color: var(--marrom-doce); font-family: 'Fredoka', sans-serif;"><i class="fa-solid fa-list-check" style="color:var(--rosa-hover);"></i> Doces Ativos no Cardápio</h4>
+                    <div class="admin-table-container" style="margin-top: 0;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Imagem</th>
+                                    <th>Nome do Produto</th>
+                                    <th>Preço</th>
+                                    <th style="width: 130px; text-align: center;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-produtos">
+                                <!-- Preenchido dinamicamente via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Modal Personalizado -->
+    <!-- MODAL DE DETALHES COMPLETOS DO USUÁRIO -->
+    <div id="modal-detalhes-usuario" class="modal-overlay" style="display: none;">
+        <div class="modal-box modal-large">
+            <button class="btn-close-modal" id="btn-fechar-detalhes"><i class="fa-solid fa-xmark"></i></button>
+            <h4><i class="fa-solid fa-id-card" style="color:var(--rosa-hover);"></i> Ficha Completa do Usuário</h4>
+            <div id="conteudo-detalhes-usuario" style="margin-top: 15px; font-size: 0.92rem; color: #444;">
+                <!-- Preenchido dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO ELEGANTE -->
     <div id="custom-modal" class="modal-overlay" style="display: none;">
         <div class="modal-box">
             <h4>Confirmação</h4>
-            <p id="modal-msg">Tem certeza que deseja realizar esta ação?</p>
-            <div class="modal-actions">
-                <button id="btn-modal-cancel" class="btn-modal-cancel">Cancelar</button>
-                <button id="btn-modal-confirm" class="btn-modal-confirm">OK</button>
+            <p id="modal-msg" style="margin: 15px 0 25px; color: #666; font-size: 0.95rem;">Tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions" style="display: flex; justify-content: center; gap: 14px;">
+                <button id="btn-modal-cancel" class="btn-modal-cancel" style="background:#f3f3f3; color:#555; border:none; padding:10px 22px; border-radius:20px; font-weight:600; cursor:pointer;">Cancelar</button>
+                <button id="btn-modal-confirm" class="btn-modal-confirm" style="background:#e74c3c; color:#fff; border:none; padding:10px 24px; border-radius:20px; font-weight:600; cursor:pointer;">Confirmar</button>
             </div>
         </div>
     </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
-
         // Validação de acesso restrito ao Admin
-        if (!usuarioLogado || usuarioLogado.email !== 'admin@doceencanto.com') {
-            alert('Acesso negado. Esta página é restrita ao Administrador.');
+        const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+
+        if (!usuarioLogado || (usuarioLogado.email !== 'admin@doceencanto.com' && usuarioLogado.role !== 'admin')) {
+            alert('Acesso negado. Esta página é restrita a administradores.');
             window.location.href = 'login.html';
             return;
         }
 
+        // ELEMENTOS DOM
         const tabelaUsuarios = document.getElementById('lista-usuarios');
         const formUsuario = document.getElementById('form-cadastrar-usuario');
+        const btnToggleNovoUsuario = document.getElementById('btn-toggle-novo-usuario');
         const alertaUsuario = document.getElementById('alerta-usuario');
+        const inputBusca = document.getElementById('input-busca-usuarios');
+        const filtroRole = document.getElementById('filtro-role-usuario');
+        const btnExportarDados = document.getElementById('btn-exportar-dados');
 
-        // ELEMENTOS DO MODAL PERSONALIZADO
+        const tabelaPedidos = document.getElementById('lista-pedidos-admin');
+        const tabelaProdutos = document.getElementById('lista-produtos');
+        const formProduto = document.getElementById('form-cadastrar-produto');
+        const alertaAdmin = document.getElementById('alerta-admin');
+
+        // MODAIS
         const modal = document.getElementById('custom-modal');
         const modalMsg = document.getElementById('modal-msg');
         const btnCancel = document.getElementById('btn-modal-cancel');
         const btnConfirm = document.getElementById('btn-modal-confirm');
 
-        // Função utilitária para abrir o modal customizado
+        const modalDetalhes = document.getElementById('modal-detalhes-usuario');
+        const btnFecharDetalhes = document.getElementById('btn-fechar-detalhes');
+        const conteudoDetalhes = document.getElementById('conteudo-detalhes-usuario');
+
+        if (btnFecharDetalhes) {
+            btnFecharDetalhes.addEventListener('click', () => {
+                modalDetalhes.style.display = 'none';
+            });
+        }
+
+        if (modalDetalhes) {
+            modalDetalhes.addEventListener('click', (e) => {
+                if (e.target === modalDetalhes) modalDetalhes.style.display = 'none';
+            });
+        }
+
+        // Toggle do form de novo usuário
+        if (btnToggleNovoUsuario && formUsuario) {
+            btnToggleNovoUsuario.addEventListener('click', () => {
+                const visivel = formUsuario.style.display === 'block';
+                formUsuario.style.display = visivel ? 'none' : 'block';
+                btnToggleNovoUsuario.innerHTML = visivel 
+                    ? '<i class="fa-solid fa-user-plus"></i> Novo Usuário' 
+                    : '<i class="fa-solid fa-minus"></i> Fechar Formulário';
+            });
+        }
+
+        // Exportação de backup
+        if (btnExportarDados) {
+            btnExportarDados.addEventListener('click', () => {
+                if (window.DoceEncantoDB && window.DoceEncantoDB.exportarBancoJSON) {
+                    window.DoceEncantoDB.exportarBancoJSON();
+                } else {
+                    alert('Exportação não disponível.');
+                }
+            });
+        }
+
+        // Função de confirmação
         function mostrarConfirmacao(mensagem, acaoAoConfirmar) {
             modalMsg.textContent = mensagem;
             modal.style.display = 'flex';
@@ -531,7 +954,7 @@
             btnCancel.addEventListener('click', fecharModal);
         }
 
-        // Função para mostrar alertas na tela
+        // Exibir alerta
         function exibirAlerta(elemento, mensagem, tipo = 'sucesso') {
             elemento.style.display = 'block';
             elemento.style.backgroundColor = tipo === 'sucesso' ? '#2ecc71' : '#e74c3c';
@@ -540,39 +963,219 @@
 
             setTimeout(() => {
                 elemento.style.display = 'none';
-            }, 3000);
+            }, 3500);
         }
 
-        // --- RENDERIZAR TABELA DE USUÁRIOS ---
+        // --- ATUALIZAR ESTATÍSTICAS / KPIs ---
+        function atualizarKPIs() {
+            const usuarios = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarios() : (JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || []);
+            const pedidos = window.DoceEncantoDB ? window.DoceEncantoDB.obterPedidos() : (JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || []);
+            const produtos = JSON.parse(localStorage.getItem('produtosDoceEncanto')) || [];
+
+            document.getElementById('kpi-total-usuarios').textContent = usuarios.length;
+            document.getElementById('kpi-total-pedidos').textContent = pedidos.length;
+
+            const faturamento = pedidos.reduce((acc, p) => acc + (Number(p.total) || 0), 0);
+            document.getElementById('kpi-faturamento').textContent = 'R$ ' + faturamento.toFixed(2).replace('.', ',');
+
+            document.getElementById('kpi-total-produtos').textContent = produtos.length;
+        }
+
+        // --- RENDERIZAR TABELA DE USUÁRIOS COM FILTROS ---
         function carregarUsuarios() {
-            const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+            const usuarios = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarios() : (JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || []);
+            const pedidos = window.DoceEncantoDB ? window.DoceEncantoDB.obterPedidos() : (JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || []);
+            
+            const termoBusca = (inputBusca?.value || '').toLowerCase().trim();
+            const filtroRoleVal = filtroRole?.value || 'todos';
+
             tabelaUsuarios.innerHTML = '';
 
-            if (usuariosSalvos.length === 0) {
-                tabelaUsuarios.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #888; padding: 25px;">Nenhum usuário cadastrado até o momento.</td></tr>';
+            const filtrados = usuarios.filter(u => {
+                const atendeBusca = !termoBusca || 
+                    (u.nome && u.nome.toLowerCase().includes(termoBusca)) ||
+                    (u.email && u.email.toLowerCase().includes(termoBusca)) ||
+                    (u.cidade && u.cidade.toLowerCase().includes(termoBusca)) ||
+                    (u.telefone && u.telefone.toLowerCase().includes(termoBusca));
+
+                const atendeRole = filtroRoleVal === 'todos' || u.role === filtroRoleVal;
+
+                return atendeBusca && atendeRole;
+            });
+
+            if (filtrados.length === 0) {
+                tabelaUsuarios.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #888; padding: 25px;">Nenhum usuário encontrado com os filtros aplicados.</td></tr>';
                 return;
             }
 
-            usuariosSalvos.forEach((user, index) => {
+            filtrados.forEach((user) => {
                 const tr = document.createElement('tr');
+                const inicial = user.nome ? user.nome.charAt(0).toUpperCase() : 'U';
+                const totalPedidosUser = pedidos.filter(p => p.emailUsuario && p.emailUsuario.toLowerCase() === user.email.toLowerCase()).length;
+                
+                // Formatação WhatsApp link
+                const telLimpo = (user.telefone || '').replace(/\D/g, '');
+                const zapLink = telLimpo.length >= 10 
+                    ? `<a href="https://wa.me/55${telLimpo}" target="_blank" class="whatsapp-link" title="Conversar no WhatsApp"><i class="fa-brands fa-whatsapp"></i> ${user.telefone}</a>` 
+                    : (user.telefone || '<span style="color:#aaa;">Não informado</span>');
+
+                // Endereço
+                let endResumido = '<span style="color:#aaa;">Não cadastrado</span>';
+                if (user.endereco) {
+                    endResumido = `<strong>${user.bairro || ''}</strong>, ${user.cidade || 'Curitiba'}`;
+                }
+
+                // Role badge
+                const isAdmin = user.role === 'admin' || user.email === 'admin@doceencanto.com';
+                const roleBadge = isAdmin
+                    ? `<span class="badge-role admin"><i class="fa-solid fa-crown"></i> Admin</span>`
+                    : `<span class="badge-role cliente"><i class="fa-solid fa-basket-shopping"></i> Cliente</span>`;
+
+                const btnToggleTexto = isAdmin ? 'Tornar Cliente' : 'Promover a Admin';
+                const proximoRole = isAdmin ? 'cliente' : 'admin';
+
+                // Impede exclusão ou rebaixamento da conta master
+                const isMasterAdmin = user.email.toLowerCase() === 'admin@doceencanto.com';
+
                 tr.innerHTML = `
-                    <td><strong>${user.nome}</strong></td>
-                    <td>${user.email}</td>
+                    <td>
+                        <div class="user-cell">
+                            <div class="user-avatar-circle">${inicial}</div>
+                            <div>
+                                <strong style="display:block; color:var(--marrom-doce);">${user.nome}</strong>
+                                <small style="color:#777;">${user.email}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${zapLink}</td>
+                    <td>${endResumido}</td>
+                    <td><strong style="color:var(--rosa-escuro);">R$ ${Number(user.saldoCashback || 0).toFixed(2).replace('.', ',')}</strong></td>
+                    <td style="text-align: center;"><span style="background:var(--rosa-suave); padding:3px 10px; border-radius:12px; font-weight:600; color:var(--marrom-doce);">${totalPedidosUser}</span></td>
+                    <td>${roleBadge}</td>
                     <td style="text-align: center;">
-                        <button class="btn-excluir-item btn-excluir-user" data-index="${index}">
-                            <i class="fa-solid fa-trash-can"></i> Excluir
-                        </button>
+                        <div style="display:inline-flex; gap:6px; flex-wrap:wrap; justify-content:center;">
+                            <button class="btn-table-action btn-ver-detalhes" data-email="${user.email}" title="Ver histórico e dados completos">
+                                <i class="fa-solid fa-eye"></i> Detalhes
+                            </button>
+                            ${!isMasterAdmin ? `
+                                <button class="btn-table-action btn-toggle-cargo" data-email="${user.email}" data-role="${proximoRole}" title="Alternar permissão">
+                                    <i class="fa-solid fa-arrows-rotate"></i> ${btnToggleTexto}
+                                </button>
+                                <button class="btn-table-action btn-excluir-item" data-email="${user.email}" title="Excluir conta">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            ` : `
+                                <span style="font-size:0.75rem; color:#888; font-weight:600; padding:4px 8px;">Conta Principal</span>
+                            `}
+                        </div>
                     </td>
                 `;
                 tabelaUsuarios.appendChild(tr);
             });
 
-            document.querySelectorAll('.btn-excluir-user').forEach(btn => {
+            // Handlers dos botões da tabela
+            document.querySelectorAll('.btn-ver-detalhes').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const idx = e.currentTarget.getAttribute('data-index');
-                    excluirUsuario(idx);
+                    const email = e.currentTarget.getAttribute('data-email');
+                    abrirModalDetalhes(email);
                 });
             });
+
+            document.querySelectorAll('.btn-toggle-cargo').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const email = e.currentTarget.getAttribute('data-email');
+                    const novoCargo = e.currentTarget.getAttribute('data-role');
+                    if (window.DoceEncantoDB) {
+                        window.DoceEncantoDB.alterarCargoUsuario(email, novoCargo);
+                        exibirAlerta(alertaUsuario, `Cargo do usuário atualizado para ${novoCargo}!`, 'sucesso');
+                        carregarUsuarios();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.btn-excluir-item').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const email = e.currentTarget.getAttribute('data-email');
+                    mostrarConfirmacao(`Deseja realmente remover a conta de ${email}?`, () => {
+                        if (window.DoceEncantoDB) {
+                            window.DoceEncantoDB.excluirUsuario(email);
+                            exibirAlerta(alertaUsuario, 'Conta de usuário excluída com sucesso!', 'sucesso');
+                            carregarUsuarios();
+                            atualizarKPIs();
+                        }
+                    });
+                });
+            });
+
+            atualizarKPIs();
+        }
+
+        // Filtro e Busca dinâmicos
+        if (inputBusca) inputBusca.addEventListener('input', carregarUsuarios);
+        if (filtroRole) filtroRole.addEventListener('change', carregarUsuarios);
+
+        // --- ABRIR DETALHES COMPLETOS DO USUÁRIO ---
+        function abrirModalDetalhes(email) {
+            const user = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioPorEmail(email) : null;
+            if (!user) return;
+
+            const pedidos = window.DoceEncantoDB ? window.DoceEncantoDB.obterPedidosUsuario(email) : [];
+
+            let htmlPedidos = '';
+            if (pedidos.length === 0) {
+                htmlPedidos = '<p style="color:#888; font-style:italic;">Nenhum pedido realizado por este cliente até o momento.</p>';
+            } else {
+                htmlPedidos = `
+                    <div style="max-height:220px; overflow-y:auto; border:1px solid #eee; border-radius:12px; padding:10px; margin-top:10px;">
+                        ${pedidos.map(p => `
+                            <div style="border-bottom:1px dashed #f0cddb; padding:8px 0; font-size:0.88rem;">
+                                <div style="display:flex; justify-content:space-between; font-weight:600;">
+                                    <span style="color:var(--marrom-doce);">Pedido #${p.id}</span>
+                                    <span style="color:#d81b60;">R$ ${Number(p.total).toFixed(2).replace('.', ',')}</span>
+                                </div>
+                                <div style="font-size:0.8rem; color:#666;">
+                                    <span>${p.data || ''}</span> • <span>${p.status || 'Em Produção'}</span>
+                                </div>
+                                <div style="font-size:0.8rem; color:#444; margin-top:3px;">
+                                    ${p.itens ? p.itens.map(i => `${i.quantidade}x ${i.nome}`).join(', ') : 'Itens variados'}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            conteudoDetalhes.innerHTML = `
+                <div style="background:#fff8fa; border:1px solid var(--rosa-suave); border-radius:16px; padding:18px; margin-bottom:18px;">
+                    <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+                        <div style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg, var(--rosa-doce), var(--rosa-hover)); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:700;">
+                            ${user.nome ? user.nome.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                        <div>
+                            <h3 style="margin:0; color:var(--marrom-doce); font-family:'Fredoka', sans-serif;">${user.nome}</h3>
+                            <span style="color:#666;">${user.email}</span> • <span class="badge-role ${user.role === 'admin' ? 'admin' : 'cliente'}">${user.role === 'admin' ? '👑 Administrador' : '🛍️ Cliente'}</span>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:0.88rem; border-top:1px dashed #fad2e1; padding-top:12px;">
+                        <div><strong>Telefone / WhatsApp:</strong> ${user.telefone || 'Não informado'}</div>
+                        <div><strong>Saldo Cashback:</strong> <span style="color:#d81b60; font-weight:bold;">R$ ${Number(user.saldoCashback || 0).toFixed(2).replace('.', ',')}</span></div>
+                        <div><strong>Data de Cadastro:</strong> ${user.criadoEm || 'Recente'}</div>
+                        <div><strong>CEP:</strong> ${user.cep || 'Não informado'}</div>
+                    </div>
+
+                    <div style="margin-top:10px; font-size:0.88rem;">
+                        <strong>Endereço de Entrega:</strong> ${user.endereco ? `${user.endereco}, Nº ${user.numero || 'S/N'} ${user.complemento ? ' - ' + user.complemento : ''} | Bairro: ${user.bairro || ''} - ${user.cidade || 'Curitiba'}` : 'Nenhum endereço cadastrado'}
+                    </div>
+                </div>
+
+                <h4 style="color:var(--marrom-doce); margin-bottom:8px; font-family:'Fredoka',sans-serif;">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Histórico de Pedidos (${pedidos.length})
+                </h4>
+                ${htmlPedidos}
+            `;
+
+            modalDetalhes.style.display = 'flex';
         }
 
         // --- CADASTRAR NOVO USUÁRIO PELO ADMIN ---
@@ -581,56 +1184,121 @@
 
             const nome = document.getElementById('user-nome-input').value.trim();
             const email = document.getElementById('user-email-input').value.trim();
+            const telefone = document.getElementById('user-tel-input').value.trim();
             const senha = document.getElementById('user-senha-input').value;
+            const role = document.getElementById('user-role-input').value;
 
             if (!nome || !email || !senha) {
-                exibirAlerta(alertaUsuario, 'Preencha todos os campos antes de cadastrar.', 'erro');
+                exibirAlerta(alertaUsuario, 'Preencha Nome, E-mail e Senha.', 'erro');
                 return;
             }
 
-            let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+            const usuarios = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarios() : [];
+            const jaExiste = usuarios.some(u => u.email.toLowerCase() === email.toLowerCase());
 
-            const jaExiste = usuariosSalvos.some(u => u.email === email);
-            if (jaExiste || email === 'admin@doceencanto.com') {
+            if (jaExiste) {
                 exibirAlerta(alertaUsuario, 'Este e-mail já está em uso por outro usuário.', 'erro');
                 return;
             }
 
-            usuariosSalvos.push({ nome, email, senha });
-            localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+            const novoUser = {
+                id: Date.now(),
+                nome,
+                email,
+                telefone: telefone || '(41) 99999-9999',
+                senha,
+                role,
+                saldoCashback: 10.00,
+                cidade: 'Curitiba',
+                criadoEm: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+            };
 
-            exibirAlerta(alertaUsuario, 'Usuário cadastrado com sucesso!');
+            if (window.DoceEncantoDB) {
+                window.DoceEncantoDB.salvarUsuario(novoUser);
+            }
+
+            exibirAlerta(alertaUsuario, 'Novo usuário cadastrado com sucesso!');
             formUsuario.reset();
+            formUsuario.style.display = 'none';
+            btnToggleNovoUsuario.innerHTML = '<i class="fa-solid fa-user-plus"></i> Novo Usuário';
             carregarUsuarios();
         });
 
-        // --- EXCLUIR USUÁRIO COM MODAL ---
-        function excluirUsuario(index) {
-            let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
-            
-            if (usuariosSalvos[index]) {
-                const nomeUsuario = usuariosSalvos[index].nome;
-                
-                mostrarConfirmacao(`Tem certeza que deseja remover o usuário "${nomeUsuario}"?`, () => {
-                    usuariosSalvos.splice(index, 1);
-                    localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
-                    exibirAlerta(alertaUsuario, 'Usuário removido com sucesso!', 'sucesso');
-                    carregarUsuarios();
-                });
+        // --- GERENCIAMENTO DE PEDIDOS DOS CLIENTES ---
+        function carregarPedidosAdmin() {
+            const pedidos = window.DoceEncantoDB ? window.DoceEncantoDB.obterPedidos() : (JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || []);
+            tabelaPedidos.innerHTML = '';
+
+            if (pedidos.length === 0) {
+                tabelaPedidos.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #888; padding: 25px;">Nenhum pedido realizado até o momento.</td></tr>';
+                return;
             }
+
+            pedidos.forEach((pedido) => {
+                const tr = document.createElement('tr');
+
+                // Itens resumidos
+                let itensStr = 'Itens variados';
+                if (pedido.itens && Array.isArray(pedido.itens)) {
+                    itensStr = pedido.itens.map(i => `${i.quantidade}x ${i.nome}`).join('<br>');
+                }
+
+                // WhatsApp do cliente para notificação
+                const telLimpo = (pedido.telefone || '').replace(/\D/g, '');
+                const nomeCliente = pedido.nomeCliente || 'Cliente';
+                const msgZap = encodeURIComponent(`Olá ${nomeCliente}! Seu pedido #${pedido.id} na Confeitaria Doce Encanto foi atualizado para: ${pedido.status || 'Em Produção'}. Agradecemos sua preferência! 🧁`);
+                
+                const zapBtn = telLimpo.length >= 10
+                    ? `<a href="https://wa.me/55${telLimpo}?text=${msgZap}" target="_blank" class="whatsapp-link" title="Notificar cliente via WhatsApp"><i class="fa-brands fa-whatsapp"></i> Notificar</a>`
+                    : '<span style="color:#aaa; font-size:0.8rem;">Sem Whats</span>';
+
+                tr.innerHTML = `
+                    <td>
+                        <strong>#${pedido.id}</strong><br>
+                        <small style="color:#777;">${pedido.data || 'Hoje'}</small>
+                    </td>
+                    <td>
+                        <strong>${nomeCliente}</strong><br>
+                        <small style="color:#666;">${pedido.emailUsuario || ''}</small>
+                    </td>
+                    <td style="font-size:0.85rem; line-height:1.4;">${itensStr}</td>
+                    <td>
+                        <strong style="color:var(--rosa-escuro);">R$ ${Number(pedido.total || 0).toFixed(2).replace('.', ',')}</strong><br>
+                        <small style="color:#666;">${pedido.formaPagamento || 'PIX'}</small>
+                    </td>
+                    <td style="font-size:0.82rem; color:#555;">${pedido.endereco || 'Balcão / Retirada'}</td>
+                    <td>
+                        <select class="status-select select-status-pedido" data-id="${pedido.id}">
+                            <option value="Em Produção 👩‍🍳" ${pedido.status === 'Em Produção 👩‍🍳' ? 'selected' : ''}>Em Produção 👩‍🍳</option>
+                            <option value="Saiu para Entrega 🛵" ${pedido.status === 'Saiu para Entrega 🛵' ? 'selected' : ''}>Saiu para Entrega 🛵</option>
+                            <option value="Entregue ✅" ${pedido.status === 'Entregue ✅' ? 'selected' : ''}>Entregue ✅</option>
+                            <option value="Cancelado ❌" ${pedido.status === 'Cancelado ❌' ? 'selected' : ''}>Cancelado ❌</option>
+                        </select>
+                    </td>
+                    <td style="text-align: center;">${zapBtn}</td>
+                `;
+                tabelaPedidos.appendChild(tr);
+            });
+
+            document.querySelectorAll('.select-status-pedido').forEach(sel => {
+                sel.addEventListener('change', (e) => {
+                    const idPedido = e.target.getAttribute('data-id');
+                    const novoStatus = e.target.value;
+                    if (window.DoceEncantoDB) {
+                        window.DoceEncantoDB.atualizarStatusPedido(idPedido, novoStatus);
+                        carregarPedidosAdmin();
+                    }
+                });
+            });
         }
 
-        // --- CADASTRAR PRODUTO ---
-        const formProduto = document.getElementById('form-cadastrar-produto');
-        const alertaAdmin = document.getElementById('alerta-admin');
-        const tabelaProdutos = document.getElementById('lista-produtos');
-
+        // --- GERENCIAMENTO DE PRODUTOS ---
         function carregarProdutos() {
             const produtosCadastrados = JSON.parse(localStorage.getItem('produtosDoceEncanto')) || [];
             tabelaProdutos.innerHTML = '';
 
             if (produtosCadastrados.length === 0) {
-                tabelaProdutos.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888; padding: 25px;">Nenhum produto cadastrado até o momento.</td></tr>';
+                tabelaProdutos.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888; padding: 25px;">Nenhum produto cadastrado no momento.</td></tr>';
                 return;
             }
 
@@ -641,7 +1309,7 @@
                     <td><strong>${produto.nome}</strong></td>
                     <td style="color: var(--marrom-doce); font-weight: 600;">R$ ${parseFloat(produto.preco).toFixed(2).replace('.', ',')}</td>
                     <td style="text-align: center;">
-                        <button class="btn-excluir-item btn-excluir-produto" data-index="${index}">
+                        <button class="btn-table-action btn-excluir-item btn-excluir-produto" data-index="${index}">
                             <i class="fa-solid fa-trash-can"></i> Excluir
                         </button>
                     </td>
@@ -665,7 +1333,7 @@
             const imagemProduto = document.getElementById('prod-imagem').value.trim();
 
             if (!nomeProduto || !imagemProduto || isNaN(precoProduto) || precoProduto <= 0) {
-                exibirAlerta(alertaAdmin, 'Preencha todos os campos corretamente antes de cadastrar.', 'erro');
+                exibirAlerta(alertaAdmin, 'Preencha todos os campos do produto corretamente.', 'erro');
                 return;
             }
 
@@ -680,27 +1348,31 @@
             produtosCadastrados.push(novoProduto);
             localStorage.setItem('produtosDoceEncanto', JSON.stringify(produtosCadastrados));
 
-            exibirAlerta(alertaAdmin, 'Produto cadastrado com sucesso!');
+            exibirAlerta(alertaAdmin, 'Produto adicionado com sucesso ao cardápio!');
             formProduto.reset();
             carregarProdutos();
+            atualizarKPIs();
         });
 
         function excluirProduto(index) {
             const produtosCadastrados = JSON.parse(localStorage.getItem('produtosDoceEncanto')) || [];
 
             if (produtosCadastrados[index]) {
-                mostrarConfirmacao(`Tem certeza que deseja remover o produto "${produtosCadastrados[index].nome}"?`, () => {
+                mostrarConfirmacao(`Deseja remover o doce "${produtosCadastrados[index].nome}" do cardápio?`, () => {
                     produtosCadastrados.splice(index, 1);
                     localStorage.setItem('produtosDoceEncanto', JSON.stringify(produtosCadastrados));
                     exibirAlerta(alertaAdmin, 'Produto removido com sucesso!', 'sucesso');
                     carregarProdutos();
+                    atualizarKPIs();
                 });
             }
         }
 
-        // Carrega os dados na inicialização
+        // CARGA INICIAL COMPLETA
         carregarUsuarios();
+        carregarPedidosAdmin();
         carregarProdutos();
+        atualizarKPIs();
     });
 </script>
 </body>

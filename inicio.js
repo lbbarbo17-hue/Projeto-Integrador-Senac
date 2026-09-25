@@ -293,23 +293,117 @@ function fecharCarrinho() {
     }
 }
 
+function verificarLoginParaPedido() {
+    const usuarioLogado = window.DoceEncantoDB 
+        ? window.DoceEncantoDB.obterUsuarioLogado() 
+        : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+
+    if (!usuarioLogado || !usuarioLogado.email || usuarioLogado.email === 'cliente_visitante@doceencanto.com') {
+        exibirModalExigirConta();
+        return false;
+    }
+    return true;
+}
+
+function exibirModalExigirConta() {
+    fecharCarrinho();
+    let modal = document.getElementById('modal-exigir-conta');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-exigir-conta';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(71,57,54,0.7); display:flex; align-items:center; justify-content:center; z-index:999999; backdrop-filter:blur(6px); padding:20px; box-sizing:border-box;';
+        modal.innerHTML = `
+            <div style="background:#ffffff; border-radius:26px; padding:32px 28px; width:100%; max-width:440px; text-align:center; border:2px solid #fab3cb; box-shadow:0 20px 45px rgba(0,0,0,0.2);">
+                <div style="width:72px; height:72px; border-radius:50%; background:#fce4ec; color:#d81b60; font-size:2rem; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; box-shadow:0 4px 15px rgba(216,27,96,0.18);">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+                <h3 style="font-family:'Fredoka',sans-serif; color:#6d3828; margin:0 0 10px; font-size:1.55rem;">Identifique-se para pedir</h3>
+                <p style="color:#666; font-size:0.92rem; line-height:1.5; margin:0 0 18px;">
+                    Para concluir seu pedido e acompanhar o status da entrega, você precisa entrar na sua conta ou criar uma conta gratuita.
+                </p>
+                <div style="background:#fff8fa; border:1px dashed #f48fb1; border-radius:14px; padding:12px 16px; margin-bottom:22px; text-align:left; font-size:0.85rem; color:#555;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;">
+                        <i class="fa-solid fa-check" style="color:#2ecc71;"></i> <span>Acompanhe o preparo e a entrega do pedido</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;">
+                        <i class="fa-solid fa-gift" style="color:#d81b60;"></i> <span>Ganhe 5% de cashback nesta compra</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-location-dot" style="color:#f48fb1;"></i> <span>Endereço salvo para pedir com rapidez</span>
+                    </div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <a href="login.html" style="background:linear-gradient(135deg, #fab3cb, #f48fb1); color:#fff; text-decoration:none; padding:13px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:1rem; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 15px rgba(244,143,177,0.4);">
+                        <i class="fa-solid fa-right-to-bracket"></i> Já tenho conta (Fazer Login)
+                    </a>
+                    <a href="cadastro.html" style="background:#fff; color:#d81b60; border:2px solid #f48fb1; text-decoration:none; padding:11px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:0.95rem; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <i class="fa-solid fa-user-plus"></i> Criar Nova Conta (+ R$ 5 bônus)
+                    </a>
+                    <button type="button" onclick="fecharModalExigirConta()" style="background:none; border:none; color:#888; font-size:0.88rem; cursor:pointer; padding:8px; margin-top:4px;">
+                        Continuar olhando o cardápio
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) fecharModalExigirConta();
+        });
+    }
+    modal.style.display = 'flex';
+}
+
+function fecharModalExigirConta() {
+    const modal = document.getElementById('modal-exigir-conta');
+    if (modal) modal.style.display = 'none';
+}
+
 function irParaCheckout() {
     if (!carrinho || carrinho.length === 0) {
         alert("Sua sacola está vazia!");
         return;
     }
+    // Exige que o cliente tenha conta conectada para ir ao checkout
+    if (!verificarLoginParaPedido()) {
+        return;
+    }
+
     fecharCarrinho();
     const telaCheckout = document.getElementById('tela-checkout');
     if (telaCheckout) {
         telaCheckout.classList.remove('escondido', 'escondida');
         telaCheckout.style.setProperty('display', 'flex', 'important');
         trocarFormaPagamento();
+
+        // Preenche automaticamente o endereço cadastrado do usuário se existir
+        try {
+            const usuario = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+            if (usuario) {
+                const ruaInput = document.getElementById('rua-cliente');
+                const bairroInput = document.getElementById('bairro-cliente');
+                if (ruaInput && !ruaInput.value.trim() && usuario.endereco) {
+                    let endComp = usuario.endereco;
+                    if (usuario.numero) endComp += `, ${usuario.numero}`;
+                    if (usuario.complemento) endComp += ` (${usuario.complemento})`;
+                    ruaInput.value = endComp;
+                }
+                if (bairroInput && !bairroInput.value.trim() && usuario.bairro) {
+                    bairroInput.value = usuario.bairro + (usuario.cidade ? ` - ${usuario.cidade}` : '');
+                }
+            }
+        } catch (e) {
+            console.warn('Erro ao preencher endereço do usuário:', e);
+        }
     }
 }
 
 function finalizarPedidoDireto() {
     if (!carrinho || carrinho.length === 0) {
         alert("Sua sacola está vazia!");
+        return;
+    }
+    // Exige login/conta para finalizar o pedido
+    if (!verificarLoginParaPedido()) {
         return;
     }
 
@@ -335,22 +429,34 @@ function finalizarPedidoDireto() {
     }
 
     // 1. Salva o pedido no histórico local (Meus Pedidos)
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
     const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const nomeCliente = usuarioLogado ? (usuarioLogado.nome || 'Cliente') : 'Cliente';
+    const telCliente = usuarioLogado ? (usuarioLogado.telefone || '') : '';
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
     const dataFormatada = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-    const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
     const novoPedido = {
         id: numeroPedido,
         emailUsuario: emailDono,
+        nomeCliente: nomeCliente,
+        telefone: telCliente,
+        endereco: usuarioLogado && usuarioLogado.endereco ? `${usuarioLogado.endereco}, ${usuarioLogado.bairro || ''}` : 'Balcão / Retirada',
+        formaPagamento: 'PIX Direto',
+        status: 'Em Produção 👩‍🍳',
         data: dataFormatada,
         itens: [...carrinho],
         observacao: observacaoTxt,
         total: totalGeral
     };
-    pedidosAnteriores.unshift(novoPedido);
-    localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+
+    if (window.DoceEncantoDB) {
+        window.DoceEncantoDB.salvarNovoPedido(novoPedido);
+    } else {
+        const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+        pedidosAnteriores.unshift(novoPedido);
+        localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+    }
 
     // 2. Fechar sacola e limpar carrinho
     fecharCarrinho();
@@ -456,6 +562,10 @@ function mascaraValidade(input) {
 // 7. ENVIAR PEDIDO AO WHATSAPP
 // =========================================================
 function processarPedidoSite() {
+    if (!verificarLoginParaPedido()) {
+        return;
+    }
+
     const ruaInput = document.getElementById('rua-cliente');
     const bairroInput = document.getElementById('bairro-cliente');
     const rua = ruaInput ? ruaInput.value.trim() : '';
@@ -512,22 +622,34 @@ function processarPedidoSite() {
     }
 
     // 1. Salvar o pedido no histórico local (para constar nos "Meus Pedidos" do Perfil)
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
     const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const nomeCliente = usuarioLogado ? (usuarioLogado.nome || 'Cliente') : 'Cliente';
+    const telCliente = usuarioLogado ? (usuarioLogado.telefone || '') : '';
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
     const dataFormatada = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-    const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
     const novoPedido = {
         id: numeroPedido,
         emailUsuario: emailDono,
+        nomeCliente: nomeCliente,
+        telefone: telCliente,
+        endereco: `${rua}, ${bairro}`,
+        formaPagamento: detalhePagamento,
         data: dataFormatada,
+        status: 'Em Produção 👩‍🍳',
         itens: [...carrinho],
         observacao: observacaoTxt,
         total: totalGeral
     };
-    pedidosAnteriores.unshift(novoPedido);
-    localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+
+    if (window.DoceEncantoDB) {
+        window.DoceEncantoDB.salvarNovoPedido(novoPedido);
+    } else {
+        const pedidosAnteriores = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+        pedidosAnteriores.unshift(novoPedido);
+        localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAnteriores));
+    }
 
     // 2. Fechar tela de checkout e limpar carrinho
     const telaCheckout = document.getElementById('tela-checkout');
