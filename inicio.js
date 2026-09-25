@@ -266,7 +266,7 @@ function abrirCarrinho(e) {
         modal.style.setProperty('display', 'flex', 'important');
         atualizarCarrinho();
     } else {
-        window.location.href = 'index.html#modal-carrinho';
+        window.location.href = 'cardapio.html#modal-carrinho';
     }
 }
 
@@ -281,7 +281,7 @@ function toggleCarrinho(e) {
             abrirCarrinho();
         }
     } else {
-        window.location.href = 'index.html#modal-carrinho';
+        window.location.href = 'cardapio.html#modal-carrinho';
     }
 }
 
@@ -1038,4 +1038,62 @@ function fecharModalAviso() {
     if (window.location.hash === '#modal-carrinho') {
         abrirCarrinho();
     }
-;
+
+// =========================================================
+// ATIVADOR UNIVERSAL DE ARRASTAR PRO LADO (DRAG-TO-SCROLL)
+// Funciona tanto no touch quanto com o mouse no celular / desktop
+// =========================================================
+function inicializarArrastarProLado() {
+    const carrosseis = document.querySelectorAll('.products-grid, .cards-grid');
+
+    carrosseis.forEach(slider => {
+        let isDown = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let isDragging = false;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isDragging = false;
+            slider.style.cursor = 'grabbing';
+            slider.style.userSelect = 'none';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+            setTimeout(() => { isDragging = false; }, 60);
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            if (Math.abs(walk) > 6) {
+                isDragging = true;
+            }
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Previne abrir o modal se o usuário estava arrastando a lista
+        slider.addEventListener('click', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, true);
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarArrastarProLado);
+} else {
+    inicializarArrastarProLado();
+}
