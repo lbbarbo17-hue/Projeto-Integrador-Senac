@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="login.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- CARREGAMENTO DO GERENCIADOR DE BANCO DE DADOS -->
+    <!-- CARREGAMENTO DO GERENCIADOR DE BANCO DE DADOS E FIREBASE REALTIME SYNC -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="script.js"></script>
     <style>
         :root {
@@ -109,15 +112,9 @@
         /* CARDS DE ESTATÍSTICAS (KPIs) ESPALHADOS */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
             margin-bottom: 30px;
-        }
-
-        @media (max-width: 1100px) {
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         .kpi-card {
@@ -635,6 +632,10 @@
         <div class="admin-header-title">
             <h2><i class="fa-solid fa-crown"></i> Painel do Administrador Geral</h2>
             <div class="admin-header-actions">
+                <button type="button" id="btn-status-firebase" class="btn-acao-header" onclick="abrirModalFirebase()" style="background:#fff; border-color:#e0e0e0;">
+                    <span id="indicador-firebase-dot" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#f39c12; margin-right:4px;"></span>
+                    <span id="indicador-firebase-texto">Nuvem: Local (Configurar)</span>
+                </button>
                 <button type="button" id="btn-exportar-dados" class="btn-acao-header">
                     <i class="fa-solid fa-download"></i> Backup do Sistema (JSON)
                 </button>
@@ -644,7 +645,7 @@
             </div>
         </div>
 
-        <!-- 4 CARDS DE MÉTRICAS (KPIs) -->
+        <!-- 5 CARDS DE MÉTRICAS (KPIs) -->
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-icon" style="background: linear-gradient(135deg, #f48fb1, #d81b60);">
@@ -653,6 +654,16 @@
                 <div class="kpi-info">
                     <h4>Total de Contas</h4>
                     <p class="kpi-valor" id="kpi-total-usuarios">0</p>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #ab47bc, #7b1fa2);">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                </div>
+                <div class="kpi-info">
+                    <h4>Logins / Acessos</h4>
+                    <p class="kpi-valor" id="kpi-total-logins">0</p>
                 </div>
             </div>
 
@@ -739,6 +750,7 @@
                     <option value="todos">Todos os Cargos</option>
                     <option value="cliente">🛍️ Somente Clientes</option>
                     <option value="admin">👑 Somente Administradores</option>
+                    <option value="com_login">🔑 Fizeram Login no Sistema</option>
                 </select>
             </div>
 
@@ -749,6 +761,7 @@
                         <tr>
                             <th>Usuário</th>
                             <th>WhatsApp</th>
+                            <th>Último Login</th>
                             <th>Endereço / Cidade</th>
                             <th>Cashback</th>
                             <th style="text-align: center;">Pedidos</th>
@@ -758,6 +771,30 @@
                     </thead>
                     <tbody id="lista-usuarios">
                         <!-- Preenchido dinamicamente via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- NOVO: HISTÓRICO DE LOGINS E ACESSOS RECENTES -->
+        <section class="admin-section" id="secao-historico-logins">
+            <div class="section-header-flex">
+                <h3><i class="fa-solid fa-user-clock"></i> Contas que Fizeram Login (Histórico em Tempo Real)</h3>
+                <span style="font-size: 0.85rem; color: #777;">Registro de acessos autenticados na confeitaria</span>
+            </div>
+
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Cargo</th>
+                            <th>Data e Horário do Acesso</th>
+                            <th>Status da Sessão</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-historico-logins">
+                        <!-- Preenchido via JS -->
                     </tbody>
                 </table>
             </div>
@@ -853,14 +890,70 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMAÇÃO ELEGANTE -->
-    <div id="custom-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-box">
-            <h4>Confirmação</h4>
-            <p id="modal-msg" style="margin: 15px 0 25px; color: #666; font-size: 0.95rem;">Tem certeza que deseja realizar esta ação?</p>
-            <div class="modal-actions" style="display: flex; justify-content: center; gap: 14px;">
-                <button id="btn-modal-cancel" class="btn-modal-cancel" style="background:#f3f3f3; color:#555; border:none; padding:10px 22px; border-radius:20px; font-weight:600; cursor:pointer;">Cancelar</button>
-                <button id="btn-modal-confirm" class="btn-modal-confirm" style="background:#e74c3c; color:#fff; border:none; padding:10px 24px; border-radius:20px; font-weight:600; cursor:pointer;">Confirmar</button>
+    <!-- MODAL DE CONFIGURAÇÃO DO FIREBASE (TEMPO REAL ENTRE COMPUTADORES) -->
+    <div id="modal-firebase-config" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;">
+        <div class="modal-box" style="max-width: 520px; text-align: left; position: relative;">
+            <button class="btn-close-modal" type="button" onclick="fecharModalFirebase()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #888;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                <div style="width: 45px; height: 45px; background: #fff3e0; color: #ff9800; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                    <i class="fa-solid fa-cloud-bolt"></i>
+                </div>
+                <div>
+                    <h3 style="margin: 0; color: var(--marrom-doce); font-family: 'Fredoka', sans-serif; font-size: 1.3rem;">Sincronização em Tempo Real (Firebase)</h3>
+                    <small style="color: #777;">Veja celulares e outros computadores logando e pedindo na hora</small>
+                </div>
+            </div>
+
+            <div id="status-firebase-box" style="background: #fff8fa; border: 1px dashed var(--rosa-hover); border-radius: 12px; padding: 12px; font-size: 0.85rem; color: var(--marrom-doce); margin-bottom: 16px;">
+                <strong>Status da Nuvem:</strong> <span id="status-firebase-desc">Verificando...</span>
+            </div>
+
+            <form id="form-config-firebase">
+                <div class="input-group" style="margin-bottom: 12px;">
+                    <label for="fb-database-url" style="display:block; font-size:0.83rem; font-weight:600; margin-bottom:4px; color:var(--marrom-doce);">Database URL (Realtime Database do Firebase)</label>
+                    <input type="text" id="fb-database-url" placeholder="https://seu-projeto-default-rtdb.firebaseio.com" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; font-size:0.85rem; box-sizing:border-box;">
+                </div>
+                <div class="input-group" style="margin-bottom: 12px;">
+                    <label for="fb-api-key" style="display:block; font-size:0.83rem; font-weight:600; margin-bottom:4px; color:var(--marrom-doce);">API Key</label>
+                    <input type="text" id="fb-api-key" placeholder="AIzaSy..." style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; font-size:0.85rem; box-sizing:border-box;">
+                </div>
+                <div class="input-group" style="margin-bottom: 16px;">
+                    <label for="fb-project-id" style="display:block; font-size:0.83rem; font-weight:600; margin-bottom:4px; color:var(--marrom-doce);">Project ID</label>
+                    <input type="text" id="fb-project-id" placeholder="doce-encanto-app" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; font-size:0.85rem; box-sizing:border-box;">
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button type="submit" class="btn-salvar-admin" style="flex: 1; padding: 12px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-plug-circle-check"></i> Salvar e Conectar Nuvem
+                    </button>
+                    <button type="button" onclick="desconectarFirebase()" style="background: #f5f5f5; border: 1px solid #ddd; color: #666; padding: 12px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">
+                        Modo Local
+                    </button>
+                </div>
+            </form>
+
+            <details style="margin-top: 16px; font-size: 0.8rem; color: #666; cursor: pointer; background: #fafafa; padding: 10px; border-radius: 10px;">
+                <summary style="font-weight: 600; color: var(--marrom-doce);"><strong>Como criar seu Firebase gratuito em 1 minuto:</strong></summary>
+                <ol style="padding-left: 20px; line-height: 1.6; margin-top: 8px;">
+                    <li>Acesse <strong>console.firebase.google.com</strong> com sua conta Google e clique em <em>Criar Projeto</em>.</li>
+                    <li>No menu lateral, vá em <strong>Criação ➔ Realtime Database</strong> e clique em <em>Criar Banco de Dados</em>.</li>
+                    <li>Selecione <strong>Iniciar em Modo de Teste</strong> (para permitir leitura/escrita) e confirme.</li>
+                    <li>Copie o link do topo que termina em <code>.firebaseio.com</code> e cole no campo <strong>Database URL</strong> acima. Pronto!</li>
+                </ol>
+            </details>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICAÇÃO EM TEMPO REAL -->
+    <div id="toast-notificacao-nuvem" style="position:fixed; bottom:25px; right:25px; z-index:999999; background:#ffffff; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.2); border-left:6px solid #2ecc71; padding:15px 20px; display:none; max-width:350px; font-family:'Poppins',sans-serif;">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <i class="fa-solid fa-bell" style="font-size:1.4rem; color:#2ecc71;"></i>
+            <div>
+                <strong id="toast-titulo" style="display:block; color:#6d3828; font-size:0.9rem;">Novo Acesso em Tempo Real!</strong>
+                <span id="toast-corpo" style="color:#666; font-size:0.8rem;">Alguém acabou de acessar.</span>
             </div>
         </div>
     </div>
@@ -971,14 +1064,23 @@
             const usuarios = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarios() : (JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || []);
             const pedidos = window.DoceEncantoDB ? window.DoceEncantoDB.obterPedidos() : (JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || []);
             const produtos = JSON.parse(localStorage.getItem('produtosDoceEncanto')) || [];
+            const logins = window.DoceEncantoDB ? window.DoceEncantoDB.obterHistoricoLogins() : (JSON.parse(localStorage.getItem('historicoLoginsDoceEncanto')) || []);
 
-            document.getElementById('kpi-total-usuarios').textContent = usuarios.length;
-            document.getElementById('kpi-total-pedidos').textContent = pedidos.length;
+            const kpiUsuarios = document.getElementById('kpi-total-usuarios');
+            if (kpiUsuarios) kpiUsuarios.textContent = usuarios.length;
+
+            const kpiLogins = document.getElementById('kpi-total-logins');
+            if (kpiLogins) kpiLogins.textContent = logins.length;
+
+            const kpiPedidos = document.getElementById('kpi-total-pedidos');
+            if (kpiPedidos) kpiPedidos.textContent = pedidos.length;
 
             const faturamento = pedidos.reduce((acc, p) => acc + (Number(p.total) || 0), 0);
-            document.getElementById('kpi-faturamento').textContent = 'R$ ' + faturamento.toFixed(2).replace('.', ',');
+            const kpiFaturamento = document.getElementById('kpi-faturamento');
+            if (kpiFaturamento) kpiFaturamento.textContent = 'R$ ' + faturamento.toFixed(2).replace('.', ',');
 
-            document.getElementById('kpi-total-produtos').textContent = produtos.length;
+            const kpiProdutos = document.getElementById('kpi-total-produtos');
+            if (kpiProdutos) kpiProdutos.textContent = produtos.length;
         }
 
         // --- RENDERIZAR TABELA DE USUÁRIOS COM FILTROS ---
@@ -998,13 +1100,18 @@
                     (u.cidade && u.cidade.toLowerCase().includes(termoBusca)) ||
                     (u.telefone && u.telefone.toLowerCase().includes(termoBusca));
 
-                const atendeRole = filtroRoleVal === 'todos' || u.role === filtroRoleVal;
+                let atendeRole = true;
+                if (filtroRoleVal === 'com_login') {
+                    atendeRole = (u.totalLogins > 0 || !!u.ultimoLogin);
+                } else if (filtroRoleVal !== 'todos') {
+                    atendeRole = (u.role === filtroRoleVal);
+                }
 
                 return atendeBusca && atendeRole;
             });
 
             if (filtrados.length === 0) {
-                tabelaUsuarios.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #888; padding: 25px;">Nenhum usuário encontrado com os filtros aplicados.</td></tr>';
+                tabelaUsuarios.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #888; padding: 25px;">Nenhum usuário encontrado com os filtros aplicados.</td></tr>';
                 return;
             }
 
@@ -1018,6 +1125,17 @@
                 const zapLink = telLimpo.length >= 10 
                     ? `<a href="https://wa.me/55${telLimpo}" target="_blank" class="whatsapp-link" title="Conversar no WhatsApp"><i class="fa-brands fa-whatsapp"></i> ${user.telefone}</a>` 
                     : (user.telefone || '<span style="color:#aaa;">Não informado</span>');
+
+                // Último Login badge
+                let loginBadge = '<span style="color:#aaa; font-size:0.8rem;"><i class="fa-regular fa-clock"></i> Nunca logou</span>';
+                if (user.ultimoLogin) {
+                    loginBadge = `
+                        <div style="font-size:0.82rem;">
+                            <span style="color:#2e7d32; font-weight:700;"><i class="fa-solid fa-circle" style="font-size:0.5rem; color:#2ecc71;"></i> ${user.ultimoLogin}</span>
+                            <small style="display:block; color:#777; font-size:0.75rem;">🔑 ${user.totalLogins || 1} acesso(s)</small>
+                        </div>
+                    `;
+                }
 
                 // Endereço
                 let endResumido = '<span style="color:#aaa;">Não cadastrado</span>';
@@ -1048,6 +1166,7 @@
                         </div>
                     </td>
                     <td>${zapLink}</td>
+                    <td>${loginBadge}</td>
                     <td>${endResumido}</td>
                     <td><strong style="color:var(--rosa-escuro);">R$ ${Number(user.saldoCashback || 0).toFixed(2).replace('.', ',')}</strong></td>
                     <td style="text-align: center;"><span style="background:var(--rosa-suave); padding:3px 10px; border-radius:12px; font-weight:600; color:var(--marrom-doce);">${totalPedidosUser}</span></td>
@@ -1246,11 +1365,18 @@
                 // WhatsApp do cliente para notificação
                 const telLimpo = (pedido.telefone || '').replace(/\D/g, '');
                 const nomeCliente = pedido.nomeCliente || 'Cliente';
-                const msgZap = encodeURIComponent(`Olá ${nomeCliente}! Seu pedido #${pedido.id} na Confeitaria Doce Encanto foi atualizado para: ${pedido.status || 'Em Produção'}. Agradecemos sua preferência! 🧁`);
+                const msgZap = encodeURIComponent(`Olá ${nomeCliente}! Seu pedido #${pedido.id} na Confeitaria Doce Encanto foi atualizado para: ${pedido.status || '1. Recebido'}. Acompanhe pelo seu perfil! 🧁`);
                 
                 const zapBtn = telLimpo.length >= 10
                     ? `<a href="https://wa.me/55${telLimpo}?text=${msgZap}" target="_blank" class="whatsapp-link" title="Notificar cliente via WhatsApp"><i class="fa-brands fa-whatsapp"></i> Notificar</a>`
                     : '<span style="color:#aaa; font-size:0.8rem;">Sem Whats</span>';
+
+                const st = (pedido.status || '').toLowerCase();
+                const isRecebido = st.includes('receb') || st.includes('1.');
+                const isProcessando = st.includes('process') || st.includes('produ') || st.includes('2.');
+                const isCaminho = st.includes('caminho') || st.includes('saiu') || st.includes('3.');
+                const isEntregue = st.includes('entregue') || st.includes('feito') || st.includes('4.');
+                const isCancelado = st.includes('cancel');
 
                 tr.innerHTML = `
                     <td>
@@ -1269,10 +1395,11 @@
                     <td style="font-size:0.82rem; color:#555;">${pedido.endereco || 'Balcão / Retirada'}</td>
                     <td>
                         <select class="status-select select-status-pedido" data-id="${pedido.id}">
-                            <option value="Em Produção 👩‍🍳" ${pedido.status === 'Em Produção 👩‍🍳' ? 'selected' : ''}>Em Produção 👩‍🍳</option>
-                            <option value="Saiu para Entrega 🛵" ${pedido.status === 'Saiu para Entrega 🛵' ? 'selected' : ''}>Saiu para Entrega 🛵</option>
-                            <option value="Entregue ✅" ${pedido.status === 'Entregue ✅' ? 'selected' : ''}>Entregue ✅</option>
-                            <option value="Cancelado ❌" ${pedido.status === 'Cancelado ❌' ? 'selected' : ''}>Cancelado ❌</option>
+                            <option value="1. Recebido 📋" ${isRecebido ? 'selected' : ''}>1. Recebido 📋</option>
+                            <option value="2. Processando 👩‍🍳" ${isProcessando ? 'selected' : ''}>2. Processando 👩‍🍳</option>
+                            <option value="3. A Caminho 🛵" ${isCaminho ? 'selected' : ''}>3. A Caminho 🛵</option>
+                            <option value="4. Feito / Entregue ✅" ${isEntregue ? 'selected' : ''}>4. Feito / Entregue ✅</option>
+                            <option value="Cancelado ❌" ${isCancelado ? 'selected' : ''}>Cancelado ❌</option>
                         </select>
                     </td>
                     <td style="text-align: center;">${zapBtn}</td>
@@ -1289,6 +1416,44 @@
                         carregarPedidosAdmin();
                     }
                 });
+            });
+        }
+
+        // --- RENDERIZAR HISTÓRICO DE LOGINS NO SISTEMA ---
+        function carregarHistoricoLogins() {
+            const tabelaLogins = document.getElementById('lista-historico-logins');
+            if (!tabelaLogins) return;
+            const logins = window.DoceEncantoDB ? window.DoceEncantoDB.obterHistoricoLogins() : (JSON.parse(localStorage.getItem('historicoLoginsDoceEncanto')) || []);
+            tabelaLogins.innerHTML = '';
+
+            if (logins.length === 0) {
+                tabelaLogins.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #888; padding: 25px;">Nenhum login registrado até o momento.</td></tr>';
+                return;
+            }
+
+            logins.forEach(log => {
+                const tr = document.createElement('tr');
+                const inicial = log.nome ? log.nome.charAt(0).toUpperCase() : 'U';
+                const isAdmin = log.role === 'admin' || (log.email && log.email.toLowerCase() === 'admin@doceencanto.com');
+                const badgeCargo = isAdmin
+                    ? `<span class="badge-role admin"><i class="fa-solid fa-crown"></i> Admin</span>`
+                    : `<span class="badge-role cliente"><i class="fa-solid fa-basket-shopping"></i> Cliente</span>`;
+
+                tr.innerHTML = `
+                    <td>
+                        <div class="user-cell">
+                            <div class="user-avatar-circle" style="${isAdmin ? 'background:linear-gradient(135deg, #ab47bc, #7b1fa2);' : ''}">${inicial}</div>
+                            <div>
+                                <strong style="display:block; color:var(--marrom-doce);">${log.nome || 'Usuário'}</strong>
+                                <small style="color:#777;">${log.email || ''}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${badgeCargo}</td>
+                    <td><strong style="color:var(--marrom-doce);"><i class="fa-regular fa-clock" style="color:#d81b60;"></i> ${log.data || 'Hoje'}</strong></td>
+                    <td><span style="color:#2e7d32; font-weight:700; background:#e8f5e9; padding:5px 12px; border-radius:14px; font-size:0.82rem;"><i class="fa-solid fa-circle" style="font-size:0.5rem; color:#2ecc71;"></i> ${log.status || 'Sessão Ativa ✅'}</span></td>
+                `;
+                tabelaLogins.appendChild(tr);
             });
         }
 
@@ -1368,11 +1533,219 @@
             }
         }
 
+        // =========================================================
+        // GERENCIAMENTO DA SINCRONIZAÇÃO EM TEMPO REAL (FIREBASE)
+        // =========================================================
+        const modalFirebase = document.getElementById('modal-firebase-config');
+        const formConfigFirebase = document.getElementById('form-config-firebase');
+        const indicadorDot = document.getElementById('indicador-firebase-dot');
+        const indicadorTexto = document.getElementById('indicador-firebase-texto');
+        const statusFirebaseDesc = document.getElementById('status-firebase-desc');
+
+        window.abrirModalFirebase = function() {
+            if (!modalFirebase) return;
+            const fb = window.DoceEncantoFirebase;
+            const config = fb ? fb.obterConfiguracao() : {};
+            document.getElementById('fb-database-url').value = config.databaseURL || '';
+            document.getElementById('fb-api-key').value = config.apiKey || '';
+            document.getElementById('fb-project-id').value = config.projectId || '';
+            atualizarStatusIndicadorFirebase();
+            modalFirebase.style.display = 'flex';
+        };
+
+        window.fecharModalFirebase = function() {
+            if (modalFirebase) modalFirebase.style.display = 'none';
+        };
+
+        window.desconectarFirebase = function() {
+            localStorage.removeItem('firebase_config_doce_encanto');
+            alert('Configuração do Firebase removida. O sistema agora opera 100% no Modo Local (localStorage).');
+            window.location.reload();
+        };
+
+        function atualizarStatusIndicadorFirebase() {
+            const fb = window.DoceEncantoFirebase;
+            const conectado = fb && fb.isConectado();
+
+            if (indicadorDot && indicadorTexto) {
+                if (conectado) {
+                    indicadorDot.style.background = '#2ecc71';
+                    indicadorTexto.textContent = 'Nuvem: Conectada 🟢';
+                    indicadorTexto.title = 'Sincronização em tempo real ativa entre computadores e celulares!';
+                } else {
+                    indicadorDot.style.background = '#f39c12';
+                    indicadorTexto.textContent = 'Nuvem: Local (Configurar)';
+                    indicadorTexto.title = 'Clique para conectar com Firebase gratuito';
+                }
+            }
+
+            if (statusFirebaseDesc) {
+                if (conectado) {
+                    statusFirebaseDesc.innerHTML = '<span style="color:#2e7d32; font-weight:bold;">🟢 Conectado e Sincronizando em Tempo Real!</span>';
+                } else {
+                    statusFirebaseDesc.innerHTML = '<span style="color:#e67e22; font-weight:bold;">🟡 Modo Local ativo (Sem chave da nuvem). Salve sua URL abaixo para sincronizar dispositivos.</span>';
+                }
+            }
+        }
+
+        function exibirToastNotificacao(titulo, corpo) {
+            const toast = document.getElementById('toast-notificacao-nuvem');
+            if (!toast) return;
+            document.getElementById('toast-titulo').textContent = titulo;
+            document.getElementById('toast-corpo').textContent = corpo;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
+        }
+
+        if (formConfigFirebase) {
+            formConfigFirebase.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const dbUrl = document.getElementById('fb-database-url').value.trim();
+                const apiKey = document.getElementById('fb-api-key').value.trim();
+                const projId = document.getElementById('fb-project-id').value.trim();
+
+                if (!dbUrl) {
+                    alert('Por favor, informe ao menos a Database URL do Firebase.');
+                    return;
+                }
+
+                const novaConfig = {
+                    databaseURL: dbUrl,
+                    apiKey: apiKey || 'AIzaSyDemoKey',
+                    projectId: projId || 'doce-encanto-demo'
+                };
+
+                if (window.DoceEncantoFirebase) {
+                    window.DoceEncantoFirebase.salvarConfiguracao(novaConfig);
+                    alert('Configurações salvas! A página será atualizada para iniciar a conexão.');
+                    window.location.reload();
+                }
+            });
+        }
+
+        // Conecta ouvintes em tempo real do Firebase (Multi-dispositivos)
+        let primeiraCargaLoginsNuvem = true;
+        let primeiraCargaPedidosNuvem = true;
+
+        function inicializarOuvintesNuvem() {
+            atualizarStatusIndicadorFirebase();
+            const fb = window.DoceEncantoFirebase;
+            if (!fb || !fb.isConectado()) return;
+
+            // 1. OUVIR LOGINS DA NUVEM (Celulares / Outros computadores)
+            fb.ouvirLoginsEmTempoReal((loginsNuvem) => {
+                if (loginsNuvem && loginsNuvem.length > 0) {
+                    const tabelaLogins = document.getElementById('lista-historico-logins');
+                    if (tabelaLogins) {
+                        tabelaLogins.innerHTML = '';
+                        loginsNuvem.forEach(log => {
+                            const tr = document.createElement('tr');
+                            const inicial = log.nome ? log.nome.charAt(0).toUpperCase() : 'U';
+                            const isAdmin = log.role === 'admin' || (log.email && log.email.toLowerCase() === 'admin@doceencanto.com');
+                            const badgeCargo = isAdmin
+                                ? `<span class="badge-role admin"><i class="fa-solid fa-crown"></i> Admin</span>`
+                                : `<span class="badge-role cliente"><i class="fa-solid fa-basket-shopping"></i> Cliente</span>`;
+
+                            tr.innerHTML = `
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-circle" style="${isAdmin ? 'background:linear-gradient(135deg, #ab47bc, #7b1fa2);' : ''}">${inicial}</div>
+                                        <div>
+                                            <strong style="display:block; color:var(--marrom-doce);">${log.nome || 'Usuário'}</strong>
+                                            <small style="color:#777;">${log.email || ''}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${badgeCargo}</td>
+                                <td><strong style="color:var(--marrom-doce);"><i class="fa-regular fa-clock" style="color:#d81b60;"></i> ${log.data || 'Agora'}</strong></td>
+                                <td><span style="color:#2e7d32; font-weight:700; background:#e8f5e9; padding:5px 12px; border-radius:14px; font-size:0.82rem;"><i class="fa-solid fa-circle" style="font-size:0.5rem; color:#2ecc71;"></i> ${log.status || 'Sessão Ativa ✅'} ${log.origem || ''}</span></td>
+                            `;
+                            tabelaLogins.appendChild(tr);
+                        });
+                    }
+
+                    const kpiLogins = document.getElementById('kpi-total-logins');
+                    if (kpiLogins) kpiLogins.textContent = loginsNuvem.length;
+
+                    // Notifica admin se um novo login acabou de chegar
+                    if (!primeiraCargaLoginsNuvem && loginsNuvem[0]) {
+                        exibirToastNotificacao('🔔 Novo Login na Nuvem!', `${loginsNuvem[0].nome || 'Cliente'} acabou de acessar via ${loginsNuvem[0].origem || 'dispositivo remoto'}`);
+                    }
+                    primeiraCargaLoginsNuvem = false;
+                }
+            });
+
+            // 2. OUVIR PEDIDOS DA NUVEM (Celulares / Outros computadores)
+            fb.ouvirPedidosEmTempoReal((pedidosNuvem) => {
+                if (pedidosNuvem && pedidosNuvem.length > 0) {
+                    // Mescla pedidos da nuvem no localStorage para manter integridade
+                    localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosNuvem));
+                    carregarPedidosAdmin();
+                    atualizarKPIs();
+
+                    if (!primeiraCargaPedidosNuvem && pedidosNuvem[0]) {
+                        exibirToastNotificacao('🧁 Novo Pedido Recebido!', `Pedido #${pedidosNuvem[0].id} de ${pedidosNuvem[0].nomeCliente} no valor de R$ ${Number(pedidosNuvem[0].total).toFixed(2).replace('.', ',')}`);
+                    }
+                    primeiraCargaPedidosNuvem = false;
+                }
+            });
+
+            // 3. OUVIR CADASTROS DE USUÁRIOS DA NUVEM
+            if (typeof fb.ouvirUsuariosEmTempoReal === 'function') {
+                fb.ouvirUsuariosEmTempoReal((usuariosNuvem) => {
+                    if (usuariosNuvem && usuariosNuvem.length > 0) {
+                        let usuariosLocais = db.obterUsuarios();
+                        let alterado = false;
+                        usuariosNuvem.forEach(uN => {
+                            const idx = usuariosLocais.findIndex(u => u.email.toLowerCase() === uN.email.toLowerCase());
+                            if (idx !== -1) {
+                                usuariosLocais[idx] = { ...usuariosLocais[idx], ...uN };
+                                alterado = true;
+                            } else {
+                                usuariosLocais.push(uN);
+                                alterado = true;
+                            }
+                        });
+                        if (alterado) {
+                            localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosLocais));
+                            carregarUsuarios();
+                            atualizarKPIs();
+                        }
+                    }
+                });
+            }
+        }
+
+        window.addEventListener('doceencanto_firebase_ready', () => {
+            inicializarOuvintesNuvem();
+        });
+
         // CARGA INICIAL COMPLETA
         carregarUsuarios();
+        carregarHistoricoLogins();
         carregarPedidosAdmin();
         carregarProdutos();
         atualizarKPIs();
+        inicializarOuvintesNuvem();
+
+        // Atualização reativa automática em tempo real
+        window.addEventListener('storage', () => {
+            carregarUsuarios();
+            carregarHistoricoLogins();
+            carregarPedidosAdmin();
+            carregarProdutos();
+            atualizarKPIs();
+        });
+
+        window.addEventListener('focus', () => {
+            carregarUsuarios();
+            carregarHistoricoLogins();
+            carregarPedidosAdmin();
+            carregarProdutos();
+            atualizarKPIs();
+        });
     });
 </script>
 </body>

@@ -6,7 +6,10 @@
     <title>Entrar | Doce Encanto</title>
     <link rel="stylesheet" href="login.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Firebase SDK (Compat v9) & Sincronização em Nuvem -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -67,6 +70,17 @@
         const loginForm = document.getElementById('login-form');
         const alertaBox = document.getElementById('mensagem-alerta');
 
+        // Lê parâmetros de retorno (se veio de uma compra ou checkout)
+        const urlParams = new URLSearchParams(window.location.search);
+        const retornoUrl = urlParams.get('retorno') || sessionStorage.getItem('urlRetornoCompra') || '';
+        if (retornoUrl) {
+            sessionStorage.setItem('urlRetornoCompra', retornoUrl);
+            const cadLink = document.querySelector('.register-link a');
+            if (cadLink) {
+                cadLink.href = 'cadastro.html?retorno=' + encodeURIComponent(retornoUrl);
+            }
+        }
+
         // Função para exibir alertas diretamente na tela
         function exibirMensagem(texto, tipo = 'erro') {
             alertaBox.style.display = 'block';
@@ -93,32 +107,46 @@
                 const email = document.getElementById('email').value.trim();
                 const senha = document.getElementById('senha').value;
 
-                // Busca usuários salvos no localStorage
-                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+                let usuarioLogado = null;
 
-                // Procura usuário cadastrado
-                const usuarioEncontrado = usuariosSalvos.find(u => u.email.toLowerCase() === email.toLowerCase() && u.senha === senha);
-                const eAdmin = (email.toLowerCase() === 'admin@doceencanto.com' && senha === '123456') || (usuarioEncontrado && usuarioEncontrado.role === 'admin');
+                if (window.DoceEncantoDB && typeof window.DoceEncantoDB.autenticar === 'function') {
+                    usuarioLogado = window.DoceEncantoDB.autenticar(email, senha);
+                } else {
+                    const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+                    const usuarioEncontrado = usuariosSalvos.find(u => u.email.toLowerCase() === email.toLowerCase() && u.senha === senha);
+                    const eAdmin = (email.toLowerCase() === 'admin@doceencanto.com' && senha === '123456') || (usuarioEncontrado && usuarioEncontrado.role === 'admin');
 
-                if (usuarioEncontrado || eAdmin) {
-                    exibirMensagem('Login efetuado com sucesso! Redirecionando...', 'sucesso');
+                    if (usuarioEncontrado || eAdmin) {
+                        usuarioLogado = usuarioEncontrado || {
+                            id: 1,
+                            nome: 'Administrador Geral',
+                            email: 'admin@doceencanto.com',
+                            role: 'admin',
+                            telefone: '(41) 99999-9999'
+                        };
+                        localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(usuarioLogado));
+                    }
+                }
 
-                    // Salva os dados da sessão ativa no navegador
-                    const dadosSessao = {
-                        nome: usuarioEncontrado ? usuarioEncontrado.nome : 'Administrador',
-                        email: email,
-                        role: eAdmin ? 'admin' : (usuarioEncontrado ? (usuarioEncontrado.role || 'cliente') : 'cliente')
-                    };
-                    localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(dadosSessao));
+                if (usuarioLogado) {
+                    exibirMensagem(`Bem-vindo(a) de volta, ${usuarioLogado.nome ? usuarioLogado.nome.split(' ')[0] : ''}! Conectando...`, 'sucesso');
 
-                    // Redireciona após o login (se for admin, vai para o painel admin)
+                    const eAdmin = (usuarioLogado.role === 'admin' || usuarioLogado.email.toLowerCase() === 'admin@doceencanto.com');
+
                     setTimeout(() => {
                         if (eAdmin) {
                             window.location.href = 'admin.html';
                         } else {
-                            window.location.href = 'inicio.html';
+                            const destino = retornoUrl || 'inicio.html';
+                            sessionStorage.removeItem('urlRetornoCompra');
+                            if (destino.includes('cardapio.html') || destino.includes('inicio.html') || destino.includes('encomendas.html') || destino.includes('sobrenos.html')) {
+                                const separador = destino.includes('?') ? '&' : '?';
+                                window.location.href = destino.replace(/[?&]checkout=[^&]*/g, '') + separador + 'checkout=abrir';
+                            } else {
+                                window.location.href = destino;
+                            }
                         }
-                    }, 1200);
+                    }, 1100);
                 } else {
                     exibirMensagem('E-mail ou senha incorretos.');
                 }

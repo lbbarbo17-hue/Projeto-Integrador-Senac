@@ -308,49 +308,262 @@ function verificarLoginParaPedido() {
 function exibirModalExigirConta() {
     fecharCarrinho();
     let modal = document.getElementById('modal-exigir-conta');
+    const paginaAtual = window.location.pathname.split('/').pop() || 'cardapio.html';
+    const urlRetorno = encodeURIComponent(paginaAtual + (window.location.search ? window.location.search : ''));
+
     if (!modal) {
         modal = document.createElement('div');
         modal.id = 'modal-exigir-conta';
-        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(71,57,54,0.7); display:flex; align-items:center; justify-content:center; z-index:999999; backdrop-filter:blur(6px); padding:20px; box-sizing:border-box;';
-        modal.innerHTML = `
-            <div style="background:#ffffff; border-radius:26px; padding:32px 28px; width:100%; max-width:440px; text-align:center; border:2px solid #fab3cb; box-shadow:0 20px 45px rgba(0,0,0,0.2);">
-                <div style="width:72px; height:72px; border-radius:50%; background:#fce4ec; color:#d81b60; font-size:2rem; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; box-shadow:0 4px 15px rgba(216,27,96,0.18);">
-                    <i class="fa-solid fa-user-lock"></i>
-                </div>
-                <h3 style="font-family:'Fredoka',sans-serif; color:#6d3828; margin:0 0 10px; font-size:1.55rem;">Identifique-se para pedir</h3>
-                <p style="color:#666; font-size:0.92rem; line-height:1.5; margin:0 0 18px;">
-                    Para concluir seu pedido e acompanhar o status da entrega, você precisa entrar na sua conta ou criar uma conta gratuita.
-                </p>
-                <div style="background:#fff8fa; border:1px dashed #f48fb1; border-radius:14px; padding:12px 16px; margin-bottom:22px; text-align:left; font-size:0.85rem; color:#555;">
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;">
-                        <i class="fa-solid fa-check" style="color:#2ecc71;"></i> <span>Acompanhe o preparo e a entrega do pedido</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;">
-                        <i class="fa-solid fa-gift" style="color:#d81b60;"></i> <span>Ganhe 5% de cashback nesta compra</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <i class="fa-solid fa-location-dot" style="color:#f48fb1;"></i> <span>Endereço salvo para pedir com rapidez</span>
-                    </div>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <a href="login.html" style="background:linear-gradient(135deg, #fab3cb, #f48fb1); color:#fff; text-decoration:none; padding:13px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:1rem; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 15px rgba(244,143,177,0.4);">
-                        <i class="fa-solid fa-right-to-bracket"></i> Já tenho conta (Fazer Login)
-                    </a>
-                    <a href="cadastro.html" style="background:#fff; color:#d81b60; border:2px solid #f48fb1; text-decoration:none; padding:11px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:0.95rem; display:flex; align-items:center; justify-content:center; gap:8px;">
-                        <i class="fa-solid fa-user-plus"></i> Criar Nova Conta (+ R$ 5 bônus)
-                    </a>
-                    <button type="button" onclick="fecharModalExigirConta()" style="background:none; border:none; color:#888; font-size:0.88rem; cursor:pointer; padding:8px; margin-top:4px;">
-                        Continuar olhando o cardápio
-                    </button>
-                </div>
-            </div>
-        `;
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(71,57,54,0.75); display:flex; align-items:center; justify-content:center; z-index:999999; backdrop-filter:blur(6px); padding:16px; box-sizing:border-box; overflow-y:auto;';
         document.body.appendChild(modal);
         modal.addEventListener('click', (e) => {
             if (e.target === modal) fecharModalExigirConta();
         });
     }
+
+    modal.innerHTML = `
+        <div style="background:#ffffff; border-radius:26px; padding:28px 24px; width:100%; max-width:440px; text-align:center; border:2px solid #fab3cb; box-shadow:0 20px 45px rgba(0,0,0,0.25); max-height:92vh; overflow-y:auto; box-sizing:border-box;">
+            
+            <div style="width:60px; height:60px; border-radius:50%; background:#fce4ec; color:#d81b60; font-size:1.7rem; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; box-shadow:0 4px 15px rgba(216,27,96,0.18);">
+                <i class="fa-solid fa-cake-candles"></i>
+            </div>
+            
+            <h3 style="font-family:'Fredoka',sans-serif; color:#6d3828; margin:0 0 6px; font-size:1.45rem;">Identifique-se para pedir</h3>
+            <p style="color:#666; font-size:0.88rem; line-height:1.4; margin:0 0 16px;">
+                Para concluir sua compra e acumular <strong style="color:#d81b60;">5% de cashback</strong>, crie sua conta ou faça login:
+            </p>
+
+            <!-- ABAS DE NAVEGAÇÃO -->
+            <div style="display:flex; background:#fceef2; border-radius:30px; padding:4px; margin-bottom:18px;">
+                <button type="button" id="aba-btn-cadastro" onclick="alternarAbaAuth('cadastro')" style="flex:1; border:none; padding:10px 12px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:0.92rem; cursor:pointer; background:#fab3cb; color:#ffffff; transition:all 0.2s ease;">
+                    <i class="fa-solid fa-user-plus"></i> Criar Conta
+                </button>
+                <button type="button" id="aba-btn-login" onclick="alternarAbaAuth('login')" style="flex:1; border:none; padding:10px 12px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:0.92rem; cursor:pointer; background:transparent; color:#6d3828; transition:all 0.2s ease;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Já Tenho Conta
+                </button>
+            </div>
+
+            <!-- MENSAGEM DE ALERTA NO MODAL -->
+            <div id="modal-auth-msg" style="display:none; padding:10px; border-radius:10px; font-size:0.85rem; margin-bottom:14px; text-align:center;"></div>
+
+            <!-- FORMULÁRIO 1: CRIAR CONTA RÁPIDA -->
+            <form id="form-modal-cadastro" onsubmit="submeterCadastroModal(event)" style="display:flex; flex-direction:column; gap:11px; text-align:left;">
+                <div>
+                    <label style="font-size:0.82rem; font-weight:600; color:#473936; display:block; margin-bottom:4px;">Nome Completo</label>
+                    <input id="modal-cad-nome" type="text" placeholder="Como podemos te chamar?" required style="width:100%; padding:10px 14px; border-radius:14px; border:1.5px solid #fab3cb; font-family:'Poppins',sans-serif; font-size:0.88rem; box-sizing:border-box; outline:none;">
+                </div>
+                <div>
+                    <label style="font-size:0.82rem; font-weight:600; color:#473936; display:block; margin-bottom:4px;">WhatsApp / Celular</label>
+                    <input id="modal-cad-tel" type="tel" placeholder="(41) 99999-9999" oninput="mascaraTelefoneModal(this)" required style="width:100%; padding:10px 14px; border-radius:14px; border:1.5px solid #fab3cb; font-family:'Poppins',sans-serif; font-size:0.88rem; box-sizing:border-box; outline:none;">
+                </div>
+                <div>
+                    <label style="font-size:0.82rem; font-weight:600; color:#473936; display:block; margin-bottom:4px;">E-mail</label>
+                    <input id="modal-cad-email" type="email" placeholder="seuemail@exemplo.com" required style="width:100%; padding:10px 14px; border-radius:14px; border:1.5px solid #fab3cb; font-family:'Poppins',sans-serif; font-size:0.88rem; box-sizing:border-box; outline:none;">
+                </div>
+                <div>
+                    <label style="font-size:0.82rem; font-weight:600; color:#473936; display:block; margin-bottom:4px;">Senha (mínimo 6 dígitos)</label>
+                    <input id="modal-cad-senha" type="password" placeholder="Crie sua senha de acesso" minlength="6" required style="width:100%; padding:10px 14px; border-radius:14px; border:1.5px solid #fab3cb; font-family:'Poppins',sans-serif; font-size:0.88rem; box-sizing:border-box; outline:none;">
+                </div>
+
+                <div style="background:#fff8fa; border:1px dashed #f48fb1; border-radius:12px; padding:8px 12px; margin-top:2px; font-size:0.8rem; color:#555;">
+                    <i class="fa-solid fa-gift" style="color:#d81b60;"></i> Você ganha <strong>R$ 5,00 de bônus</strong> de boas-vindas imediatamente!
+                </div>
+
+                <button type="submit" style="background:linear-gradient(135deg, #fab3cb, #f48fb1); color:#fff; border:none; padding:13px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:1rem; cursor:pointer; margin-top:6px; box-shadow:0 4px 15px rgba(244,143,177,0.4); display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class="fa-solid fa-check"></i> Cadastrar e Continuar Compra
+                </button>
+            </form>
+
+            <!-- FORMULÁRIO 2: LOGIN RÁPIDO -->
+            <form id="form-modal-login" onsubmit="submeterLoginModal(event)" style="display:none; flex-direction:column; gap:12px; text-align:left;">
+                <div>
+                    <label style="font-size:0.82rem; font-weight:600; color:#473936; display:block; margin-bottom:4px;">E-mail</label>
+                    <input id="modal-login-email" type="email" placeholder="seuemail@exemplo.com" required style="width:100%; padding:10px 14px; border-radius:14px; border:1.5px solid #fab3cb; font-family:'Poppins',sans-serif; font-size:0.88rem; box-sizing:border-box; outline:none;">
+                </div>
+                <div>
+                    <label style="font-size:0.82rem; font-weight:600; color:#473936; display:block; margin-bottom:4px;">Senha</label>
+                    <input id="modal-login-senha" type="password" placeholder="Sua senha cadastrada" required style="width:100%; padding:10px 14px; border-radius:14px; border:1.5px solid #fab3cb; font-family:'Poppins',sans-serif; font-size:0.88rem; box-sizing:border-box; outline:none;">
+                </div>
+
+                <button type="submit" style="background:linear-gradient(135deg, #fab3cb, #f48fb1); color:#fff; border:none; padding:13px; border-radius:25px; font-weight:600; font-family:'Fredoka',sans-serif; font-size:1rem; cursor:pointer; margin-top:6px; box-shadow:0 4px 15px rgba(244,143,177,0.4); display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar e Continuar Compra
+                </button>
+
+                <div style="text-align:center; margin-top:4px;">
+                    <a href="esqueceusenha.html" style="font-size:0.82rem; color:#f48fb1; text-decoration:none;">Esqueceu sua senha?</a>
+                </div>
+            </form>
+
+            <!-- LINKS SECUNDÁRIOS -->
+            <div style="margin-top:16px; border-top:1px solid #fceef2; padding-top:12px; font-size:0.82rem; color:#888;">
+                <span>Prefere abrir a página completa?</span>
+                <div style="margin-top:6px; display:flex; justify-content:center; gap:12px;">
+                    <a href="cadastro.html?retorno=${urlRetorno}" style="color:#6d3828; font-weight:600; text-decoration:none;">Tela de Cadastro</a>
+                    <span>•</span>
+                    <a href="login.html?retorno=${urlRetorno}" style="color:#6d3828; font-weight:600; text-decoration:none;">Tela de Login</a>
+                </div>
+                <button type="button" onclick="fecharModalExigirConta()" style="background:none; border:none; color:#999; font-size:0.82rem; cursor:pointer; padding:6px; margin-top:8px;">
+                    Voltar para o cardápio
+                </button>
+            </div>
+
+        </div>
+    `;
+
     modal.style.display = 'flex';
+}
+
+function alternarAbaAuth(aba) {
+    const btnCad = document.getElementById('aba-btn-cadastro');
+    const btnLog = document.getElementById('aba-btn-login');
+    const formCad = document.getElementById('form-modal-cadastro');
+    const formLog = document.getElementById('form-modal-login');
+    const msgBox = document.getElementById('modal-auth-msg');
+    if (msgBox) msgBox.style.display = 'none';
+
+    if (aba === 'cadastro') {
+        if (btnCad) { btnCad.style.background = '#fab3cb'; btnCad.style.color = '#ffffff'; }
+        if (btnLog) { btnLog.style.background = 'transparent'; btnLog.style.color = '#6d3828'; }
+        if (formCad) formCad.style.display = 'flex';
+        if (formLog) formLog.style.display = 'none';
+    } else {
+        if (btnCad) { btnCad.style.background = 'transparent'; btnCad.style.color = '#6d3828'; }
+        if (btnLog) { btnLog.style.background = '#fab3cb'; btnLog.style.color = '#ffffff'; }
+        if (formCad) formCad.style.display = 'none';
+        if (formLog) formLog.style.display = 'flex';
+    }
+}
+
+function mascaraTelefoneModal(input) {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length > 10) {
+        v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+    } else if (v.length > 6) {
+        v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+    } else if (v.length > 2) {
+        v = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+    } else if (v.length > 0) {
+        v = v.replace(/^(\d*)/, '($1');
+    }
+    input.value = v;
+}
+
+function submeterCadastroModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const msgBox = document.getElementById('modal-auth-msg');
+    const nome = document.getElementById('modal-cad-nome').value.trim();
+    const tel = document.getElementById('modal-cad-tel').value.trim();
+    const email = document.getElementById('modal-cad-email').value.trim().toLowerCase();
+    const senha = document.getElementById('modal-cad-senha').value;
+
+    function mostrarErro(txt) {
+        if (msgBox) {
+            msgBox.style.display = 'block';
+            msgBox.style.backgroundColor = '#fde8e8';
+            msgBox.style.color = '#c81e1e';
+            msgBox.textContent = txt;
+        }
+    }
+
+    if (nome.length < 2) {
+        mostrarErro('Por favor, informe seu nome completo.');
+        return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        mostrarErro('Por favor, informe um e-mail válido.');
+        return;
+    }
+    const telLimpo = tel.replace(/\D/g, '');
+    if (telLimpo.length < 10) {
+        mostrarErro('Informe um WhatsApp/celular válido com DDD.');
+        return;
+    }
+    if (senha.length < 6) {
+        mostrarErro('A senha deve ter no mínimo 6 dígitos.');
+        return;
+    }
+
+    const usuarios = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarios() : (JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || []);
+    if (usuarios.some(u => u.email.toLowerCase() === email) || email === 'admin@doceencanto.com') {
+        mostrarErro('Este e-mail já possui cadastro. Clique em "Já Tenho Conta" para entrar.');
+        return;
+    }
+
+    const novoUsuario = {
+        id: Date.now(),
+        nome: nome,
+        email: email,
+        telefone: tel,
+        senha: senha,
+        role: 'cliente',
+        saldoCashback: 5.00,
+        cep: '',
+        endereco: '',
+        numero: '',
+        complemento: '',
+        bairro: '',
+        cidade: 'Curitiba',
+        criadoEm: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+    };
+
+    if (window.DoceEncantoDB) {
+        window.DoceEncantoDB.salvarUsuario(novoUsuario);
+        window.DoceEncantoDB.fazerLogin(novoUsuario);
+    } else {
+        usuarios.push(novoUsuario);
+        localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuarios));
+        localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(novoUsuario));
+    }
+
+    atualizarNavbarUsuario();
+    fecharModalExigirConta();
+    mostrarNotificacao(`✓ Bem-vindo(a), ${nome.split(' ')[0]}! Conta criada com R$ 5,00 bônus.`);
+    
+    // Avança direto para o checkout com os dados salvos
+    setTimeout(() => {
+        irParaCheckout();
+    }, 200);
+}
+
+function submeterLoginModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const msgBox = document.getElementById('modal-auth-msg');
+    const email = document.getElementById('modal-login-email').value.trim();
+    const senha = document.getElementById('modal-login-senha').value;
+
+    function mostrarErro(txt) {
+        if (msgBox) {
+            msgBox.style.display = 'block';
+            msgBox.style.backgroundColor = '#fde8e8';
+            msgBox.style.color = '#c81e1e';
+            msgBox.textContent = txt;
+        }
+    }
+
+    let usuarioLogado = null;
+    if (window.DoceEncantoDB && typeof window.DoceEncantoDB.autenticar === 'function') {
+        usuarioLogado = window.DoceEncantoDB.autenticar(email, senha);
+    } else {
+        const usuarios = JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || [];
+        const encontrado = usuarios.find(u => u.email.toLowerCase() === email.toLowerCase() && u.senha === senha);
+        if (encontrado) {
+            usuarioLogado = encontrado;
+            localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(usuarioLogado));
+        }
+    }
+
+    if (usuarioLogado) {
+        atualizarNavbarUsuario();
+        fecharModalExigirConta();
+        mostrarNotificacao(`✓ Bem-vindo(a) de volta, ${usuarioLogado.nome ? usuarioLogado.nome.split(' ')[0] : ''}!`);
+        setTimeout(() => {
+            irParaCheckout();
+        }, 200);
+    } else {
+        mostrarErro('E-mail ou senha incorretos.');
+    }
 }
 
 function fecharModalExigirConta() {
@@ -430,7 +643,7 @@ function finalizarPedidoDireto() {
 
     // 1. Salva o pedido no histórico local (Meus Pedidos)
     const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
-    const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const emailDono = (usuarioLogado && usuarioLogado.email ? usuarioLogado.email.trim().toLowerCase() : 'cliente_visitante@doceencanto.com');
     const nomeCliente = usuarioLogado ? (usuarioLogado.nome || 'Cliente') : 'Cliente';
     const telCliente = usuarioLogado ? (usuarioLogado.telefone || '') : '';
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
@@ -443,7 +656,7 @@ function finalizarPedidoDireto() {
         telefone: telCliente,
         endereco: usuarioLogado && usuarioLogado.endereco ? `${usuarioLogado.endereco}, ${usuarioLogado.bairro || ''}` : 'Balcão / Retirada',
         formaPagamento: 'PIX Direto',
-        status: 'Em Produção 👩‍🍳',
+        status: '1. Recebido 📋',
         data: dataFormatada,
         itens: [...carrinho],
         observacao: observacaoTxt,
@@ -623,7 +836,7 @@ function processarPedidoSite() {
 
     // 1. Salvar o pedido no histórico local (para constar nos "Meus Pedidos" do Perfil)
     const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
-    const emailDono = usuarioLogado ? usuarioLogado.email : 'cliente_visitante@doceencanto.com';
+    const emailDono = (usuarioLogado && usuarioLogado.email ? usuarioLogado.email.trim().toLowerCase() : 'cliente_visitante@doceencanto.com');
     const nomeCliente = usuarioLogado ? (usuarioLogado.nome || 'Cliente') : 'Cliente';
     const telCliente = usuarioLogado ? (usuarioLogado.telefone || '') : '';
     const numeroPedido = Math.floor(1000 + Math.random() * 9000);
@@ -637,7 +850,7 @@ function processarPedidoSite() {
         endereco: `${rua}, ${bairro}`,
         formaPagamento: detalhePagamento,
         data: dataFormatada,
-        status: 'Em Produção 👩‍🍳',
+        status: '1. Recebido 📋',
         itens: [...carrinho],
         observacao: observacaoTxt,
         total: totalGeral
@@ -667,7 +880,7 @@ function processarPedidoSite() {
     salvarCarrinho();
     atualizarCarrinho();
 
-    // 3. Exibir Modal "Pedido Realizado!" com resumo e botão do WhatsApp
+    // 3. Exibir Modal "Pedido Realizado!" com linha do tempo e botões de ação
     exibirModalPedidoSucesso(numeroPedido, totalGeral, msg);
 }
 
@@ -683,26 +896,66 @@ function exibirModalPedidoSucesso(numPedido, total, msgWhatsApp) {
     const linkWhats = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(msgWhatsApp)}`;
 
     modal.innerHTML = `
-        <div style="background:#ffffff; width:100%; max-width:440px; border-radius:24px; padding:32px 25px; text-align:center; box-shadow:0 15px 35px rgba(0,0,0,0.2); border:2px solid #fce4ec; font-family:'Poppins', sans-serif;">
-            <div style="width:70px; height:70px; background:#e8f5e9; color:#2ecc71; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.2rem; margin:0 auto 15px auto;">
+        <div style="background:#ffffff; width:100%; max-width:470px; border-radius:24px; padding:30px 24px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.22); border:2px solid #fce4ec; font-family:'Poppins', sans-serif; position:relative;">
+            <div style="width:65px; height:65px; background:#e8f5e9; color:#2ecc71; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 12px auto;">
                 <i class="fa-solid fa-check"></i>
             </div>
             
-            <h3 style="font-family:'Fredoka', sans-serif; color:#6d3828; font-size:1.6rem; margin:0 0 8px 0;">Pedido #${numPedido} Realizado!</h3>
-            <p style="color:#2ecc71; font-weight:bold; font-size:0.95rem; margin-bottom:15px;">✓ Salvo com sucesso no seu perfil!</p>
-            <p style="color:#666; font-size:0.9rem; line-height:1.5; margin-bottom:20px;">Seu pedido já foi cadastrado na sua conta! Clique no botão abaixo para nos enviar pelo WhatsApp e acompanhar o preparo.</p>
+            <h3 style="font-family:'Fredoka', sans-serif; color:#6d3828; font-size:1.55rem; margin:0 0 6px 0;">Pedido #${numPedido} Realizado!</h3>
+            <p style="color:#2ecc71; font-weight:bold; font-size:0.9rem; margin-bottom:14px;">✓ Registrado com sucesso no seu perfil!</p>
 
-            <div style="background:#fff8fa; border:1px dashed #f8e1e7; border-radius:14px; padding:12px 18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; color:#6d3828;">
-                <span>Total a Pagar:</span>
-                <span style="color:#d81b60; font-size:1.1rem;">R$ ${total.toFixed(2).replace('.', ',')}</span>
+            <!-- LINHA DO TEMPO DO PEDIDO -->
+            <div style="background:#fff7f9; border:1px solid #fce4ec; border-radius:18px; padding:16px 12px; margin-bottom:18px; text-align:left;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:0.82rem; font-weight:700; color:#6d3828;">
+                    <span><i class="fa-solid fa-route" style="color:#d81b60;"></i> Linha do Tempo do Pedido:</span>
+                    <span style="color:#2ecc71; background:#e8f5e9; padding:2px 8px; border-radius:10px;"><i class="fa-solid fa-circle-check"></i> 1. Recebido</span>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:6px; text-align:center;">
+                    <div style="padding:8px 3px; background:#e8f5e9; border:1.5px solid #2ecc71; border-radius:12px;">
+                        <i class="fa-solid fa-clipboard-check" style="color:#2e7d32; font-size:1.15rem; display:block; margin-bottom:3px;"></i>
+                        <span style="font-size:0.72rem; font-weight:bold; color:#1b5e20; display:block;">1. Recebido</span>
+                        <small style="font-size:0.65rem; color:#2e7d32; font-weight:600;">Confirmado</small>
+                    </div>
+                    <div style="padding:8px 3px; background:#fff3e0; border:1.5px dashed #ffa726; border-radius:12px;">
+                        <i class="fa-solid fa-kitchen-set" style="color:#e65100; font-size:1.15rem; display:block; margin-bottom:3px;"></i>
+                        <span style="font-size:0.72rem; font-weight:bold; color:#e65100; display:block;">2. Processando</span>
+                        <small style="font-size:0.65rem; color:#e65100;">Na Cozinha</small>
+                    </div>
+                    <div style="padding:8px 3px; background:#f9f9f9; border:1px solid #e0e0e0; border-radius:12px; opacity:0.65;">
+                        <i class="fa-solid fa-motorcycle" style="color:#888; font-size:1.15rem; display:block; margin-bottom:3px;"></i>
+                        <span style="font-size:0.72rem; font-weight:600; color:#777; display:block;">3. A Caminho</span>
+                        <small style="font-size:0.65rem; color:#888;">Entrega</small>
+                    </div>
+                    <div style="padding:8px 3px; background:#f9f9f9; border:1px solid #e0e0e0; border-radius:12px; opacity:0.65;">
+                        <i class="fa-solid fa-circle-check" style="color:#888; font-size:1.15rem; display:block; margin-bottom:3px;"></i>
+                        <span style="font-size:0.72rem; font-weight:600; color:#777; display:block;">4. Feito</span>
+                        <small style="font-size:0.65rem; color:#888;">Entregue</small>
+                    </div>
+                </div>
+                <div style="margin-top:10px; font-size:0.78rem; color:#666; text-align:center;">
+                    Status atual: <strong style="color:#d81b60;">Pedido recebido e enviado para a produção!</strong>
+                </div>
             </div>
 
-            <a href="${linkWhats}" target="_blank" onclick="fecharModalSucesso()" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#25d366; color:#ffffff; text-decoration:none; padding:14px; border-radius:30px; font-weight:bold; font-size:1rem; font-family:'Fredoka', sans-serif; box-shadow:0 6px 20px rgba(37,211,102,0.35); margin-bottom:12px;">
-                <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i> Mandar pedido por WhatsApp
-            </a>
+            <div style="background:#fffcfd; border:1px dashed #f8e1e7; border-radius:14px; padding:12px 18px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; color:#6d3828;">
+                <span style="font-size:0.92rem;">Total do Pedido:</span>
+                <span style="color:#d81b60; font-size:1.15rem;">R$ ${total.toFixed(2).replace('.', ',')}</span>
+            </div>
 
-            <button onclick="fecharModalSucesso()" style="background:transparent; border:none; color:#888; font-size:0.9rem; cursor:pointer; font-weight:600;">
-                Fechar e continuar navegando
+            <!-- BOTÕES DE AÇÃO: MEUS PEDIDOS & WHATSAPP -->
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+                <a href="perfil.html" style="display:flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(135deg, #f48fb1, #d81b60); color:#ffffff; text-decoration:none; padding:13px; border-radius:30px; font-weight:bold; font-size:0.95rem; font-family:'Fredoka', sans-serif; box-shadow:0 5px 18px rgba(216,27,96,0.3); transition:transform 0.2s;">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Acompanhar Linha do Tempo em Meus Pedidos
+                </a>
+
+                <a href="${linkWhats}" target="_blank" onclick="fecharModalSucesso()" style="display:flex; align-items:center; justify-content:center; gap:8px; background:#25d366; color:#ffffff; text-decoration:none; padding:13px; border-radius:30px; font-weight:bold; font-size:0.95rem; font-family:'Fredoka', sans-serif; box-shadow:0 5px 18px rgba(37,211,102,0.3); transition:transform 0.2s;">
+                    <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Mandar pedido por WhatsApp
+                </a>
+            </div>
+
+            <button onclick="fecharModalSucesso()" style="background:transparent; border:none; color:#888; font-size:0.85rem; cursor:pointer; font-weight:600; padding:4px;">
+                Continuar navegando na loja
             </button>
         </div>
     `;
@@ -890,6 +1143,24 @@ function pesquisarNaNovaPagina() {
     }
 }
 
+function atualizarNavbarUsuario() {
+    const usuarioLogado = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarioLogado() : JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
+    const userNavLink = document.getElementById('user-nav-link');
+
+    if (userNavLink) {
+        if (usuarioLogado && usuarioLogado.email && usuarioLogado.email !== 'cliente_visitante@doceencanto.com') {
+            const primeiroNome = usuarioLogado.nome ? usuarioLogado.nome.split(' ')[0] : 'Minha Conta';
+            userNavLink.href = (usuarioLogado.role === 'admin' || usuarioLogado.email.toLowerCase() === 'admin@doceencanto.com') ? 'admin.html' : 'perfil.html';
+            userNavLink.innerHTML = `<i class="fa-regular fa-user"></i> ${primeiroNome}`;
+            userNavLink.title = `Conectado como ${usuarioLogado.nome || usuarioLogado.email}`;
+        } else {
+            userNavLink.href = 'login.html';
+            userNavLink.innerHTML = `<i class="fa-regular fa-user"></i> Login`;
+            userNavLink.title = 'Minha Conta / Entrar';
+        }
+    }
+}
+
 // =========================================================
 // 10. INICIALIZAÇÃO AO CARREGAR A PÁGINA E SINCRONIZAÇÃO
 // =========================================================
@@ -899,15 +1170,16 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (e) { carrinho = []; }
 
     atualizarCarrinho();
+    atualizarNavbarUsuario();
 
-    // Sincroniza sessão do usuário na Navbar
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogadoDoceEncanto'));
-    const userNavLink = document.getElementById('user-nav-link');
-
-    if (userNavLink && usuarioLogado) {
-        const primeiroNome = usuarioLogado.nome ? usuarioLogado.nome.split(' ')[0] : 'Perfil';
-        userNavLink.href = usuarioLogado.email === 'admin@doceencanto.com' ? 'admin.html' : 'perfil.html';
-        userNavLink.innerHTML = `<i class="fa-regular fa-user"></i> ${primeiroNome}`;
+    // Se o cliente acabou de se cadastrar ou logar para concluir compra
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('checkout') === 'abrir') {
+        setTimeout(() => {
+            if (carrinho && carrinho.length > 0) {
+                irParaCheckout();
+            }
+        }, 300);
     }
 
     // Evento de troca de pagamento

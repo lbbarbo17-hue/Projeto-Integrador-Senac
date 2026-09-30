@@ -6,7 +6,10 @@
     <title>Cadastre-se | Doce Encanto</title>
     <link rel="stylesheet" href="login.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Firebase SDK (Compat v9) & Sincronização em Nuvem -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -88,6 +91,36 @@
     document.addEventListener('DOMContentLoaded', () => {
         const cadastroForm = document.getElementById('cadastro-form');
         const alertaBox = document.getElementById('mensagem-alerta');
+        const telefoneInput = document.getElementById('telefone');
+
+        // Máscara dinâmica para WhatsApp/Telefone: (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.slice(0, 11);
+                if (v.length > 10) {
+                    v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+                } else if (v.length > 6) {
+                    v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+                } else if (v.length > 2) {
+                    v = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+                } else if (v.length > 0) {
+                    v = v.replace(/^(\d*)/, '($1');
+                }
+                e.target.value = v;
+            });
+        }
+
+        // Lê parâmetros de retorno (se veio do carrinho ou checkout)
+        const urlParams = new URLSearchParams(window.location.search);
+        const retornoUrl = urlParams.get('retorno') || sessionStorage.getItem('urlRetornoCompra') || '';
+        if (retornoUrl) {
+            sessionStorage.setItem('urlRetornoCompra', retornoUrl);
+            const loginLink = document.querySelector('.register-link a');
+            if (loginLink) {
+                loginLink.href = 'login.html?retorno=' + encodeURIComponent(retornoUrl);
+            }
+        }
 
         // Função para mostrar alertas visuais na tela
         function exibirMensagem(texto, tipo = 'erro') {
@@ -113,34 +146,54 @@
                 e.preventDefault();
 
                 const nome = document.getElementById('nome').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const telefone = document.getElementById('telefone')?.value.trim() || '';
+                const email = document.getElementById('email').value.trim().toLowerCase();
+                const telefone = telefoneInput ? telefoneInput.value.trim() : '';
                 const senha = document.getElementById('senha').value;
                 const confirmarSenha = document.getElementById('confirmar-senha').value;
 
-                // 1. Validar se as senhas coincidem
+                // 1. Validações completas
+                if (nome.length < 2) {
+                    exibirMensagem('Por favor, informe seu nome completo.');
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    exibirMensagem('Por favor, informe um endereço de e-mail válido.');
+                    return;
+                }
+
+                const telLimpo = telefone.replace(/\D/g, '');
+                if (telLimpo.length < 10) {
+                    exibirMensagem('Por favor, informe um telefone/WhatsApp válido com DDD.');
+                    return;
+                }
+
+                if (senha.length < 6) {
+                    exibirMensagem('A senha deve ter no mínimo 6 caracteres.');
+                    return;
+                }
+
                 if (senha !== confirmarSenha) {
                     exibirMensagem('As senhas não coincidem!');
                     return;
                 }
 
-                // 2. Buscar usuários cadastrados anteriormente no localStorage ou DoceEncantoDB
+                // 2. Verificar se o e-mail já existe
                 const usuariosSalvos = window.DoceEncantoDB ? window.DoceEncantoDB.obterUsuarios() : (JSON.parse(localStorage.getItem('usuariosDoceEncanto')) || []);
-
-                // 3. Verificar se o e-mail já existe
-                const usuarioExiste = usuariosSalvos.some(u => u.email.toLowerCase() === email.toLowerCase());
-                if (usuarioExiste || email.toLowerCase() === 'admin@doceencanto.com') {
-                    exibirMensagem('Este e-mail já está cadastrado!');
+                const usuarioExiste = usuariosSalvos.some(u => u.email.toLowerCase() === email);
+                if (usuarioExiste || email === 'admin@doceencanto.com') {
+                    exibirMensagem('Este e-mail já está cadastrado! Faça login ou use outro e-mail.');
                     return;
                 }
 
-                // 4. Salvar o novo usuário com estrutura completa e bônus de boas-vindas
+                // 3. Salvar o novo usuário com estrutura completa e R$ 5 de cashback de boas-vindas
                 const novoUsuario = {
                     id: Date.now(),
-                    nome,
-                    email,
-                    telefone,
-                    senha,
+                    nome: nome,
+                    email: email,
+                    telefone: telefone,
+                    senha: senha,
                     role: 'cliente',
                     saldoCashback: 5.00,
                     cep: '',
@@ -154,17 +207,28 @@
 
                 if (window.DoceEncantoDB) {
                     window.DoceEncantoDB.salvarUsuario(novoUsuario);
+                    window.DoceEncantoDB.fazerLogin(novoUsuario);
                 } else {
                     usuariosSalvos.push(novoUsuario);
                     localStorage.setItem('usuariosDoceEncanto', JSON.stringify(usuariosSalvos));
+                    localStorage.setItem('usuarioLogadoDoceEncanto', JSON.stringify(novoUsuario));
                 }
 
-                // 5. Exibir mensagem de sucesso e redirecionar para o login
-                exibirMensagem('Conta criada com sucesso! Você ganhou R$ 5,00 de boas-vindas! Redirecionando...', 'sucesso');
+                // 4. Exibir mensagem de sucesso e redirecionar imediatamente conectado
+                exibirMensagem('Conta criada com sucesso! Bônus de R$ 5,00 creditado. Conectando...', 'sucesso');
 
                 setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1500);
+                    const destino = retornoUrl || 'inicio.html';
+                    sessionStorage.removeItem('urlRetornoCompra');
+                    
+                    // Se o destino for uma página de compra, anexa ?checkout=abrir para abrir direto
+                    if (destino.includes('cardapio.html') || destino.includes('inicio.html') || destino.includes('encomendas.html') || destino.includes('sobrenos.html')) {
+                        const separador = destino.includes('?') ? '&' : '?';
+                        window.location.href = destino.replace(/[?&]checkout=[^&]*/g, '') + separador + 'checkout=abrir';
+                    } else {
+                        window.location.href = destino;
+                    }
+                }, 1200);
             });
         }
     });

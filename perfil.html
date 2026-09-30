@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="login.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Firebase SDK (Compat v9) & Sincronização em Nuvem -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="script.js" defer></script>
     <script src="inicio.js" defer></script>
 
@@ -1051,21 +1055,21 @@
 
         // 4. Renderizar Linha do Tempo e Pedidos
         function gerarLinhaDoTempoHTML(p) {
-            const status = p.status || 'Em Produção 👩‍🍳';
+            const status = p.status || '1. Recebido 📋';
             const s = status.toLowerCase();
 
-            let etapaAtual = 2;
+            let etapaAtual = 1;
             let isCancelado = s.includes('cancel');
 
             if (isCancelado) {
                 etapaAtual = -1;
-            } else if (s.includes('entregue') || s.includes('conclu')) {
+            } else if (s.includes('entregue') || s.includes('conclu') || s.includes('feito') || s.includes('4.')) {
                 etapaAtual = 4;
-            } else if (s.includes('saiu') || s.includes('caminho') || s.includes('rota') || s.includes('entrega')) {
+            } else if (s.includes('saiu') || s.includes('caminho') || s.includes('rota') || s.includes('entrega') || s.includes('3.')) {
                 etapaAtual = 3;
-            } else if (s.includes('produ') || s.includes('preparo') || s.includes('cozinha')) {
+            } else if (s.includes('produ') || s.includes('process') || s.includes('preparo') || s.includes('cozinha') || s.includes('2.')) {
                 etapaAtual = 2;
-            } else if (s.includes('recebido') || s.includes('confirmado')) {
+            } else if (s.includes('recebido') || s.includes('confirmado') || s.includes('1.')) {
                 etapaAtual = 1;
             }
 
@@ -1080,7 +1084,7 @@
                 `;
             }
 
-            let progressoPercent = '10%';
+            let progressoPercent = '12%';
             if (etapaAtual === 2) progressoPercent = '38%';
             else if (etapaAtual === 3) progressoPercent = '70%';
             else if (etapaAtual === 4) progressoPercent = '100%';
@@ -1091,13 +1095,13 @@
                 mensagemStatus = 'Pedido confirmado e registrado! Aguardando início do preparo na confeitaria.';
                 iconeEtapa = 'fa-clipboard-check';
             } else if (etapaAtual === 2) {
-                mensagemStatus = 'Seus doces estão sendo preparados e decorados artesanalmente com todo amor!';
+                mensagemStatus = 'Processando: Seus doces estão sendo preparados e decorados artesanalmente com todo amor!';
                 iconeEtapa = 'fa-kitchen-set';
             } else if (etapaAtual === 3) {
                 mensagemStatus = 'Oba! O motoboy retirou seu pacote e está em rota de entrega até você!';
                 iconeEtapa = 'fa-motorcycle';
             } else if (etapaAtual === 4) {
-                mensagemStatus = 'Pedido entregue com sucesso! Bom apetite e aproveite seu cashback!';
+                mensagemStatus = 'Pedido feito e entregue com sucesso! Bom apetite e aproveite seu cashback!';
                 iconeEtapa = 'fa-circle-check';
             }
 
@@ -1105,7 +1109,7 @@
                 <div class="timeline-container">
                     <div class="timeline-header">
                         <span class="timeline-titulo">
-                            <i class="fa-solid fa-route" style="color:#d81b60;"></i> Posição da Entrega (Tempo Real)
+                            <i class="fa-solid fa-route" style="color:#d81b60;"></i> Linha do Tempo do Pedido
                         </span>
                         <span class="timeline-aviso">
                             <i class="fa-solid ${iconeEtapa}"></i> Etapa ${etapaAtual} de 4
@@ -1121,7 +1125,7 @@
                                 <i class="fa-solid ${etapaAtual > 1 ? 'fa-check' : 'fa-clipboard-check'}"></i>
                             </div>
                             <span class="timeline-label">1. Recebido</span>
-                            <span class="timeline-sublabel">${p.data ? p.data.split(' ')[1] || 'Hoje' : 'Confirmado'}</span>
+                            <span class="timeline-sublabel">${p.data ? (p.data.split(' ')[1] || 'Hoje') : 'Confirmado'}</span>
                         </div>
 
                         <!-- ETAPA 2 -->
@@ -1129,8 +1133,8 @@
                             <div class="timeline-icon-circle">
                                 <i class="fa-solid ${etapaAtual > 2 ? 'fa-check' : 'fa-kitchen-set'}"></i>
                             </div>
-                            <span class="timeline-label">2. Na Cozinha</span>
-                            <span class="timeline-sublabel">Em Produção</span>
+                            <span class="timeline-label">2. Processando</span>
+                            <span class="timeline-sublabel">Na Cozinha 👩‍🍳</span>
                         </div>
 
                         <!-- ETAPA 3 -->
@@ -1139,16 +1143,16 @@
                                 <i class="fa-solid ${etapaAtual > 3 ? 'fa-check' : 'fa-motorcycle'}"></i>
                             </div>
                             <span class="timeline-label">3. A Caminho</span>
-                            <span class="timeline-sublabel">Com Entregador</span>
+                            <span class="timeline-sublabel">Com Entregador 🛵</span>
                         </div>
 
                         <!-- ETAPA 4 -->
                         <div class="timeline-step ${etapaAtual === 4 ? 'concluido' : ''}">
                             <div class="timeline-icon-circle">
-                                <i class="fa-solid fa-house-chimney-check"></i>
+                                <i class="fa-solid fa-circle-check"></i>
                             </div>
-                            <span class="timeline-label">4. Entregue</span>
-                            <span class="timeline-sublabel">Destino Final</span>
+                            <span class="timeline-label">4. Feito</span>
+                            <span class="timeline-sublabel">Entregue ✅</span>
                         </div>
                     </div>
 
@@ -1160,24 +1164,75 @@
             `;
         }
 
+        window._modoFiltroPedidos = 'meus';
+        window.alternarModoPedidos = function(modo) {
+            window._modoFiltroPedidos = modo;
+            renderizarPedidos();
+        };
+
         function renderizarPedidos() {
             const container = document.getElementById('lista-pedidos-usuario');
-            const pedidos = db.obterPedidosUsuario(usuarioLogado.email);
-            document.getElementById('stat-total-pedidos').textContent = pedidos.length;
+            const todosPedidos = db.obterPedidos();
+            const emailUsuario = usuarioLogado.email.trim().toLowerCase();
+            const isUsuarioAdmin = (usuarioLogado.role === 'admin' || emailUsuario === 'admin@doceencanto.com');
 
-            if (pedidos.length > 0) {
-                const ultimo = pedidos[0];
+            // Se for admin e modo não foi explicitado, se ele não tiver pedidos próprios, mostra todos
+            let pedidosUsuario = db.obterPedidosUsuario(emailUsuario);
+
+            // Auto-associa pedidos anônimos criados nesta sessão com o usuário logado
+            if (pedidosUsuario.length === 0) {
+                const pedidosAtualizados = todosPedidos.map(p => {
+                    if (p.emailUsuario === 'cliente_visitante@doceencanto.com' && (!p.nomeCliente || p.nomeCliente === usuarioLogado.nome)) {
+                        p.emailUsuario = emailUsuario;
+                        return p;
+                    }
+                    return p;
+                });
+                localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosAtualizados));
+                pedidosUsuario = db.obterPedidosUsuario(emailUsuario);
+            }
+
+            let pedidosExibir = pedidosUsuario;
+            if (isUsuarioAdmin && (window._modoFiltroPedidos === 'todos' || pedidosUsuario.length === 0)) {
+                pedidosExibir = todosPedidos;
+            }
+
+            document.getElementById('stat-total-pedidos').textContent = pedidosExibir.length;
+
+            if (pedidosExibir.length > 0) {
+                const ultimo = pedidosExibir[0];
                 const statEntrega = document.getElementById('stat-status-entrega');
                 if (statEntrega) {
-                    if (ultimo.status.includes('Entregue')) statEntrega.textContent = 'Entregue ✅';
-                    else if (ultimo.status.includes('Caminho') || ultimo.status.includes('Saiu')) statEntrega.textContent = 'A Caminho 🛵';
-                    else if (ultimo.status.includes('Produ')) statEntrega.textContent = 'Na Cozinha 👩‍🍳';
-                    else statEntrega.textContent = 'Ativo 📦';
+                    const st = (ultimo.status || '').toLowerCase();
+                    if (st.includes('entregue') || st.includes('feito') || st.includes('4.')) statEntrega.textContent = 'Feito / Entregue ✅';
+                    else if (st.includes('caminho') || st.includes('saiu') || st.includes('3.')) statEntrega.textContent = 'A Caminho 🛵';
+                    else if (st.includes('process') || st.includes('produ') || st.includes('2.')) statEntrega.textContent = 'Processando 👩‍🍳';
+                    else statEntrega.textContent = 'Recebido 📋';
                 }
             }
 
-            if (pedidos.length === 0) {
-                container.innerHTML = `
+            let topoAdminHtml = '';
+            if (isUsuarioAdmin) {
+                const modoAtivo = (window._modoFiltroPedidos === 'todos' || pedidosUsuario.length === 0) ? 'todos' : 'meus';
+                topoAdminHtml = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#fff3f8; padding:12px 18px; border-radius:16px; margin-bottom:20px; border:1px solid #f8bbd0; flex-wrap:wrap; gap:10px;">
+                        <span style="font-weight:700; color:#6d3828; font-size:0.9rem;">
+                            <i class="fa-solid fa-crown" style="color:#d81b60;"></i> Visualização Administrador:
+                        </span>
+                        <div style="display:flex; gap:8px;">
+                            <button type="button" onclick="alternarModoPedidos('meus')" style="padding:6px 14px; border-radius:20px; border:1px solid #d81b60; font-size:0.82rem; font-weight:600; cursor:pointer; background:${modoAtivo === 'meus' ? '#d81b60' : '#fff'}; color:${modoAtivo === 'meus' ? '#fff' : '#d81b60'}; transition:all 0.2s;">
+                                Meus Pessoais (${pedidosUsuario.length})
+                            </button>
+                            <button type="button" onclick="alternarModoPedidos('todos')" style="padding:6px 14px; border-radius:20px; border:1px solid #d81b60; font-size:0.82rem; font-weight:600; cursor:pointer; background:${modoAtivo === 'todos' ? '#d81b60' : '#fff'}; color:${modoAtivo === 'todos' ? '#fff' : '#d81b60'}; transition:all 0.2s;">
+                                Todos os Pedidos da Loja (${todosPedidos.length})
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (pedidosExibir.length === 0) {
+                container.innerHTML = topoAdminHtml + `
                     <div style="background:#fff7f9; border:1px dashed #f8bbd0; padding:35px 20px; border-radius:18px; text-align:center; color:#6d3828;">
                         <i class="fa-solid fa-cake-candles" style="font-size:2.5rem; color:#f48fb1; margin-bottom:12px; display:block;"></i>
                         <h4 style="margin:0 0 6px 0; font-family:'Fredoka',sans-serif; font-size:1.2rem;">Você ainda não tem pedidos</h4>
@@ -1188,12 +1243,13 @@
                 return;
             }
 
-            let html = '';
-            pedidos.forEach(p => {
+            let html = topoAdminHtml;
+            pedidosExibir.forEach(p => {
+                const st = (p.status || '').toLowerCase();
                 let statusClass = 'status-producao';
-                if (p.status.includes('Caminho') || p.status.includes('Rota') || p.status.includes('Saiu')) statusClass = 'status-caminho';
-                else if (p.status.includes('Entregue')) statusClass = 'status-entregue';
-                else if (p.status.includes('Cancelado')) statusClass = 'status-cancelado';
+                if (st.includes('caminho') || st.includes('rota') || st.includes('saiu') || st.includes('3.')) statusClass = 'status-caminho';
+                else if (st.includes('entregue') || st.includes('feito') || st.includes('4.')) statusClass = 'status-entregue';
+                else if (st.includes('cancelado')) statusClass = 'status-cancelado';
 
                 let itensList = (p.itens || []).map(item => `
                     <li>
@@ -1209,7 +1265,7 @@
                         <div class="pedido-header">
                             <span class="pedido-numero"><i class="fa-solid fa-receipt" style="color:#f48fb1;"></i> Pedido #${p.id}</span>
                             <span style="font-size:0.8rem; color:#888;">${p.data || ''}</span>
-                            <span class="pedido-status-badge ${statusClass}">${p.status || 'Em Produção'}</span>
+                            <span class="pedido-status-badge ${statusClass}">${p.status || '1. Recebido 📋'}</span>
                         </div>
 
                         <!-- LINHA DO TEMPO DA POSIÇÃO DA ENTREGA -->
@@ -1325,6 +1381,15 @@
             renderizarPedidos();
             renderizarFavoritos();
         });
+
+        // Sincronização em nuvem em tempo real (Firebase)
+        if (window.DoceEncantoFirebase && typeof window.DoceEncantoFirebase.ouvirPedidosEmTempoReal === 'function') {
+            window.DoceEncantoFirebase.ouvirPedidosEmTempoReal((pedidos) => {
+                if (Array.isArray(pedidos) && pedidos.length > 0) {
+                    renderizarPedidos();
+                }
+            });
+        }
     });
 </script>
 
