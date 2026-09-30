@@ -1383,13 +1383,15 @@
         });
 
         // Sincronização em nuvem em tempo real (Firebase)
-        if (window.DoceEncantoFirebase && typeof window.DoceEncantoFirebase.ouvirPedidosEmTempoReal === 'function') {
-            window.DoceEncantoFirebase.ouvirPedidosEmTempoReal((pedidos) => {
-                if (Array.isArray(pedidos) && pedidos.length > 0) {
+        function conectarOuvintePedidosNuvem() {
+            if (window.DoceEncantoFirebase && typeof window.DoceEncantoFirebase.ouvirPedidosEmTempoReal === 'function') {
+                window.DoceEncantoFirebase.ouvirPedidosEmTempoReal((pedidosNuvem) => {
                     renderizarPedidos();
-                }
-            });
+                });
+            }
         }
+        conectarOuvintePedidosNuvem();
+        window.addEventListener('doceencanto_firebase_ready', conectarOuvintePedidosNuvem);
     });
 </script>
 

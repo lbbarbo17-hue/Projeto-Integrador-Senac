@@ -440,19 +440,24 @@
         },
 
         atualizarStatusPedido: function(idPedido, novoStatus) {
+            if (!idPedido || idPedido === 'undefined') return false;
             let pedidos = this.obterPedidos();
             const pedido = pedidos.find(p => String(p.id) === String(idPedido));
             if (pedido) {
                 pedido.status = novoStatus;
                 localStorage.setItem(STORAGE_KEY_PEDIDOS, JSON.stringify(pedidos));
+            }
 
-                // Sincroniza atualização de status na nuvem com Firebase se disponível
-                if (window.DoceEncantoFirebase && typeof window.DoceEncantoFirebase.atualizarStatusPedidoFirebase === 'function') {
+            // Sincroniza atualização de status na nuvem com Firebase se disponível
+            if (window.DoceEncantoFirebase) {
+                if (typeof window.DoceEncantoFirebase.atualizarStatusPedidoFirebase === 'function') {
                     window.DoceEncantoFirebase.atualizarStatusPedidoFirebase(idPedido, novoStatus);
                 }
-                return true;
+                if (pedido && typeof window.DoceEncantoFirebase.salvarPedidoFirebase === 'function') {
+                    window.DoceEncantoFirebase.salvarPedidoFirebase(pedido);
+                }
             }
-            return false;
+            return true;
         },
 
         // --- FAVORITOS ---

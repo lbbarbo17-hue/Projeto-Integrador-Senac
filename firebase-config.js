@@ -126,31 +126,42 @@
         },
 
         ouvirLoginsEmTempoReal: function(callback) {
-            if (!this.isConectado()) return false;
-            try {
-                database.ref('logins').orderByChild('timestamp').limitToLast(60).on('value', (snapshot) => {
-                    const dados = snapshot.val();
-                    const lista = [];
-                    if (dados) {
-                        Object.keys(dados).forEach(key => {
-                            lista.push(dados[key]);
-                        });
-                        lista.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                    }
-                    if (typeof callback === 'function') {
-                        callback(lista);
-                    }
-                });
+            const iniciar = () => {
+                if (!database) return false;
+                try {
+                    database.ref('logins').orderByChild('timestamp').limitToLast(60).on('value', (snapshot) => {
+                        const dados = snapshot.val();
+                        const lista = [];
+                        if (dados) {
+                            Object.keys(dados).forEach(key => {
+                                lista.push(dados[key]);
+                            });
+                            lista.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                        }
+                        if (typeof callback === 'function') {
+                            callback(lista);
+                        }
+                    });
+                    return true;
+                } catch (e) {
+                    console.warn('[Firebase] Erro ao ouvir logins em tempo real:', e);
+                    return false;
+                }
+            };
+
+            if (this.isConectado()) {
+                return iniciar();
+            } else {
+                window.addEventListener('doceencanto_firebase_ready', () => {
+                    iniciar();
+                }, { once: true });
                 return true;
-            } catch (e) {
-                console.warn('[Firebase] Erro ao ouvir logins em tempo real:', e);
-                return false;
             }
         },
 
         // --- 2. SINCRONIZAÇÃO DE PEDIDOS ---
         salvarPedidoFirebase: function(pedido) {
-            if (!this.isConectado() || !pedido || !pedido.id) return false;
+            if (!this.isConectado() || !pedido || !pedido.id || pedido.id === 'undefined') return false;
             try {
                 database.ref('pedidos/' + pedido.id).set(pedido);
                 return true;
@@ -161,7 +172,7 @@
         },
 
         atualizarStatusPedidoFirebase: function(idPedido, novoStatus) {
-            if (!this.isConectado() || !idPedido) return false;
+            if (!this.isConectado() || !idPedido || idPedido === 'undefined') return false;
             try {
                 database.ref('pedidos/' + idPedido + '/status').set(novoStatus);
                 return true;
@@ -172,25 +183,58 @@
         },
 
         ouvirPedidosEmTempoReal: function(callback) {
-            if (!this.isConectado()) return false;
-            try {
-                database.ref('pedidos').on('value', (snapshot) => {
-                    const dados = snapshot.val();
-                    const lista = [];
-                    if (dados) {
-                        Object.keys(dados).forEach(key => {
-                            lista.push(dados[key]);
-                        });
-                        lista.sort((a, b) => Number(b.id || 0) - Number(a.id || 0));
-                    }
-                    if (typeof callback === 'function') {
-                        callback(lista);
-                    }
-                });
+            const iniciar = () => {
+                if (!database) return false;
+                try {
+                    database.ref('pedidos').on('value', (snapshot) => {
+                        const dados = snapshot.val();
+                        const lista = [];
+                        if (dados) {
+                            Object.keys(dados).forEach(key => {
+                                const p = dados[key];
+                                if (p && p.id && key !== 'undefined') {
+                                    lista.push(p);
+                                }
+                            });
+                            lista.sort((a, b) => Number(b.id || 0) - Number(a.id || 0));
+                        }
+
+                        // Sincroniza e mescla sempre no localStorage para manter perfil.html e admin.html atualizados
+                        if (lista.length > 0) {
+                            try {
+                                let pedidosLocais = JSON.parse(localStorage.getItem('pedidosDoceEncanto')) || [];
+                                lista.forEach(pNuvem => {
+                                    const idx = pedidosLocais.findIndex(p => String(p.id) === String(pNuvem.id));
+                                    if (idx !== -1) {
+                                        pedidosLocais[idx] = { ...pedidosLocais[idx], ...pNuvem };
+                                    } else {
+                                        pedidosLocais.push(pNuvem);
+                                    }
+                                });
+                                localStorage.setItem('pedidosDoceEncanto', JSON.stringify(pedidosLocais));
+                            } catch (e) {
+                                console.warn('[Firebase] Erro ao sincronizar pedidos no storage:', e);
+                            }
+                        }
+
+                        if (typeof callback === 'function') {
+                            callback(lista);
+                        }
+                    });
+                    return true;
+                } catch (e) {
+                    console.warn('[Firebase] Erro ao ouvir pedidos em tempo real:', e);
+                    return false;
+                }
+            };
+
+            if (this.isConectado()) {
+                return iniciar();
+            } else {
+                window.addEventListener('doceencanto_firebase_ready', () => {
+                    iniciar();
+                }, { once: true });
                 return true;
-            } catch (e) {
-                console.warn('[Firebase] Erro ao ouvir pedidos em tempo real:', e);
-                return false;
             }
         },
 
@@ -208,24 +252,35 @@
         },
 
         ouvirUsuariosEmTempoReal: function(callback) {
-            if (!this.isConectado()) return false;
-            try {
-                database.ref('usuarios').on('value', (snapshot) => {
-                    const dados = snapshot.val();
-                    const lista = [];
-                    if (dados) {
-                        Object.keys(dados).forEach(key => {
-                            lista.push(dados[key]);
-                        });
-                    }
-                    if (typeof callback === 'function') {
-                        callback(lista);
-                    }
-                });
+            const iniciar = () => {
+                if (!database) return false;
+                try {
+                    database.ref('usuarios').on('value', (snapshot) => {
+                        const dados = snapshot.val();
+                        const lista = [];
+                        if (dados) {
+                            Object.keys(dados).forEach(key => {
+                                lista.push(dados[key]);
+                            });
+                        }
+                        if (typeof callback === 'function') {
+                            callback(lista);
+                        }
+                    });
+                    return true;
+                } catch (e) {
+                    console.warn('[Firebase] Erro ao ouvir usuários em tempo real:', e);
+                    return false;
+                }
+            };
+
+            if (this.isConectado()) {
+                return iniciar();
+            } else {
+                window.addEventListener('doceencanto_firebase_ready', () => {
+                    iniciar();
+                }, { once: true });
                 return true;
-            } catch (e) {
-                console.warn('[Firebase] Erro ao ouvir usuários em tempo real:', e);
-                return false;
             }
         }
     };
